@@ -1,0 +1,950 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>R Markdown, Jekyll, and Footnotes - Crystal A. Mariano</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Crystal A. Mariano">
+<meta property="og:title" content="R Markdown, Jekyll, and Footnotes">
+
+
+  <link rel="canonical" href="http://localhost:4000/posts/2020/10/jeykll-footnotes">
+  <meta property="og:url" content="http://localhost:4000/posts/2020/10/jeykll-footnotes">
+
+
+
+  <meta property="og:description" content="I use jekyll to create my website. Jekyll converts Markdown files into the HTML that your browser renders into the pages you see. As others and I have written before, it’s pretty easy to use R Markdown to generate pages with R code and output all together. One thing has consistently eluded me, however: footnotes.">
+
+
+
+
+
+  
+
+  
+
+
+
+  <meta property="og:image" content="http://localhost:4000/images/posts/jekyll-footnotes/ggplot-1.png">
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2020-10-26T00:00:00-05:00">
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "url": "http://localhost:4000",
+      "logo": "http://localhost:4000/images/profile.png"
+    }
+  </script>
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Crystal A. Mariano",
+      "url" : "http://localhost:4000",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Crystal A. Mariano Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72.png?v=20201130">
+<link rel="apple-touch-icon" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114.png?v=20201130">
+<link rel="apple-touch-icon" sizes="120x120" href="http://localhost:4000/images/apple-touch-icon-120x120.png?v=20201130">
+<link rel="apple-touch-icon" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144.png?v=20201130">
+<link rel="apple-touch-icon" sizes="152x152" href="http://localhost:4000/images/apple-touch-icon-152x152.png?v=20201130">
+<link rel="apple-touch-icon" sizes="180x180" href="http://localhost:4000/images/apple-touch-icon-180x180.png?v=20201130">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-32x32.png?v=20201130" sizes="32x32">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/android-chrome-192x192.png?v=20201130" sizes="192x192">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-16x16.png?v=20201130" sizes="16x16">
+<link rel="manifest" href="http://localhost:4000/images/manifest.json?v=20201130">
+<link rel="mask-icon" href="http://localhost:4000/images/safari-pinned-tab.svg?v=20201130" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=20201130">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="http://localhost:4000/images/mstile-150x150.png?v=20201130">
+<meta name="msapplication-config" content="http://localhost:4000/images/browserconfig.xml?v=20201130">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="http://localhost:4000/">Crystal A. Mariano</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/research/">Research</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/teaching/">Teaching</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/cv/">CV</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="http://localhost:4000/images/profile.png" class="author__avatar" alt="Crystal A. Mariano">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Crystal A. Mariano</h3>
+    <p class="author__bio"><ul style="padding: 0;list-style-type: none;"><li style="margin: 0;"><b>NSF GRFP Fellow</b></li><li style="margin: 0;">Mechanical Engineering</li> <li style="margin: 0;">Bioengineering, B.S.</li></ul></p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+      
+      
+      
+        <li><a href="mailto:cmari010@ucr.edu"><i class="fas fa-fw fa-envelope" aria-hidden="true" style="padding-right: 1.5em;"></i>Email</a></li>
+      
+      
+       
+      
+      
+      
+      
+        <li><a href="https://www.linkedin.com/in/crystal-a-mariano"><i class="fab fa-fw fa-linkedin" aria-hidden="true" style="padding-right: 1.5em;"></i>LinkedIn</a></li>
+      
+      
+      
+      
+      
+      
+        <li><a href="https://github.com/crystalamariano"><i class="fab fa-fw fa-github" aria-hidden="true" style="padding-right: 1.5em;"></i>GitHub</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="http://orcid.org/0000-0001-5765-4193"><i class="ai ai-orcid ai-fw" aria-hidden="true" style="padding-right: 1.5em;"></i>ORCID</a></li>
+      
+      
+        <li><a href="https://scholar.google.com/citations?user=6p4xG5MAAAAJ&hl=en&oi=ao"><i class="fas fa-fw fa-graduation-cap" aria-hidden="true" style="padding-right: 1.5em;"></i>Google Scholar</a></li>
+      
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="R Markdown, Jekyll, and Footnotes">
+    <meta itemprop="description" content="I use jekyll to create my website. Jekyll converts Markdown files into the HTML that your browser renders into the pages you see. As others and I have written before, it’s pretty easy to use R Markdown to generate pages with R code and output all together. One thing has consistently eluded me, however: footnotes.">
+    <meta itemprop="datePublished" content="October 26, 2020">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">R Markdown, Jekyll, and Footnotes
+</h1>
+          
+        
+        
+        
+          <p class="page__date">
+            <i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="1900-01-01T00:00:00-06:00">October 26, 2020</time>
+            <span style="float:right;"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  8 minute read
+	
+</span>
+          </p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-align-justify"></i> On This Page</h4></header>
+              <ul class="toc__menu"><li><a href="#whats-happening">What’s happening</a></li><li><a href="#why-its-happening">Why it’s happening</a></li><li><a href="#how-to-fix-it">How to fix it</a></li><li><a href="#proof">Proof</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        
+<div class="notice--danger">
+
+
+<p><strong>Update: 05/19/2021</strong> John MacFarlane helpfully
+<a href="https://github.com/jgm/pandoc/issues/6259#issuecomment-841861647">pointed out</a>
+that this is all incredibly unnecessary because pandoc makes it easy to add
+support for footnotes to GitHub-Flavored Markdown.
+<a href="https://pandoc.org/MANUAL.html#extensions">The documentation</a> notes that you
+can add extensions to output formats they don’t normally support. Since standard
+markdown natively supports footnotes when used as an output format, I didn’t
+even think to look into manually enabling them for GitHub-Flavored Markdown.</p>
+
+<p>If you’re running pandoc from the command line all you need to do is add
+<code class="language-plaintext highlighter-rouge">-t gfm+footnotes</code> to your pandoc command. If you’re working with <code class="language-plaintext highlighter-rouge">.Rmd</code> files
+like me, all you need to do is add <code class="language-plaintext highlighter-rouge">+footnotes</code> to the end of of the
+<code class="language-plaintext highlighter-rouge">variant: gfm</code> line in your YAML header. As a side benefit, you can drop the
+<code class="language-plaintext highlighter-rouge">--wrap=preserve</code> flag and end up with <code class="language-plaintext highlighter-rouge">.md</code> files that aren’t hundreds of
+columns wide. I’m leaving the original post up below in case anyone who has an
+even weirder use case than me might find it helpful, or if any of my students
+ever stumble across this page and don’t believe that I’m still constantly
+learning, too.</p>
+
+
+</div>
+
+<p>I use <a href="https://jekyllrb.com/">jekyll</a> to create my website. Jekyll converts
+Markdown files into the HTML that your browser renders into the pages you see.
+As <a href="http://svmiller.com/blog/2019/08/two-helpful-rmarkdown-jekyll-tips/">others</a>
+and <a href="/posts/2020/09/jekyll-html">I</a> have written before, it’s pretty easy to use
+<a href="https://rmarkdown.rstudio.com/">R Markdown</a> to generate pages with R code and
+output all together. One thing has consistently eluded me, however: footnotes.</p>
+
+<p>Every time I try to include footnotes in my <code class="language-plaintext highlighter-rouge">.Rmd</code> file, they end up mangled and
+not actually footnotes in the final HTML page. My solution thus far has been to
+just avoid footnotes and lean heavily on parenthetical asides when I’m using R
+Markdown to generate a page. My recent <a href="/posts/2020/09/spatial-sql">post</a> on
+using SQL style filtering to preprocess large spatial datasets before loading
+them into memory needed a whopping six footnotes, so I finally had to sit down
+and figure it out.</p>
+
+<h1 id="whats-happening">What’s happening</h1>
+
+<p>The ‘standard’ method for adding footnotes in R Markdown is actually a bit of a
+cheat compared to the method in the official Markdown specification. R Markdown
+lets you use a LaTeX-esque <a href="https://bookdown.org/yihui/rmarkdown/markdown-syntax.html">syntax</a>
+for defining footnotes:</p>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Here is some body text.^[This footnote will appear at the bottom of the page.]
+</code></pre></div></div>
+
+<p>However, Jekyll uses the official Markdown specification for footnotes, so this
+won’t work. Instead, we need to define them with the official
+<a href="https://www.markdownguide.org/extended-syntax/#footnotes">syntax</a>:</p>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Here is some body text.[^1]
+
+<span class="p">[</span><span class="ss">^1</span><span class="p">]:</span> <span class="sx">This</span> footnote will appear at the bottom of the page.
+</code></pre></div></div>
+
+<p>However, when R Markdown converts your file from standard Markdown to GitHub-Flavored Markdown, something strange happens and the output in your <code class="language-plaintext highlighter-rouge">.md</code> file
+will look like this:</p>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Here is some body text.<span class="se">\[</span>1<span class="se">\]</span>
+<span class="p">
+1.</span> This footnote will appear at the bottom of the page.
+</code></pre></div></div>
+
+<p>When Jekyll converts the Markdown file to HTML, you end up with a sad lonely
+unclickable [1] where your footnote should go. The content of the footnote
+<em>does</em> appear at the bottom of the page, but it lacks the footnote formatting so
+it just looks like regular text and there’s no link to click and return to the
+footnote’s place in the text.</p>
+
+<h1 id="why-its-happening">Why it’s happening</h1>
+
+<p>Understanding what’s happening here (and thus how to fix it) requires a slightly
+detailed explanation of what exactly happens when you hit that <kbd>Knit</kbd>
+button in RStudio. First, the <a href="https://yihui.org/knitr/">knitr</a> package runs all
+of the code in your <code class="language-plaintext highlighter-rouge">.Rmd</code> file and creates a <code class="language-plaintext highlighter-rouge">.md</code> file. Next,
+<a href="https://pandoc.org/">pandoc</a> takes the <code class="language-plaintext highlighter-rouge">.md</code> file and converts it to whatever
+output format you want.<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup></p>
+
+<figure>
+<img src="http://localhost:4000/images/posts/jekyll-footnotes/rmarkdownflow.png" alt="R Markdown flowchart" />
+<figcaption>
+Image courtesy of <a href="https://rmarkdown.rstudio.com/lesson-2.html">RStudio</a>
+</figcaption>
+</figure>
+
+<p>Pandoc is the source of our problems here. The square braces that set off a
+footnote are <a href="https://en.wikipedia.org/wiki/Metacharacter">metacharacters</a> in
+Markdown, since they’re used to construct links (among other things, like
+citations with <a href="https://github.com/jgm/pandoc-citeproc">pandoc-citeproc</a>).
+When Pandoc sees them in the process of converting from standard Markdown to
+GitHub-Flavored Markdown, it (logically) decides that they’re important content
+and preserves them by <a href="https://en.wikipedia.org/wiki/Escape_character">escaping</a>
+them with a backslash so they’re preserved in the GitHub-Flavored Markdown.
+Unfortunately for us, we <em>want</em> our square brackets to be treated as special
+characters and not turned into text. This is a known issue with Pandoc (see this
+<a href="https://github.com/jgm/pandoc/issues/6259">issue</a> on GitHub) so it will
+<em>eventually</em> get fixed, but in the meantime I’ve come up with a workaround.</p>
+
+<h1 id="how-to-fix-it">How to fix it</h1>
+
+<p>Pandoc allows you to tag both code chunks and inline code with a special
+<a href="https://pandoc.org/MANUAL.html#generic-raw-attribute">raw attribute</a> which will
+ensure they’re passed on to the output format unmodified. To do this, just
+enclose any text with backticks (<code class="language-plaintext highlighter-rouge">`</code>) and then put <code class="language-plaintext highlighter-rouge">{=markdown}</code> immediately
+after the closing backtick. This will ensure that Pandoc doesn’t alter the
+‘code’ in the backticks at all. It’s debatable whether the <code class="language-plaintext highlighter-rouge">[^1]</code> used to
+define a footnote is <em>really</em> code, but for our purposes treating it like code
+will ensure that our footnotes work in the final output:</p>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Here is some body text.<span class="sb">`[^1]`</span>{=markdown}
+
+<span class="sb">`[^1]:`</span>{=markdown} This footnote will appear at the bottom of the page.
+</code></pre></div></div>
+
+<p>There’s one more tweak we have to make to get this to work. If any of your
+footnotes are longer than 72 characters,<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup> then Pandoc will split
+them up and divide them into multiple lines in the output <code class="language-plaintext highlighter-rouge">.md</code> file. Since
+footnotes need to be all on the same line, this will break them and you’ll have
+a bunch of sentence fragments at the end of your page right above the equally
+fragmented footnotes. To fix this, we need to use the <code class="language-plaintext highlighter-rouge">--wrap</code> argument to
+Pandoc in our YAML header. Below is the YAML header for the <code class="language-plaintext highlighter-rouge">.Rmd</code>
+<a href="https://github.com/jayrobwilliams/jayrobwilliams.github.io/blob/master/_source/2020-10-26-jekyll-footnotes.Rmd">file</a>
+that
+generates the <code class="language-plaintext highlighter-rouge">.md</code>
+<a href="https://github.com/jayrobwilliams/jayrobwilliams.github.io/blob/master/_posts/2020-10-26-jekyll-footnotes.md">file</a>
+that Jekyll uses to generate the HTML your browser
+uses to render this page.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="na">title</span><span class="pi">:</span> <span class="s">Footnotes in `.Rmd` files</span>
+<span class="na">output</span><span class="pi">:</span>
+  <span class="na">md_document</span><span class="pi">:</span>
+    <span class="na">variant</span><span class="pi">:</span> <span class="s">gfm</span>
+    <span class="na">preserve_yaml</span><span class="pi">:</span> <span class="s">TRUE</span>
+    <span class="na">pandoc_args</span><span class="pi">:</span> 
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">--wrap=preserve"</span>
+<span class="na">knit</span><span class="pi">:</span> <span class="s">(function(inputFile, encoding) {</span>
+  <span class="s">rmarkdown::render(inputFile, encoding = encoding, output_dir = "../_posts") })</span>
+<span class="na">date</span><span class="pi">:</span> <span class="s">2020-10-26</span>
+<span class="na">permalink</span><span class="pi">:</span> <span class="s">/posts/2020/10/jeykll-footnotes</span>
+<span class="na">excerpt_separator</span><span class="pi">:</span> <span class="s">&lt;!--more--&gt;</span>
+<span class="na">toc</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">tags</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">jekyll</span>
+  <span class="pi">-</span> <span class="s">rmarkdown</span>
+<span class="nn">---</span>
+</code></pre></div></div>
+
+<p>By specifying <code class="language-plaintext highlighter-rouge">--wrap=preserve</code>, we tell Pandoc to respect the line breaks
+present in the <code class="language-plaintext highlighter-rouge">.Rmd</code> file when generating the <code class="language-plaintext highlighter-rouge">.md</code> file.<sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">3</a></sup>
+Accordingly, our footnotes will be intact and functional in the final web page.</p>
+
+<h1 id="proof">Proof</h1>
+
+<p>And now, to prove to you that this post really did start out as a <code class="language-plaintext highlighter-rouge">.Rmd</code> file,
+here’s some R code and a plot. Everyone’s seen <code class="language-plaintext highlighter-rouge">mtcars</code> a million times, and it
+turns out that <code class="language-plaintext highlighter-rouge">iris</code> was originally
+<a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">published in the Annals of Eugenics</a>,
+so I went digging for a new built in dataset.<sup id="fnref:4" role="doc-noteref"><a href="#fn:4" class="footnote" rel="footnote">4</a></sup> I landed on the
+<a href="https://stat.ethz.ch/R-manual/R-patched/library/datasets/html/Loblolly.html">Loblolly pines dataset</a>,
+which records the height of 14 different
+<a href="https://en.wikipedia.org/wiki/Pinus_taeda">loblolly pine trees</a>.<sup id="fnref:5" role="doc-noteref"><a href="#fn:5" class="footnote" rel="footnote">5</a></sup></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">Loblolly</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">age</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">height</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Seed</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Age (years)'</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Height (feet)'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_bw</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/jekyll-footnotes/ggplot-1.png" width="100%" style="display: block; margin: auto;" /></p>
+
+<p>It looks like all of the trees in the sample followed a pretty similar growth
+trajectory! Finally, to really <em>really</em> prove this page started out as a <code class="language-plaintext highlighter-rouge">.Rmd</code>
+file, here’s the <code class="language-plaintext highlighter-rouge">sessionInfo()</code>:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sessionInfo</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## R version 4.0.2 (2020-06-22)
+## Platform: x86_64-apple-darwin17.7.0 (64-bit)
+## Running under: macOS High Sierra 10.13.6
+## 
+## Matrix products: default
+## BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib
+## LAPACK: /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libLAPACK.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] ggplot2_3.3.2
+## 
+## loaded via a namespace (and not attached):
+##  [1] rstudioapi_0.11      knitr_1.30           magrittr_1.5        
+##  [4] tidyselect_1.1.0     munsell_0.5.0        colorspace_1.4-1    
+##  [7] here_0.1             R6_2.4.1             rlang_0.4.8         
+## [10] dplyr_1.0.2          stringr_1.4.0        tools_4.0.2         
+## [13] grid_4.0.2           gtable_0.3.0         xfun_0.18           
+## [16] withr_2.3.0          htmltools_0.5.0.9001 ellipsis_0.3.1      
+## [19] yaml_2.2.1           rprojroot_1.3-2      digest_0.6.25       
+## [22] tibble_3.0.4         lifecycle_0.2.0      crayon_1.3.4        
+## [25] purrr_0.3.4          vctrs_0.3.4          glue_1.4.2          
+## [28] evaluate_0.14        rmarkdown_2.3        stringi_1.5.3       
+## [31] compiler_4.0.2       pillar_1.4.6         generics_0.0.2      
+## [34] scales_1.1.1         backports_1.1.10     pkgconfig_2.0.3
+</code></pre></div></div>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>Pandoc is incredibly powerful, but it’s also incredibly opaque and difficult to learn. You can create incredibly fancy PDF and HTML documents in R Markdown without ever having to know anything about Pandoc. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>The default output width defined by the <code class="language-plaintext highlighter-rouge">--columns</code> argument to Pandoc. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:3" role="doc-endnote">
+      <p>You can also use <code class="language-plaintext highlighter-rouge">--wrap=none</code>, which will put every paragraph in a single gigantic line of text. <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:4" role="doc-endnote">
+      <p>If you’re willing to install additional packages, Allison Horst’s <a href="https://github.com/allisonhorst/palmerpenguins">palmerpenguins</a> package is fantastic and fills much the same educational niche as <code class="language-plaintext highlighter-rouge">iris</code>. See <a href="https://www.meganstodel.com/posts/no-to-iris/">here</a> for even more alternatives. <a href="#fnref:4" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:5" role="doc-endnote">
+      <p>Fun fact, loblolly pine seeds were carried aboard Apollo 14 and subsequently planted <a href="https://en.wikipedia.org/wiki/Moon_tree">throughout the US</a>. <a href="#fnref:5" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="http://localhost:4000/tags/#jekyll" class="page__taxonomy-item" rel="tag">jekyll</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#rmarkdown" class="page__taxonomy-item" rel="tag">rmarkdown</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2020/10/jeykll-footnotes" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2020/10/jeykll-footnotes" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2020/10/jeykll-footnotes" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="http://localhost:4000/posts/2020/09/spatial-sql" class="pagination--pager" title="Working with Large Spatial Data in R
+">Previous</a>
+    
+    
+      <a href="http://localhost:4000/posts/2021/01/gps-gis-osm" class="pagination--pager" title="Finding Backcountry Campsites with CalTopo, OpenStreetMap, and R
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+        
+        
+        
+        
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2020/09/jekyll-html" rel="permalink">Jekyll and HTML Widgets
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2020-09-19T00:00:00-05:00">September 19, 2020</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>I’m currently compiling a list of university-affiliated programs
+designed to help prepare students for graduate study in political
+science and assist them in the process of applying to graduate school (a
+labyrinthine and opaque process in many regards). Since travel costs can
+be a deciding factor for some students when deciding whether to apply to
+these programs, I thought it would be nice to also put them on a map.</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+        
+        
+        
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2022/03/so-it-goes" rel="permalink">So it goes
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2022-03-31T00:00:00-05:00">March 31, 2022</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>When I was applying to graduate school and asking for letters of
+recommendation from my undergrad professors, one of them told me to give
+academia three years, and that if I hadn’t found a permanent position by
+then, to find another career. It’s been three years, and next week I
+start a new job as a data scientist. I read a fair bit of <a href="https://blogs.lse.ac.uk/impactofsocialsciences/2021/08/18/reading-academic-quit-lit-how-and-why-precarious-scholars-leave-academia">quit
+lit</a>
+in my first couple years of grad school and always told myself that if I
+went that same route, I would never pen any of my own…</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2021/07-rstudio-regex" rel="permalink">Regular expressions for replication
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2021-07-01T00:00:00-05:00">July 01, 2021</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>As part of the publication process for my recent <a href="https://doi.org/10.1177/07388942211015242">article</a> on how states preempt separatist conflict, I needed to submit replication materials to the journal. I took my graduate quantitative methods sequence with the late <a href="https://sites.google.com/view/tom-carsey/home">Tom Carsey</a>, so I’ve long been a proponent replicability efforts in social science. I also had an hourly job in grad school replicating quantitative results for multiple political science journals, so I’m very familiar with best practices for replication. Unfortunately, in the four years since I wrote the first line of code for this project, somewhere in between defending my dissertation and starting a new job (ok, fine, almost immediately after writing that first line of code), I got a little lazy.</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+        
+          
+      </div>
+    </div>
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<a href="/sitemap/">Sitemap</a>
+<!-- end custom footer snippets -->
+
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/crystalamariano"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="http://localhost:4000/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Crystal A. Mariano. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <script src="http://localhost:4000/assets/js/main.min.js"></script>
+
+
+
+
+
+  </body>
+</html>
+

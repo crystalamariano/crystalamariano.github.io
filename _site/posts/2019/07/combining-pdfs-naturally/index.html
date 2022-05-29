@@ -1,0 +1,737 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Combining PDF Documents the Smarter Way - Crystal A. Mariano</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Crystal A. Mariano">
+<meta property="og:title" content="Combining PDF Documents the Smarter Way">
+
+
+  <link rel="canonical" href="http://localhost:4000/posts/2019/07/combining-pdfs-naturally/">
+  <meta property="og:url" content="http://localhost:4000/posts/2019/07/combining-pdfs-naturally/">
+
+
+
+  <meta property="og:description" content="My previous post on combining multiple PDF files had an important caveat that things would end up in the wrong order if you had files with leading ID numbers that started at 1 and ended at 12, you’d end up with PDFs combined in the order 1, 10, 11, 12, 2, 3, …, 9.">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2019-07-08T00:00:00-05:00">
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "url": "http://localhost:4000",
+      "logo": "http://localhost:4000/images/profile.png"
+    }
+  </script>
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Crystal A. Mariano",
+      "url" : "http://localhost:4000",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Crystal A. Mariano Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72.png?v=20201130">
+<link rel="apple-touch-icon" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114.png?v=20201130">
+<link rel="apple-touch-icon" sizes="120x120" href="http://localhost:4000/images/apple-touch-icon-120x120.png?v=20201130">
+<link rel="apple-touch-icon" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144.png?v=20201130">
+<link rel="apple-touch-icon" sizes="152x152" href="http://localhost:4000/images/apple-touch-icon-152x152.png?v=20201130">
+<link rel="apple-touch-icon" sizes="180x180" href="http://localhost:4000/images/apple-touch-icon-180x180.png?v=20201130">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-32x32.png?v=20201130" sizes="32x32">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/android-chrome-192x192.png?v=20201130" sizes="192x192">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-16x16.png?v=20201130" sizes="16x16">
+<link rel="manifest" href="http://localhost:4000/images/manifest.json?v=20201130">
+<link rel="mask-icon" href="http://localhost:4000/images/safari-pinned-tab.svg?v=20201130" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=20201130">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="http://localhost:4000/images/mstile-150x150.png?v=20201130">
+<meta name="msapplication-config" content="http://localhost:4000/images/browserconfig.xml?v=20201130">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="http://localhost:4000/">Crystal A. Mariano</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/research/">Research</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/teaching/">Teaching</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/cv/">CV</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="http://localhost:4000/images/profile.png" class="author__avatar" alt="Crystal A. Mariano">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Crystal A. Mariano</h3>
+    <p class="author__bio"><ul style="padding: 0;list-style-type: none;"><li style="margin: 0;"><b>NSF GRFP Fellow</b></li><li style="margin: 0;">Mechanical Engineering</li> <li style="margin: 0;">Bioengineering, B.S.</li></ul></p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+      
+      
+      
+        <li><a href="mailto:cmari010@ucr.edu"><i class="fas fa-fw fa-envelope" aria-hidden="true" style="padding-right: 1.5em;"></i>Email</a></li>
+      
+      
+       
+      
+      
+      
+      
+        <li><a href="https://www.linkedin.com/in/crystal-a-mariano"><i class="fab fa-fw fa-linkedin" aria-hidden="true" style="padding-right: 1.5em;"></i>LinkedIn</a></li>
+      
+      
+      
+      
+      
+      
+        <li><a href="https://github.com/crystalamariano"><i class="fab fa-fw fa-github" aria-hidden="true" style="padding-right: 1.5em;"></i>GitHub</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="http://orcid.org/0000-0001-5765-4193"><i class="ai ai-orcid ai-fw" aria-hidden="true" style="padding-right: 1.5em;"></i>ORCID</a></li>
+      
+      
+        <li><a href="https://scholar.google.com/citations?user=6p4xG5MAAAAJ&hl=en&oi=ao"><i class="fas fa-fw fa-graduation-cap" aria-hidden="true" style="padding-right: 1.5em;"></i>Google Scholar</a></li>
+      
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Combining PDF Documents the Smarter Way">
+    <meta itemprop="description" content="My previous post on combining multiple PDF files had an important caveat that things would end up in the wrong order if you had files with leading ID numbers that started at 1 and ended at 12, you’d end up with PDFs combined in the order 1, 10, 11, 12, 2, 3, …, 9.">
+    <meta itemprop="datePublished" content="July 08, 2019">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Combining PDF Documents the Smarter Way
+</h1>
+          
+        
+        
+        
+          <p class="page__date">
+            <i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="1900-01-01T00:00:00-06:00">July 08, 2019</time>
+            <span style="float:right;"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  5 minute read
+	
+</span>
+          </p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-align-justify"></i> On This Page</h4></header>
+              <ul class="toc__menu"><li><a href="#how-it-works">How it Works</a><ul><li><a href="#printf">printf</a></li><li><a href="#sort">sort</a></li><li><a href="#xargs">xargs</a></li><li><a href="#putting-it-all-together">Putting it all Together</a></li></ul></li><li><a href="#running-it">Running It</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>My previous <a href="/posts/2019/06/combining-pdfs/">post</a> on combining multiple PDF files had an important caveat that things would end up in the wrong order if you had files with leading ID numbers that started at 1 and ended at 12, you’d end up with PDFs combined in the order 1, 10, 11, 12, 2, 3, …, 9.
+<!--more-->
+This is because the default sort in Bash is an alphabetic sort. This is just our standard alphabetic sort, but it gets tripped up when dealing with numbers. We can think of it as a type of ‘greedy’ algorithm because it sorts all inputs by the first character, before moving onto the second character within each subset. This behavior is fine (and desirable!) for words, but fails with numbers.</p>
+
+<p>We want to use a <a href="https://en.wikipedia.org/wiki/Natural_sort_order">natural sort</a>, which is just an alphabetic sort that treats multi-digit numbers as numbers instead of a collection of characters. A natural sort of our files would combine them in the order 1, 2, 3, 4, 5, …, 12, 13. That means a natural sort can handle a wider range of numbering styles!</p>
+
+<h1 id="how-it-works">How it Works</h1>
+
+<p>This script uses the same basic idea as the first one, but sorting the input files with a natural sort requires some Bash tricks. This time around the code is</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="k">if</span> <span class="o">[[</span> <span class="nv">$# </span><span class="nt">-eq</span> 0 <span class="o">]]</span><span class="p">;</span> <span class="k">then
+  </span><span class="nb">printf</span> <span class="s1">'%s\0'</span> ./<span class="k">*</span>.pdf | <span class="nb">sort</span> <span class="nt">-zV</span> | xargs <span class="nt">-0</span> gs <span class="nt">-dBATCH</span> <span class="nt">-dNOPAUSE</span> <span class="nt">-q</span> <span class="nt">-sDEVICE</span><span class="o">=</span>pdfwrite <span class="nt">-sOutputFile</span><span class="o">=</span>output.pdf
+<span class="k">else
+  </span><span class="nb">printf</span> <span class="s1">'%s\0'</span> ./<span class="k">*</span>.pdf | <span class="nb">sort</span> <span class="nt">-zV</span> xargs <span class="nt">-0</span> gs <span class="nt">-dBATCH</span> <span class="nt">-dNOPAUSE</span> <span class="nt">-q</span> <span class="nt">-sDEVICE</span><span class="o">=</span>pdfwrite <span class="nt">-sOutputFile</span><span class="o">=</span><span class="nv">$1</span>
+<span class="k">fi</span>
+</code></pre></div></div>
+
+<p>This looks complicated, so let’s break it down into individual parts. Each part is separated by a <code class="language-plaintext highlighter-rouge">|</code>, or pipe, which directs the output from one function to the next. If you’ve ever used magrittr’s pipes (<code class="language-plaintext highlighter-rouge">%&gt;%</code>) in R, the concept is exactly the same.</p>
+
+<h2 id="printf"><code class="language-plaintext highlighter-rouge">printf</code></h2>
+
+<p>The first part of the first Ghostscript line is</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">printf</span> <span class="s1">'%s\0'</span> ./<span class="k">*</span>.pdf
+</code></pre></div></div>
+
+<p>. The <code class="language-plaintext highlighter-rouge">printf</code> command is a <em>very</em> old C command, ported to Bash as a <strong>shell builtin</strong>. It allows you to print multiple inputs while formatting the output produced. <code class="language-plaintext highlighter-rouge">printf</code> uses <strong>format specifiers</strong> to tell the function how to print inputs. While it can be used to format integers and doubles, we’re going to be dealing with filenames, which are strings, and denoted with <code class="language-plaintext highlighter-rouge">'%s'</code>.</p>
+
+<p>When we give <code class="language-plaintext highlighter-rouge">printf</code> more than one input, we need to tell it what type of <strong>separator</strong> to use, otherwise it will just print all of the inputs in one giant string. If you use a <strong>newline</strong> (<code class="language-plaintext highlighter-rouge">\n</code>), then <code class="language-plaintext highlighter-rouge">printf</code> will produce output equivalent to <code class="language-plaintext highlighter-rouge">ls *.pdf</code>. For our purposes, we want to use a <strong>null terminator</strong> (<code class="language-plaintext highlighter-rouge">\0</code>) to separate inputs. You can’t actually see null terminators in the printed output, but any commands you pass them to will be able to.</p>
+
+<h2 id="sort"><code class="language-plaintext highlighter-rouge">sort</code></h2>
+
+<p>The next part of the first Ghostscript line is</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sort</span> <span class="nt">-zV</span>
+</code></pre></div></div>
+
+<p>This is where the magic happens that properly sorts our input files even if their numbers are missing leading zeroes. The <code class="language-plaintext highlighter-rouge">-z</code> flag tells <code class="language-plaintext highlighter-rouge">sort</code> to return the sort inputs still separated by null terminators, while the <code class="language-plaintext highlighter-rouge">-V</code> flag performs a <strong>version sort</strong>, the function’s name for a natural sort.</p>
+
+<h2 id="xargs"><code class="language-plaintext highlighter-rouge">xargs</code></h2>
+
+<p>The final part of the first Ghostscript line is</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xargs <span class="nt">-0</span> gs <span class="nt">-dBATCH</span> <span class="nt">-dNOPAUSE</span> <span class="nt">-q</span> <span class="nt">-sDEVICE</span><span class="o">=</span>pdfwrite <span class="nt">-sOutputFile</span><span class="o">=</span>output.pdf
+</code></pre></div></div>
+
+<p>This is almost identical to the <code class="language-plaintext highlighter-rouge">gs</code> call in the simpler script. However, that script had <code class="language-plaintext highlighter-rouge">*.pdf</code> at the end as the “files” argument to <code class="language-plaintext highlighter-rouge">gs</code>. That won’t work for us here as we had to use <code class="language-plaintext highlighter-rouge">printf</code> and <code class="language-plaintext highlighter-rouge">sort</code> first to get our document correctly sorted. <code class="language-plaintext highlighter-rouge">xargs</code> converts the standard input produced by <code class="language-plaintext highlighter-rouge">|</code> into arguments that <code class="language-plaintext highlighter-rouge">gs</code> can accept.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">-0</code> flag tells the function to expect null terminators as separators instead of spaces or newlines. Without this flag, you’ll get an error if any of your PDFs have spaces in their filenames. This is why we’ve been using null terminators as separators all along; without them our script would be helpless against filenames with spaces in them.</p>
+
+<p>The command we want to use, <code class="language-plaintext highlighter-rouge">gs</code> in this case, comes <em>after</em> <code class="language-plaintext highlighter-rouge">xargs</code>. You can read this line as <code class="language-plaintext highlighter-rouge">gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=output.pdf files</code> where <code class="language-plaintext highlighter-rouge">files</code> is the naturally sorted list of PDF files produced by the first two parts of the line. And we’re done!</p>
+
+<h2 id="putting-it-all-together">Putting it all Together</h2>
+
+<p>When you run this script, it finds all PDF files in a directory, sorts them with a natural sort, and then combines them into a single PDF document. Just like before, you can can supply an output filename.</p>
+
+<h1 id="running-it">Running It</h1>
+
+<p>Just like before, we need to make our script executable and add it to our PATH in order to run it. Refer to my previous <a href="/posts/2019/06/combining-pdfs/">post</a> for a reminder on how to do so. No caveats about document ID numbers this time, but you’re on your own if the publisher decided to just use chapter names with no ID numbers…</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="http://localhost:4000/tags/#bash" class="page__taxonomy-item" rel="tag">bash</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#references" class="page__taxonomy-item" rel="tag">references</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2019/07/combining-pdfs-naturally/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2019/07/combining-pdfs-naturally/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2019/07/combining-pdfs-naturally/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="http://localhost:4000/posts/2019/06/combining-pdfs/" class="pagination--pager" title="Combining PDF Documents
+">Previous</a>
+    
+    
+      <a href="http://localhost:4000/posts/2019/07/tex-magic/" class="pagination--pager" title="Fancy Icons and LaTeX Quirks
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+        
+        
+        
+        
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2020/08/website-content/" rel="permalink">Adding Content to an Academic Website
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2020-08-07T00:00:00-05:00">August 07, 2020</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>One thing I haven’t covered in my previous posts on <a href="/posts/2020/06/academic-website/">creating</a> and <a href="/posts/2020/07/customizing-website/">customizing</a> an academic website is how to actually add content to your site. You know, the stuff that’s the reason why people go to your website in the first place? If you’ve followed those guides, your website should be professional looking and already feeling a little bit different from the stock template. However, adding new pages or tweaking the existing pages can be a little intimidating, and I realized I should probably walk through how to do so. Luckily Jekyll’s use of Markdown makes it really easy to add new content!</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2020/01/counting-words/" rel="permalink">Counting Words in a Snap
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2020-01-05T00:00:00-06:00">January 05, 2020</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>14 pt periods. 1.05” margins. 2.1 spaced lines. <a href="https://timesnewerroman.com/">Times Newer Roman</a>. I’ve seen them all, and I’m tired of trying to catch them. So, I’ve stopped assigning papers in terms of page length and switched to word counts. Unfortunately, counting words is more time-intensive than counting pages.</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2019/09/progress-with-bash/" rel="permalink">Checking Progress with Bash
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2019-09-24T00:00:00-05:00">September 24, 2019</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>I’m currently cleaning and wrangling a large (&gt; 2 billion observations) dataset. Due to its size, I’m running code in batch mode on a remote cluster. Not running interactively makes it harder for me to check on my code’s progress.</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+              
+        
+        
+        
+        
+          
+      </div>
+    </div>
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<a href="/sitemap/">Sitemap</a>
+<!-- end custom footer snippets -->
+
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/crystalamariano"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="http://localhost:4000/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Crystal A. Mariano. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <script src="http://localhost:4000/assets/js/main.min.js"></script>
+
+
+
+
+
+  </body>
+</html>
+

@@ -1,0 +1,1136 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Faceted maps in R - Crystal A. Mariano</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Crystal A. Mariano">
+<meta property="og:title" content="Faceted maps in R">
+
+
+  <link rel="canonical" href="http://localhost:4000/posts/2021/05/geom-sf-facet">
+  <meta property="og:url" content="http://localhost:4000/posts/2021/05/geom-sf-facet">
+
+
+
+  <meta property="og:description" content="I recently needed to create a choropleth of a few different countriesfor a project on targeting of UN peacekeepers by non-state armed actorsI’m working on. Achoropleth is a type ofthematic map where data are aggregated up from smaller areas (ordiscrete points) to larger ones and then visualized using differentcolors to represent different numeric values.">
+
+
+
+
+
+  
+
+  
+
+
+
+  <meta property="og:image" content="http://localhost:4000/images/posts/geom-sf-facet/shared_legend_right-1.png">
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2021-05-19T00:00:00-05:00">
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "url": "http://localhost:4000",
+      "logo": "http://localhost:4000/images/profile.png"
+    }
+  </script>
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Crystal A. Mariano",
+      "url" : "http://localhost:4000",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Crystal A. Mariano Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72.png?v=20201130">
+<link rel="apple-touch-icon" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114.png?v=20201130">
+<link rel="apple-touch-icon" sizes="120x120" href="http://localhost:4000/images/apple-touch-icon-120x120.png?v=20201130">
+<link rel="apple-touch-icon" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144.png?v=20201130">
+<link rel="apple-touch-icon" sizes="152x152" href="http://localhost:4000/images/apple-touch-icon-152x152.png?v=20201130">
+<link rel="apple-touch-icon" sizes="180x180" href="http://localhost:4000/images/apple-touch-icon-180x180.png?v=20201130">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-32x32.png?v=20201130" sizes="32x32">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/android-chrome-192x192.png?v=20201130" sizes="192x192">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-16x16.png?v=20201130" sizes="16x16">
+<link rel="manifest" href="http://localhost:4000/images/manifest.json?v=20201130">
+<link rel="mask-icon" href="http://localhost:4000/images/safari-pinned-tab.svg?v=20201130" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=20201130">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="http://localhost:4000/images/mstile-150x150.png?v=20201130">
+<meta name="msapplication-config" content="http://localhost:4000/images/browserconfig.xml?v=20201130">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="http://localhost:4000/">Crystal A. Mariano</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/research/">Research</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/teaching/">Teaching</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/cv/">CV</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="http://localhost:4000/images/profile.png" class="author__avatar" alt="Crystal A. Mariano">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Crystal A. Mariano</h3>
+    <p class="author__bio"><ul style="padding: 0;list-style-type: none;"><li style="margin: 0;"><b>NSF GRFP Fellow</b></li><li style="margin: 0;">Mechanical Engineering</li> <li style="margin: 0;">Bioengineering, B.S.</li></ul></p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+      
+      
+      
+        <li><a href="mailto:cmari010@ucr.edu"><i class="fas fa-fw fa-envelope" aria-hidden="true" style="padding-right: 1.5em;"></i>Email</a></li>
+      
+      
+       
+      
+      
+      
+      
+        <li><a href="https://www.linkedin.com/in/crystal-a-mariano"><i class="fab fa-fw fa-linkedin" aria-hidden="true" style="padding-right: 1.5em;"></i>LinkedIn</a></li>
+      
+      
+      
+      
+      
+      
+        <li><a href="https://github.com/crystalamariano"><i class="fab fa-fw fa-github" aria-hidden="true" style="padding-right: 1.5em;"></i>GitHub</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="http://orcid.org/0000-0001-5765-4193"><i class="ai ai-orcid ai-fw" aria-hidden="true" style="padding-right: 1.5em;"></i>ORCID</a></li>
+      
+      
+        <li><a href="https://scholar.google.com/citations?user=6p4xG5MAAAAJ&hl=en&oi=ao"><i class="fas fa-fw fa-graduation-cap" aria-hidden="true" style="padding-right: 1.5em;"></i>Google Scholar</a></li>
+      
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Faceted maps in R">
+    <meta itemprop="description" content="I recently needed to create a choropleth of a few different countriesfor a project on targeting of UN peacekeepers by non-state armed actorsI’m working on. Achoropleth is a type ofthematic map where data are aggregated up from smaller areas (ordiscrete points) to larger ones and then visualized using differentcolors to represent different numeric values.">
+    <meta itemprop="datePublished" content="May 19, 2021">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Faceted maps in R
+</h1>
+          
+        
+        
+        
+          <p class="page__date">
+            <i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="1900-01-01T00:00:00-06:00">May 19, 2021</time>
+            <span style="float:right;"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  19 minute read
+	
+</span>
+          </p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-align-justify"></i> On This Page</h4></header>
+              <ul class="toc__menu"><li><a href="#the-data">The data</a></li><li><a href="#first-attempt-ggplot2">First attempt: ggplot2</a></li><li><a href="#second-attempt-tmap">Second attempt: tmap</a></li><li><a href="#third-attempt-cowplot">Third attempt: cowplot</a><ul><li><a href="#shared-legend">Shared legend</a></li><li><a href="#accurate-shared-legend">Accurate shared legend</a></li></ul></li><li><a href="#bonus-still-to-solve">Bonus: still to solve</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>I recently needed to create a choropleth of a few different countries
+for a project on targeting of UN peacekeepers by non-state armed actors
+I’m working on. A
+<a href="https://en.wikipedia.org/wiki/Choropleth_map">choropleth</a> is a type of
+thematic map where data are aggregated up from smaller areas (or
+discrete points) to larger ones and then visualized using different
+colors to represent different numeric values.</p>
+
+<!--more-->
+
+<p>See this simple example, which displays the area of each county in North
+Carolina, from the <code class="language-plaintext highlighter-rouge">sf</code> package
+<a href="https://r-spatial.github.io/sf/articles/sf1.html#sfc-simple-feature-geometry-list-column-1">documentation</a>.<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>
+First, we need to load <code class="language-plaintext highlighter-rouge">sf</code> and then get the built-in <code class="language-plaintext highlighter-rouge">nc</code> dataset:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span><span class="w">
+</span><span class="n">nc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">st_read</span><span class="p">(</span><span class="n">system.file</span><span class="p">(</span><span class="s1">'shape/nc.shp'</span><span class="p">,</span><span class="w"> </span><span class="n">package</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'sf'</span><span class="p">))</span><span class="w">
+</span><span class="n">plot</span><span class="p">(</span><span class="n">nc</span><span class="p">[</span><span class="m">1</span><span class="p">])</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/geom-sf-facet/nc-1.png" style="display: block; margin: auto;" />
+Since I needed to generate choropleths for multiple countries, I decided
+to use <code class="language-plaintext highlighter-rouge">ggplot2</code>’s powerful
+<a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">faceting</a>
+functionality. Unfortunately, as I discuss
+<a href="#first-attempt-ggplot2">below</a>, <code class="language-plaintext highlighter-rouge">ggplot2</code> and <code class="language-plaintext highlighter-rouge">sf</code> don’t work together
+perfectly in ways that become more apparent (and problematic) the more
+complex your plots get. I moved away from faceting, and just glued
+together a bunch of separate plots, but then I had to figure out how to
+end up with a shared legend for five separate plots. Read on to see how
+I solved both of these issues.</p>
+
+<h1 id="the-data">The data</h1>
+
+<p>I already loaded <code class="language-plaintext highlighter-rouge">sf</code> to make the plot of North Carolina above, so now
+let’s load the remaining packages we’ll use:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w"> </span><span class="c1"># data manipulation and plotting</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tmap</span><span class="p">)</span><span class="w">      </span><span class="c1"># spatial plots</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">cowplot</span><span class="p">)</span><span class="w">   </span><span class="c1"># combine plots</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">RWmisc</span><span class="p">)</span><span class="w">    </span><span class="c1"># clean plot theme</span><span class="w">
+</span></code></pre></div></div>
+
+<p>I’m working with cleaned and subsetted versions of
+<a href="https://acleddata.com/">ACLED</a> and <a href="https://gadm.org/">GADM</a>, which
+I’ve uploaded to my website as <code class="language-plaintext highlighter-rouge">PKO.Rdata</code> if you want to download them
+and run this code yourself. The <code class="language-plaintext highlighter-rouge">acled</code> object contains a list of
+attacks on peacekeepers in active Chapter VII UN peacekeeping missions
+in Subsaharan Africa, while the <code class="language-plaintext highlighter-rouge">adm</code> object contains all of the second
+order administrative districts (ADM2) in the five countries with active
+missions.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## load data</span><span class="w">
+</span><span class="n">load</span><span class="p">(</span><span class="n">url</span><span class="p">(</span><span class="s1">'https://jayrobwilliams.com/data/PKO.Rdata'</span><span class="p">))</span><span class="w">
+
+</span><span class="c1">## inspect</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">acled</span><span class="p">)</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">adm</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Simple feature collection with 6 features and 30 fields
+## Geometry type: POINT
+## Dimension:     XY
+## Bounding box:  xmin: -3.6102 ymin: 0.4966 xmax: 29.4654 ymax: 19.4695
+## Geodetic CRS:  WGS 84
+## # A tibble: 6 x 31
+##   data_id   iso event_id_cnty event_id_no_cnty event_date  year time_precision
+##     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;                    &lt;dbl&gt; &lt;date&gt;     &lt;dbl&gt;          &lt;dbl&gt;
+## 1 6713346   140 CEN47283                 47283 2019-12-27  2019              1
+## 2 6689432   180 DRC16211                 16211 2019-12-08  2019              1
+## 3 7578005   180 DRC16182                 16182 2019-12-04  2019              1
+## 4 7191069   466 MLI3253                   3253 2019-10-21  2019              1
+## 5 6759702   466 MLI3225                   3225 2019-10-06  2019              1
+## 6 6023339   466 MLI3224                   3224 2019-10-06  2019              1
+## # … with 24 more variables: event_type &lt;chr&gt;, sub_event_type &lt;chr&gt;,
+## #   actor1 &lt;chr&gt;, assoc_actor_1 &lt;chr&gt;, inter1 &lt;dbl&gt;, actor2 &lt;chr&gt;,
+## #   assoc_actor_2 &lt;chr&gt;, inter2 &lt;dbl&gt;, interaction &lt;dbl&gt;, region &lt;chr&gt;,
+## #   country &lt;chr&gt;, admin1 &lt;chr&gt;, admin2 &lt;chr&gt;, admin3 &lt;chr&gt;, location &lt;chr&gt;,
+## #   geo_precision &lt;dbl&gt;, source &lt;chr&gt;, source_scale &lt;chr&gt;, notes &lt;chr&gt;,
+## #   fatalities &lt;dbl&gt;, timestamp &lt;dbl&gt;, iso3 &lt;chr&gt;, month &lt;dbl&gt;,
+## #   geometry &lt;POINT [°]&gt;
+
+## Simple feature collection with 6 features and 19 fields
+## Geometry type: MULTIPOLYGON
+## Dimension:     XY
+## Bounding box:  xmin: 18.54607 ymin: 4.221635 xmax: 22.395 ymax: 9.774724
+## Geodetic CRS:  WGS 84
+## # A tibble: 6 x 20
+##   GID_0 NAME_0   GID_1  NAME_1 NL_NAME_1 GID_2 NAME_2 VARNAME_2 NL_NAME_2 TYPE_2
+##   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt; 
+## 1 CAF   Central… CAF.1… Bamin… &lt;NA&gt;      CAF.… Bamin… &lt;NA&gt;      &lt;NA&gt;      Sous-…
+## 2 CAF   Central… CAF.1… Bamin… &lt;NA&gt;      CAF.… Ndélé  &lt;NA&gt;      &lt;NA&gt;      Sous-…
+## 3 CAF   Central… CAF.2… Bangui &lt;NA&gt;      CAF.… Bangui &lt;NA&gt;      &lt;NA&gt;      Sous-…
+## 4 CAF   Central… CAF.3… Basse… &lt;NA&gt;      CAF.… Alind… &lt;NA&gt;      &lt;NA&gt;      Sous-…
+## 5 CAF   Central… CAF.3… Basse… &lt;NA&gt;      CAF.… Kembé  &lt;NA&gt;      &lt;NA&gt;      Sous-…
+## 6 CAF   Central… CAF.3… Basse… &lt;NA&gt;      CAF.… Minga… &lt;NA&gt;      &lt;NA&gt;      Sous-…
+## # … with 10 more variables: ENGTYPE_2 &lt;chr&gt;, CC_2 &lt;chr&gt;, HASC_2 &lt;chr&gt;,
+## #   ID_0 &lt;dbl&gt;, ISO &lt;chr&gt;, ID_1 &lt;dbl&gt;, ID_2 &lt;dbl&gt;, CCN_2 &lt;dbl&gt;, CCA_2 &lt;chr&gt;,
+## #   geometry &lt;MULTIPOLYGON [°]&gt;
+</code></pre></div></div>
+
+<h1 id="first-attempt-ggplot2">First attempt: <code class="language-plaintext highlighter-rouge">ggplot2</code></h1>
+
+<p>The first step we need to do is associate each individual attack with
+the ADM2 it occurred in. We can do this with the <code class="language-plaintext highlighter-rouge">st_join()</code> function.
+This function executes a left join by default, so by using <code class="language-plaintext highlighter-rouge">adm</code> for the
+<code class="language-plaintext highlighter-rouge">x</code> argument and <code class="language-plaintext highlighter-rouge">acled</code> for the <code class="language-plaintext highlighter-rouge">y</code> argument, we end up with one row
+for every ADM2 with no attacks in it, and <em>n</em> rows for each ADM2 with
+attacks in it, where <em>n</em> equals the number of attacks in that ADM2. We
+can then use <code class="language-plaintext highlighter-rouge">group_by()</code> and <code class="language-plaintext highlighter-rouge">summarize()</code> to create a count of attacks
+for each ADM2 by summing the number of non-NA observations of
+<code class="language-plaintext highlighter-rouge">event_id_cnty</code>, the main ID field in ACLED. Finally, I log this count
+variable (using <code class="language-plaintext highlighter-rouge">log1p()</code> to account for the ADM2s without any attacks
+because <em>ln</em>(0) is undefined) to make the resulting plot more
+informative due to outliers in Northern Mali and the Eastern DRC.
+Putting it all together:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">st_join</span><span class="p">(</span><span class="n">adm</span><span class="p">,</span><span class="w"> </span><span class="n">acled</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">NAME_0</span><span class="p">,</span><span class="w"> </span><span class="n">NAME_1</span><span class="p">,</span><span class="w"> </span><span class="n">NAME_2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">attacks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log1p</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">event_id_cnty</span><span class="p">))))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attacks</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_sf</span><span class="p">(</span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">                 </span><span class="c1"># no borders</span><span class="w">
+  </span><span class="n">scale_fill_continuous</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'PKO targeting\nevents (logged)'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_rw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">                        </span><span class="c1"># clean plot</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">axis.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">  </span><span class="c1"># no lat/long values</span><span class="w">
+        </span><span class="n">axis.ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">())</span><span class="w"> </span><span class="c1"># no lat/long ticks</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/geom-sf-facet/combined_plot-1.png" style="display: block; margin: auto;" />
+That’s a lot of wasted white space, and it can make certain countries
+harder to see. Let’s split it out using <code class="language-plaintext highlighter-rouge">facet_wrap()</code>. We simply add a
+<code class="language-plaintext highlighter-rouge">facet_wrap()</code> call to our <code class="language-plaintext highlighter-rouge">ggplot2</code> code, and tell it to split by our
+country name variable, <code class="language-plaintext highlighter-rouge">NAME_0</code>:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">adm</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">st_join</span><span class="p">(</span><span class="n">acled</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">NAME_0</span><span class="p">,</span><span class="w"> </span><span class="n">NAME_1</span><span class="p">,</span><span class="w"> </span><span class="n">NAME_2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">attacks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log1p</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">event_id_cnty</span><span class="p">))))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attacks</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_sf</span><span class="p">(</span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_continuous</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'PKO targeting\nevents (logged)'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">NAME_0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_rw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">axis.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+        </span><span class="n">axis.ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">())</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/geom-sf-facet/facets_raw-1.png" style="display: block; margin: auto;" />
+We’ve got facets, but everything is still clearly on the same scale.
+let’s set <code class="language-plaintext highlighter-rouge">scales = 'free'</code> in our call to <code class="language-plaintext highlighter-rouge">facet_wrap()</code> to try and fix
+that.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">st_join</span><span class="p">(</span><span class="n">adm</span><span class="p">,</span><span class="w"> </span><span class="n">acled</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">NAME_0</span><span class="p">,</span><span class="w"> </span><span class="n">NAME_1</span><span class="p">,</span><span class="w"> </span><span class="n">NAME_2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">attacks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log1p</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">event_id_cnty</span><span class="p">))))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attacks</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_sf</span><span class="p">(</span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_continuous</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'PKO targeting\nevents (logged)'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">NAME_0</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'free'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_rw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">axis.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+        </span><span class="n">axis.ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">())</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Error: coord_sf doesn't support free scales
+</code></pre></div></div>
+
+<p>And we get an error. It turns out the the <code class="language-plaintext highlighter-rouge">ggplot2</code> codebase <a href="https://github.com/tidyverse/ggplot2/issues/2651#issuecomment-391011703">assumes
+that it can maniulate axes independently of one
+another</a>.
+This is very much not the case with geographic data where a meter
+vertically needs to equal a meter horizontally, so <code class="language-plaintext highlighter-rouge">coord_sf()</code> locks
+the axes in much the same manner as <code class="language-plaintext highlighter-rouge">coord_fixed()</code>.<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup> To try and get
+around the limitations from <code class="language-plaintext highlighter-rouge">ggplot2</code>’s non-spatial origins, I turned to
+a package written from the ground up for plotting spatial data.</p>
+
+<h1 id="second-attempt-tmap">Second attempt: <code class="language-plaintext highlighter-rouge">tmap</code></h1>
+
+<p>My googling led me to this <a href="https://stackoverflow.com/a/47679646">Stack Overflow
+answer</a> extolling the virtue of
+the <code class="language-plaintext highlighter-rouge">tmap</code> package.<sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">3</a></sup> <a href="https://mtennekes.github.io/tmap/"><code class="language-plaintext highlighter-rouge">tmap</code></a> is a
+package for drawing thematic maps from <code class="language-plaintext highlighter-rouge">sf</code> objects using a syntax very
+similar to <code class="language-plaintext highlighter-rouge">ggplot2</code>. We can reuse the same data wrangling code and as
+before pipe it into our plotting function, which this time is
+<code class="language-plaintext highlighter-rouge">tm_shape()</code>. We then add a call to <code class="language-plaintext highlighter-rouge">tm_polygons()</code> to get our colored
+features and <code class="language-plaintext highlighter-rouge">tm_facet()</code> to split them apart. Note that unlike
+<code class="language-plaintext highlighter-rouge">ggplot2</code>, we need to quote the names of variables in <code class="language-plaintext highlighter-rouge">tmap</code> functions:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">st_join</span><span class="p">(</span><span class="n">adm</span><span class="p">,</span><span class="w"> </span><span class="n">acled</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">NAME_0</span><span class="p">,</span><span class="w"> </span><span class="n">NAME_1</span><span class="p">,</span><span class="w"> </span><span class="n">NAME_2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">attacks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log1p</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">event_id_cnty</span><span class="p">))))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">tm_shape</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">tm_polygons</span><span class="p">(</span><span class="s1">'attacks'</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'PKO targeting\nevents (logged)'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">tm_facets</span><span class="p">(</span><span class="s1">'NAME_0'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/geom-sf-facet/tmap_basic-1.png" style="display: block; margin: auto;" /></p>
+
+<p>Much better so far! However, notice that <code class="language-plaintext highlighter-rouge">tmap</code> defaults to assuming
+that our <code class="language-plaintext highlighter-rouge">attacks</code> variable is discrete. We’ll need to tell it that it’s
+continuous. And what if we moved that legend down to the bottom right to
+get rid of the wasted space currently there?</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">adm</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">st_join</span><span class="p">(</span><span class="n">acled</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">NAME_0</span><span class="p">,</span><span class="w"> </span><span class="n">NAME_1</span><span class="p">,</span><span class="w"> </span><span class="n">NAME_2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">attacks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log1p</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">event_id_cnty</span><span class="p">))))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">tm_shape</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">tm_polygons</span><span class="p">(</span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'attacks'</span><span class="p">,</span><span class="w">
+              </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'PKO targeting\nevents (logged)'</span><span class="p">,</span><span class="w">
+              </span><span class="n">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'cont'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">                  </span><span class="c1"># continuous variable</span><span class="w">
+  </span><span class="n">tm_facets</span><span class="p">(</span><span class="s1">'NAME_0'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">tm_layout</span><span class="p">(</span><span class="n">legend.outside.position</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="s2">"bottom"</span><span class="p">,</span><span class="w"> </span><span class="c1"># legend outside below</span><span class="w">
+            </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">.8</span><span class="p">,</span><span class="w"> </span><span class="m">1.1</span><span class="p">))</span><span class="w">        </span><span class="c1"># manually position legend</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/geom-sf-facet/tmap_tweaked-1.png" style="display: block; margin: auto;" /></p>
+
+<p>This is…<em>fine</em>. You’ll notice that there’s a lot of white space at the
+bottom of the plot, which I still haven’t figured out how to eliminate,
+and I personally prefer the color palette options available in
+<code class="language-plaintext highlighter-rouge">ggplot2</code>. Finally, there’s not much control over the legend compared to
+what you get with <code class="language-plaintext highlighter-rouge">ggplot2</code>, so let’s head back there and try to come at
+this problem from a different direction.</p>
+
+<h1 id="third-attempt-cowplot">Third attempt: <code class="language-plaintext highlighter-rouge">cowplot</code></h1>
+
+<p>While we’re still using <code class="language-plaintext highlighter-rouge">ggplot2</code> to make individual plots, we need some
+way to combine them into a final plot. We can rely on the <code class="language-plaintext highlighter-rouge">plot_grid()</code>
+function in the <code class="language-plaintext highlighter-rouge">cowplot</code> library for that.<sup id="fnref:4" role="doc-noteref"><a href="#fn:4" class="footnote" rel="footnote">4</a></sup> We need to create five
+subplots, which we could do manually, but let’s do it programmatically
+because at some point you may need to do this for 27 different
+countries. The best way to store our five subplots is in a list, because
+lists in R can contain any type of R objects as their elements.<sup id="fnref:5" role="doc-noteref"><a href="#fn:5" class="footnote" rel="footnote">5</a></sup> I’m
+going to use the <code class="language-plaintext highlighter-rouge">map()</code> function from the <code class="language-plaintext highlighter-rouge">purrr</code> package to accomplish
+this, but you could also use <code class="language-plaintext highlighter-rouge">lapply()</code>. <code class="language-plaintext highlighter-rouge">map()</code> takes a list as its
+first argument, <code class="language-plaintext highlighter-rouge">.x</code> and a function as its second, <code class="language-plaintext highlighter-rouge">.f</code>. To see how map
+works, look at the following example:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">map</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">sample</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 1 2
+## 
+## [[3]]
+## [1] 2 3 1
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">map()</code> returns a list of length 3 because our input <code class="language-plaintext highlighter-rouge">.x</code> was a vector
+of length three, and it applies the function <code class="language-plaintext highlighter-rouge">.f</code> to each element of
+<code class="language-plaintext highlighter-rouge">.x</code>. I’m going to use an <a href="http://adv-r.had.co.nz/Functional-programming.html#anonymous-functions">anonymous
+function</a>
+to filter <code class="language-plaintext highlighter-rouge">adm</code> to only contain ADM2s from one country at a time, then
+create our subplots separately like we did together above:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pko_countries</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'Central African Republic'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Democratic Republic of the Congo'</span><span class="p">,</span><span class="w">
+                   </span><span class="s1">'Mali'</span><span class="p">,</span><span class="w"> </span><span class="s1">'South Sudan'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Sudan'</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## create maps in separate plots, force common scale between them</span><span class="w">
+</span><span class="n">maps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="n">.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pko_countries</span><span class="p">,</span><span class="w"> 
+            </span><span class="n">.f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">adm</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+              </span><span class="n">filter</span><span class="p">(</span><span class="n">NAME_0</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+              </span><span class="n">st_join</span><span class="p">(</span><span class="n">acled</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+              </span><span class="n">group_by</span><span class="p">(</span><span class="n">NAME_0</span><span class="p">,</span><span class="w"> </span><span class="n">NAME_1</span><span class="p">,</span><span class="w"> </span><span class="n">NAME_2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+              </span><span class="n">summarize</span><span class="p">(</span><span class="n">attacks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log1p</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">event_id_cnty</span><span class="p">))))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+              </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attacks</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+              </span><span class="n">geom_sf</span><span class="p">(</span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+              </span><span class="n">scale_fill_continuous</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'PKO targeting\nevents (logged)'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+              </span><span class="n">theme_rw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+              </span><span class="n">theme</span><span class="p">(</span><span class="n">axis.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+                    </span><span class="n">axis.ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">()))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>We can either supply each individual subplot to <code class="language-plaintext highlighter-rouge">plot_grid()</code>
+separately, or we can use the <code class="language-plaintext highlighter-rouge">plotlist</code> argument to pass a list of
+plots; good thing we saved them in a list:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## use COWplot to combine and add single legend</span><span class="w">
+</span><span class="n">plot_grid</span><span class="p">(</span><span class="n">plotlist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maps</span><span class="p">,</span><span class="w"> </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">LETTERS</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">],</span><span class="w"> </span><span class="n">label_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/geom-sf-facet/individual_legends-1.png" style="display: block; margin: auto;" /></p>
+
+<p>I tried using the name of each country as the subplot label, but because
+<a href="https://github.com/wilkelab/cowplot/issues/32#issuecomment-198428848">label positioning is relative to the width of
+labels</a>
+it was impossible to get them all nicely left-aligned. As a result, I
+had to settle on using letters to label the subplots and then
+identifying them in the figure caption in text. As you’ll see
+<a href="#bonus-still-to-solve">later</a>, there’s no perfect way of accomplishing
+this and you’ll have to make a trade-off somewhere.</p>
+
+<p>Setting aside that compromise, there’s still one issue with this plot
+that we can fix. We’re measuring the same thing (attacks on UN
+peacekeeping personnel) in all five choropleths, so there’s no need for
+five separate scales.</p>
+
+<h2 id="shared-legend">Shared legend</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">cowplot</code>
+<a href="https://wilkelab.org/cowplot/articles/shared_legends.html">documentation</a>
+demonstrates how to use the <code class="language-plaintext highlighter-rouge">get_legend()</code> function to extract the
+legend from one of the subplots and then add it as another element to
+<code class="language-plaintext highlighter-rouge">plot_grid()</code>, placing it in the bottom right like we sort of managed to
+do with <code class="language-plaintext highlighter-rouge">tmap</code>. However, we need to add
+<code class="language-plaintext highlighter-rouge">theme(legend.position = 'none')</code> to the ggplot call for each subplot,
+otherwise we’ll just end up with six legends. That means we need to
+apply to each element of our list of maps, which means it’s another job
+that <code class="language-plaintext highlighter-rouge">map()</code> is perfect for! We’ll use <code class="language-plaintext highlighter-rouge">map()</code> to take each subplot in
+<code class="language-plaintext highlighter-rouge">maps</code> and remove the legend from it, then use <code class="language-plaintext highlighter-rouge">get_legend()</code> to add a
+legend in the bottom right.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## use COWplot to combine and add single legend</span><span class="w">
+</span><span class="n">plot_grid</span><span class="p">(</span><span class="n">plotlist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">map</span><span class="p">(</span><span class="n">.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maps</span><span class="p">,</span><span class="w">
+                           </span><span class="n">.f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'none'</span><span class="p">))),</span><span class="w">
+          </span><span class="n">get_legend</span><span class="p">(</span><span class="n">maps</span><span class="p">[[</span><span class="m">1</span><span class="p">]]),</span><span class="w">
+          </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">LETTERS</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">],</span><span class="w"> </span><span class="n">label_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/geom-sf-facet/shared_legend_missing-1.png" style="display: block; margin: auto;" />
+This doesn’t look right! We told <code class="language-plaintext highlighter-rouge">plot_grid()</code> to start with our maps,
+so why is the legend the first thing in the plot? If you look closely at
+the documentation for <code class="language-plaintext highlighter-rouge">plot_grid()</code>, you’ll see that the <code class="language-plaintext highlighter-rouge">...</code> argument
+comes before the <code class="language-plaintext highlighter-rouge">plotlist</code> argument in the function definition. Even
+when we specify <code class="language-plaintext highlighter-rouge">plotlist</code> first, the function will add <code class="language-plaintext highlighter-rouge">plotlist</code> after
+<code class="language-plaintext highlighter-rouge">...</code>.<sup id="fnref:6" role="doc-noteref"><a href="#fn:6" class="footnote" rel="footnote">6</a></sup> To fix this, all we need to do is concatenate the results of
+<code class="language-plaintext highlighter-rouge">get_legend()</code> with the results of our call to <code class="language-plaintext highlighter-rouge">map()</code>. Note that we
+need to first transform the former to a list with <code class="language-plaintext highlighter-rouge">list()</code>, otherwise
+each element of it will be concatenated separately rather than as a
+<code class="language-plaintext highlighter-rouge">grob</code> object:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## use COWplot to combine and add single legend</span><span class="w">
+</span><span class="n">plot_grid</span><span class="p">(</span><span class="n">plotlist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">map</span><span class="p">(</span><span class="n">.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maps</span><span class="p">,</span><span class="w">
+                           </span><span class="n">.f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'none'</span><span class="p">)),</span><span class="w">
+                       </span><span class="nf">list</span><span class="p">(</span><span class="n">get_legend</span><span class="p">(</span><span class="n">maps</span><span class="p">[[</span><span class="m">1</span><span class="p">]]))),</span><span class="w">
+          </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">LETTERS</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">],</span><span class="w">
+          </span><span class="n">label_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w">
+          </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/geom-sf-facet/shared_legend_wrong-1.png" style="display: block; margin: auto;" /></p>
+
+<p>So far so good. But if we try using a different map in our call to
+<code class="language-plaintext highlighter-rouge">get_legend()</code>, things get weird:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## use COWplot to combine and add single legend</span><span class="w">
+</span><span class="n">plot_grid</span><span class="p">(</span><span class="n">plotlist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">map</span><span class="p">(</span><span class="n">.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maps</span><span class="p">,</span><span class="w">
+                           </span><span class="n">.f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'none'</span><span class="p">)),</span><span class="w">
+                       </span><span class="nf">list</span><span class="p">(</span><span class="n">get_legend</span><span class="p">(</span><span class="n">maps</span><span class="p">[[</span><span class="m">4</span><span class="p">]]))),</span><span class="w">
+          </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">LETTERS</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">],</span><span class="w"> </span><span class="n">label_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/geom-sf-facet/shared_legend_wrong2-1.png" style="display: block; margin: auto;" />
+Each subplot has its own unique legend that’s automatically generated
+from the values of <code class="language-plaintext highlighter-rouge">attacks</code> it contains. This is even worse than it
+might seem at first glance, because it means that the various subplots
+are in no way comparable to one another!</p>
+
+<h2 id="accurate-shared-legend">Accurate shared legend</h2>
+
+<p>To avoid misrepresenting the data, we need to ensure that each subplot
+has the same legend. The easiest way to do this is to manually set the
+legend for each subplot in our call to <code class="language-plaintext highlighter-rouge">scale_fill_continuous()</code>. Even
+though we’re manually setting the bounds of the legend, that doesn’t
+mean we have to hard code them. We can use a simpler version of our code
+to join attacks to ADM2s and then calculate the highest number of
+attacks across <em>all</em> countries in the data. Then we take advantage of
+the fact that <code class="language-plaintext highlighter-rouge">scale_fill_continuous()</code> can pass additional parameters
+to <code class="language-plaintext highlighter-rouge">continuous_scale()</code> via the <code class="language-plaintext highlighter-rouge">...</code> argument. The <code class="language-plaintext highlighter-rouge">continuous_scale()</code>
+function is a low-level function used throughout <code class="language-plaintext highlighter-rouge">ggplot2</code> to construct
+continuous scales, and it has a <code class="language-plaintext highlighter-rouge">limits</code> argument that sets the bounds
+of the scale. All we have to do is pass the minimum and maximum (logged)
+numbers of attacks in the data and we’re in business:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">st_join</span><span class="p">(</span><span class="n">adm</span><span class="p">,</span><span class="w"> </span><span class="n">acled</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">st_drop_geometry</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">   </span><span class="c1"># we don't need a map at the end; drop geometry to speed up</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">NAME_0</span><span class="p">,</span><span class="w"> </span><span class="n">NAME_1</span><span class="p">,</span><span class="w"> </span><span class="n">NAME_2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">attacks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log1p</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">event_id_cnty</span><span class="p">))))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">pull</span><span class="p">(</span><span class="n">attacks</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">        </span><span class="c1"># extract attacks variable</span><span class="w">
+  </span><span class="nf">range</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">attacks_range</span><span class="w"> </span><span class="c1"># get min and max</span><span class="w">
+
+</span><span class="c1">## create maps in separate plots, force common scale between them</span><span class="w">
+</span><span class="n">maps_shared</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="n">.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pko_countries</span><span class="p">,</span><span class="w"> 
+                   </span><span class="n">.f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">adm</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+                     </span><span class="n">filter</span><span class="p">(</span><span class="n">NAME_0</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+                     </span><span class="n">st_join</span><span class="p">(</span><span class="n">acled</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+                     </span><span class="n">group_by</span><span class="p">(</span><span class="n">NAME_0</span><span class="p">,</span><span class="w"> </span><span class="n">NAME_1</span><span class="p">,</span><span class="w"> </span><span class="n">NAME_2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+                     </span><span class="n">summarize</span><span class="p">(</span><span class="n">attacks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log1p</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">event_id_cnty</span><span class="p">))))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+                     </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attacks</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+                     </span><span class="n">geom_sf</span><span class="p">(</span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+                     </span><span class="n">scale_fill_continuous</span><span class="p">(</span><span class="n">limits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attacks_range</span><span class="p">,</span><span class="w">
+                                           </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'PKO targeting\nevents (logged)'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+                     </span><span class="n">theme_rw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+                     </span><span class="n">theme</span><span class="p">(</span><span class="n">axis.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+                           </span><span class="n">axis.ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">()))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now all that’s left is to use <code class="language-plaintext highlighter-rouge">plot_grid()</code> to put it all together:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## use COWplot to combine and add single legend</span><span class="w">
+</span><span class="n">plot_grid</span><span class="p">(</span><span class="n">plotlist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">map</span><span class="p">(</span><span class="n">.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maps_shared</span><span class="p">,</span><span class="w">
+                           </span><span class="n">.f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'none'</span><span class="p">)),</span><span class="w">
+                       </span><span class="nf">list</span><span class="p">(</span><span class="n">get_legend</span><span class="p">(</span><span class="n">maps_shared</span><span class="p">[[</span><span class="m">1</span><span class="p">]]))),</span><span class="w">
+          </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">LETTERS</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">],</span><span class="w"> </span><span class="n">label_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/geom-sf-facet/shared_legend_right-1.png" style="display: block; margin: auto;" /></p>
+
+<p>And unlike before, the legend is identical regardless of which subplot
+we use with <code class="language-plaintext highlighter-rouge">get_legend()</code>:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## use COWplot to combine and add single legend</span><span class="w">
+</span><span class="n">plot_grid</span><span class="p">(</span><span class="n">plotlist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">map</span><span class="p">(</span><span class="n">.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maps_shared</span><span class="p">,</span><span class="w">
+                           </span><span class="n">.f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'none'</span><span class="p">)),</span><span class="w">
+                       </span><span class="nf">list</span><span class="p">(</span><span class="n">get_legend</span><span class="p">(</span><span class="n">maps_shared</span><span class="p">[[</span><span class="m">4</span><span class="p">]]))),</span><span class="w">
+          </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">LETTERS</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">],</span><span class="w"> </span><span class="n">label_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/geom-sf-facet/shared_legend_right2-1.png" style="display: block; margin: auto;" /></p>
+
+<p>This approach is still useful even if you’re not working with spatial
+data. <code class="language-plaintext highlighter-rouge">plot_grid()</code> is powerful because it lets you make asymmetric
+arrangements like this example from the <code class="language-plaintext highlighter-rouge">cowplot</code>
+<a href="https://wilkelab.org/cowplot/articles/plot_grid.html">documentation</a>:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">disp</span><span class="p">,</span><span class="w"> </span><span class="n">mpg</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">geom_point</span><span class="p">()</span><span class="w">
+</span><span class="n">p2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">qsec</span><span class="p">,</span><span class="w"> </span><span class="n">mpg</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">()</span><span class="w">
+
+</span><span class="n">plot_grid</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="n">p2</span><span class="p">,</span><span class="w"> </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'A'</span><span class="p">,</span><span class="w"> </span><span class="s1">'B'</span><span class="p">),</span><span class="w"> </span><span class="n">rel_widths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/geom-sf-facet/plot_grid_asymmetric-1.png" style="display: block; margin: auto;" /></p>
+
+<p>If the units you’re faceting by contain substantially different
+observations, you might end up in a situation where the automatically
+generated legends are different from one another. Manually creating the
+scale of the legend and ensuring it’s the same for all plots would solve
+this problem here, too.</p>
+
+<h1 id="bonus-still-to-solve">Bonus: still to solve</h1>
+
+<p>Don’t let anyone convince you they know everything. I still haven’t
+managed to get my ideal (conditional on regular faceting with
+<code class="language-plaintext highlighter-rouge">facet_wrap()</code> being out of the question) solution to this working. I
+tried to create five subplots and just add a facet label to each, with
+each one being a facet of one panel. Straightforward enough, right?</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">maps_facet</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="n">.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pko_countries</span><span class="p">,</span><span class="w"> 
+                  </span><span class="n">.f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">adm</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+                    </span><span class="n">filter</span><span class="p">(</span><span class="n">NAME_0</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+                    </span><span class="n">st_join</span><span class="p">(</span><span class="n">acled</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+                    </span><span class="n">group_by</span><span class="p">(</span><span class="n">NAME_0</span><span class="p">,</span><span class="w"> </span><span class="n">NAME_1</span><span class="p">,</span><span class="w"> </span><span class="n">NAME_2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+                    </span><span class="n">summarize</span><span class="p">(</span><span class="n">attacks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log1p</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">event_id_cnty</span><span class="p">))))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+                    </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attacks</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+                    </span><span class="n">geom_sf</span><span class="p">(</span><span class="n">lwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+                    </span><span class="n">scale_fill_continuous</span><span class="p">(</span><span class="n">limits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attacks_range</span><span class="p">,</span><span class="w">
+                                          </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'PKO targeting\nevents (logged)'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+                    </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">NAME_0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+                    </span><span class="n">theme_rw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+                    </span><span class="n">theme</span><span class="p">(</span><span class="n">axis.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+                          </span><span class="n">axis.ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">()))</span><span class="w">
+
+</span><span class="n">plot_grid</span><span class="p">(</span><span class="n">plotlist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">map</span><span class="p">(</span><span class="n">.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maps_facet</span><span class="p">,</span><span class="w">
+                           </span><span class="n">.f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'none'</span><span class="p">)),</span><span class="w">
+                       </span><span class="nf">list</span><span class="p">(</span><span class="n">get_legend</span><span class="p">(</span><span class="n">maps_facet</span><span class="p">[[</span><span class="m">1</span><span class="p">]]))),</span><span class="w">
+          </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/geom-sf-facet/shared_legend_facet_calc-1.png" style="display: block; margin: auto;" /></p>
+
+<p>Not so much, and no amount of tinkering with the <code class="language-plaintext highlighter-rouge">align</code> and <code class="language-plaintext highlighter-rouge">axis</code>
+arguments to <code class="language-plaintext highlighter-rouge">plot_grid()</code> has yielded any improvement. The specific
+paper this plot is for doesn’t have any other plots with facets, so I’m
+content to go with my inelegant solution of lettered labels and a key to
+them in the figure caption. If that weren’t the case, I might still be
+fiddling with this and getting deeper and deeper into the source code
+for <code class="language-plaintext highlighter-rouge">plot_grid()</code>.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>If you’re wondering why the largest county area is in the ballpark
+of 0.25, it’s because the data are in <a href="https://en.wikipedia.org/wiki/Square_degree">square
+degrees</a>, an old non-SI
+unit of measurement that’s defined in terms of how much the field of
+view from a given point is obstructed by an object. GIS is so easy
+these days, folks. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>The more I learn about how <code class="language-plaintext highlighter-rouge">ggplot2</code> and <code class="language-plaintext highlighter-rouge">sf</code> work under the hood,
+the more amazed I am that <code class="language-plaintext highlighter-rouge">geom_sf()</code> Just Works in 80% of cases,
+let alone works at all. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:3" role="doc-endnote">
+      <p>The answer also listed the <code class="language-plaintext highlighter-rouge">geom_spatial()</code> function from the
+<code class="language-plaintext highlighter-rouge">ggspatial</code> package as an alternative option, but I couldn’t get it
+to work. The answer is three and a half years old, which means it’s
+very possible something changed in either <code class="language-plaintext highlighter-rouge">sf</code> or <code class="language-plaintext highlighter-rouge">ggspatial</code> that
+broke this solution. So it goes. <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:4" role="doc-endnote">
+      <p>It’s much more powerful and easily customizable than
+<code class="language-plaintext highlighter-rouge">gridExtra::grid.arrange()</code>. <a href="#fnref:4" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:5" role="doc-endnote">
+      <p>They can also contain heterogeneous elements which will come in
+handy <a href="#shared-legend">later</a>. <a href="#fnref:5" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:6" role="doc-endnote">
+      <p>If you check out the actual source code of <code class="language-plaintext highlighter-rouge">plot_grid()</code>, line 9
+shows you that the function is indeed putting <code class="language-plaintext highlighter-rouge">...</code> ahead of
+<code class="language-plaintext highlighter-rouge">plotlist</code>: <code class="language-plaintext highlighter-rouge">plots &lt;- c(list(...), plotlist)</code>. <a href="#fnref:6" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="http://localhost:4000/tags/#gis" class="page__taxonomy-item" rel="tag">GIS</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#peacekeeping" class="page__taxonomy-item" rel="tag">peacekeeping</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#visualization" class="page__taxonomy-item" rel="tag">visualization</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2021/05/geom-sf-facet" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2021/05/geom-sf-facet" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2021/05/geom-sf-facet" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="http://localhost:4000/posts/2021/01/gps-gis-osm" class="pagination--pager" title="Finding Backcountry Campsites with CalTopo, OpenStreetMap, and R
+">Previous</a>
+    
+    
+      <a href="http://localhost:4000/posts/2021/07-rstudio-regex" class="pagination--pager" title="Regular expressions for replication
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+        
+        
+        
+        
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2022/03/so-it-goes" rel="permalink">So it goes
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2022-03-31T00:00:00-05:00">March 31, 2022</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>When I was applying to graduate school and asking for letters of
+recommendation from my undergrad professors, one of them told me to give
+academia three years, and that if I hadn’t found a permanent position by
+then, to find another career. It’s been three years, and next week I
+start a new job as a data scientist. I read a fair bit of <a href="https://blogs.lse.ac.uk/impactofsocialsciences/2021/08/18/reading-academic-quit-lit-how-and-why-precarious-scholars-leave-academia">quit
+lit</a>
+in my first couple years of grad school and always told myself that if I
+went that same route, I would never pen any of my own…</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2021/01/gps-gis-osm" rel="permalink">Finding Backcountry Campsites with CalTopo, OpenStreetMap, and R
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2021-01-04T00:00:00-06:00">January 04, 2021</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>Like many people, I’ve been spending more time outdoors during this pandemic.
+While this means daily walks in my neighborhood, it also means getting out into
+the wilderness and sleeping in a tent when I can. Although outdoor recreation
+is one of the safer ways to entertain yourself these days, it’s not without its
+own <a href="https://www.recreateresponsibly.org/home">concerns</a>. The difficulty of
+safely getting to trailheads means that while I’m backpacking more than usual,
+it’s still not as often as I’d like.</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2020/09/spatial-sql" rel="permalink">Working with Large Spatial Data in R
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2020-09-25T00:00:00-05:00">September 25, 2020</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>In my research I frequently work with large datasets. Sometimes that means datasets that cover <a href="/research/conflict-preemption">the entire globe</a>, and other times it means working with lots of micro-level <a href="/research/event-data">event data</a>. Usually, my computer is powerful enough to load and manipulate all of the data in R without issue. When my computer’s fallen short of the task at hand, my solution has often been to throw it at a high performance computing cluster. However, I finally ran into a situation where the data proved too large even for that approach.</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+              
+        
+        
+        
+        
+          
+      </div>
+    </div>
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<a href="/sitemap/">Sitemap</a>
+<!-- end custom footer snippets -->
+
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/crystalamariano"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="http://localhost:4000/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Crystal A. Mariano. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <script src="http://localhost:4000/assets/js/main.min.js"></script>
+
+
+
+
+
+  </body>
+</html>
+

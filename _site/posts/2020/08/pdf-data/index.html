@@ -1,0 +1,1092 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Extracting UN Peacekeeping Data from PDF Files - Crystal A. Mariano</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Crystal A. Mariano">
+<meta property="og:title" content="Extracting UN Peacekeeping Data from PDF Files">
+
+
+  <link rel="canonical" href="http://localhost:4000/posts/2020/08/pdf-data/">
+  <meta property="og:url" content="http://localhost:4000/posts/2020/08/pdf-data/">
+
+
+
+  <meta property="og:description" content="Some coauthors and I recently published apiecein the Monkey Cageon the recent military coup inMaliand the overthrow of president Ibrahim Boubacar Keïta. We examine whatthe ouster of Keïta means for the future of MINUSMA, the United Nationspeacekeeping mission in Mali. One of my contributions that didn’t makethe final cut was this plot of casualties to date among UN peacekeepersin the so-called big 5 peacekeepingmissions.">
+
+
+
+
+
+  
+
+  
+
+
+
+  <meta property="og:image" content="http://localhost:4000/images/posts/pdf-data/bar_plot-1.png">
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2020-08-28T00:00:00-05:00">
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "url": "http://localhost:4000",
+      "logo": "http://localhost:4000/images/profile.png"
+    }
+  </script>
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Crystal A. Mariano",
+      "url" : "http://localhost:4000",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Crystal A. Mariano Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72.png?v=20201130">
+<link rel="apple-touch-icon" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114.png?v=20201130">
+<link rel="apple-touch-icon" sizes="120x120" href="http://localhost:4000/images/apple-touch-icon-120x120.png?v=20201130">
+<link rel="apple-touch-icon" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144.png?v=20201130">
+<link rel="apple-touch-icon" sizes="152x152" href="http://localhost:4000/images/apple-touch-icon-152x152.png?v=20201130">
+<link rel="apple-touch-icon" sizes="180x180" href="http://localhost:4000/images/apple-touch-icon-180x180.png?v=20201130">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-32x32.png?v=20201130" sizes="32x32">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/android-chrome-192x192.png?v=20201130" sizes="192x192">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-16x16.png?v=20201130" sizes="16x16">
+<link rel="manifest" href="http://localhost:4000/images/manifest.json?v=20201130">
+<link rel="mask-icon" href="http://localhost:4000/images/safari-pinned-tab.svg?v=20201130" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=20201130">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="http://localhost:4000/images/mstile-150x150.png?v=20201130">
+<meta name="msapplication-config" content="http://localhost:4000/images/browserconfig.xml?v=20201130">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="http://localhost:4000/">Crystal A. Mariano</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/research/">Research</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/teaching/">Teaching</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/cv/">CV</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="http://localhost:4000/images/profile.png" class="author__avatar" alt="Crystal A. Mariano">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Crystal A. Mariano</h3>
+    <p class="author__bio"><ul style="padding: 0;list-style-type: none;"><li style="margin: 0;"><b>NSF GRFP Fellow</b></li><li style="margin: 0;">Mechanical Engineering</li> <li style="margin: 0;">Bioengineering, B.S.</li></ul></p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+      
+      
+      
+        <li><a href="mailto:cmari010@ucr.edu"><i class="fas fa-fw fa-envelope" aria-hidden="true" style="padding-right: 1.5em;"></i>Email</a></li>
+      
+      
+       
+      
+      
+      
+      
+        <li><a href="https://www.linkedin.com/in/crystal-a-mariano"><i class="fab fa-fw fa-linkedin" aria-hidden="true" style="padding-right: 1.5em;"></i>LinkedIn</a></li>
+      
+      
+      
+      
+      
+      
+        <li><a href="https://github.com/crystalamariano"><i class="fab fa-fw fa-github" aria-hidden="true" style="padding-right: 1.5em;"></i>GitHub</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="http://orcid.org/0000-0001-5765-4193"><i class="ai ai-orcid ai-fw" aria-hidden="true" style="padding-right: 1.5em;"></i>ORCID</a></li>
+      
+      
+        <li><a href="https://scholar.google.com/citations?user=6p4xG5MAAAAJ&hl=en&oi=ao"><i class="fas fa-fw fa-graduation-cap" aria-hidden="true" style="padding-right: 1.5em;"></i>Google Scholar</a></li>
+      
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Extracting UN Peacekeeping Data from PDF Files">
+    <meta itemprop="description" content="Some coauthors and I recently published apiecein the Monkey Cageon the recent military coup inMaliand the overthrow of president Ibrahim Boubacar Keïta. We examine whatthe ouster of Keïta means for the future of MINUSMA, the United Nationspeacekeeping mission in Mali. One of my contributions that didn’t makethe final cut was this plot of casualties to date among UN peacekeepersin the so-called big 5 peacekeepingmissions.">
+    <meta itemprop="datePublished" content="August 28, 2020">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Extracting UN Peacekeeping Data from PDF Files
+</h1>
+          
+        
+        
+        
+          <p class="page__date">
+            <i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="1900-01-01T00:00:00-06:00">August 28, 2020</time>
+            <span style="float:right;"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  18 minute read
+	
+</span>
+          </p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-align-justify"></i> On This Page</h4></header>
+              <ul class="toc__menu"><li><a href="#nonstandard-formats">Nonstandard formats</a><ul><li><a href="#getting-the-data">Getting the data</a></li><li><a href="#cleaning-the-data">Cleaning the data</a></li></ul></li><li><a href="#creating-the-plot">Creating the plot</a><ul><li><a href="#preparing-the-data">Preparing the data</a></li><li><a href="#plot-it">Plot it</a></li><li><a href="#plot-it-again">Plot it (again)</a></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>Some coauthors and I recently published a
+<a href="https://www.washingtonpost.com/politics/2020/08/26/military-has-overthrown-malis-president-that-raises-questions-about-malis-ongoing-security-challenges/">piece</a>
+in the <a href="https://www.washingtonpost.com/news/monkey-cage/">Monkey Cage</a>
+on the <a href="https://www.washingtonpost.com/world/africa/fears-of-a-military-rebellion-or-attempted-coup-rise-in-mali/2020/08/18/9868203e-e155-11ea-82d8-5e55d47e90ca_story.html">recent military coup in
+Mali</a>
+and the overthrow of president Ibrahim Boubacar Keïta. We examine what
+the ouster of Keïta means for the future of MINUSMA, the United Nations
+peacekeeping mission in Mali. One of my contributions that didn’t make
+the final cut was this plot of casualties to date among UN peacekeepers
+in the so-called <a href="https://peaceoperationsreview.org/thematic-essays/the-end-of-a-peacekeeping-era/">big 5 peacekeeping
+missions</a>
+.</p>
+
+<!--more-->
+
+<p><img src="/images/posts/pdf-data/bar_plot-1.png" width="75%" style="display: block; margin: auto;" /></p>
+
+<p>These missions are distinguished from other current UN peacekeeping
+missions by high levels of violence (both overall and against UN
+personnel) and expansive mandates that go beyond ‘traditional’ goals of
+<a href="https://doi.org/10.1111/j.0020-8833.2004.00301.x">stabilizing post-conflict
+peace</a>. The <a href="https://doi.org/10.1017/S0003055414000446">conflict
+management</a> aims of these
+operations necessarily expose peacekeepers to high levels of risk. If we
+want to try understand what the future of MINUSMA might look like
+dealing with a new government in Mali, it’s important to place MINUSMA
+in context among the remainder of the big 5 missions. To help do so, I
+turned to the source for data on peacekeeping missions, the UN.</p>
+
+<h1 id="nonstandard-formats">Nonstandard formats</h1>
+
+<p>When we wrote the piece, the <a href="https://peacekeeping.un.org/en/open-data-portal">Peacekeeping open data
+portal</a> page on
+<a href="https://peacekeeping.un.org/en/peacekeeper-fatalities">fatalities</a> only
+had a link to <a href="https://peacekeeping.un.org/en/fatalities-june-2020">this PDF
+report</a> instead of
+the usual CSV file (the CSV file is back, so you don’t technically have
+to go through all of these steps to recreate this figure). Here’s what
+the first page of that PDF looks like:</p>
+
+<p><img src="/images/posts/pdf-data/pdf.png" alt="" /> Since we were working on a short
+deadline, I needed to get these data out of that PDF. The most direct
+option is to just copy and paste the data into an Excel sheet. However,
+these data run to 148 pages, so all that copying and pasting would be
+tiring and risks introducing errors when your attention eventually slips
+and you forget to include page 127.</p>
+
+<h2 id="getting-the-data">Getting the data</h2>
+
+<p>Enter the <code class="language-plaintext highlighter-rouge">tabulizer</code> R package. This package is just a (much)
+friendlier wrapper to the <a href="https://tabula.technology/">Tabula Java
+library</a>, which is designed to extract
+tables from PDF documents. To do so, just plug in the file name of the
+local PDF you want or URL for a remote one:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tabulizer</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## data PDF URL</span><span class="w">
+</span><span class="n">dat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s1">'https://peacekeeping.un.org/sites/default/files/fatalities_june_2020.pdf'</span><span class="w">
+
+</span><span class="c1">## get tables from PDF</span><span class="w">
+</span><span class="n">pko_fatalities</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">extract_tables</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'stream'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">extract_tables()</code> function has two different methods for extracting
+data: <code class="language-plaintext highlighter-rouge">lattice</code> for more structured, spreadsheet like PDFs and <code class="language-plaintext highlighter-rouge">stream</code>
+for messier files. While the PDF looks pretty structured to me, <code class="language-plaintext highlighter-rouge">method
+= 'lattice'</code> returned a series of one variable per line gibberish, so I
+specify <code class="language-plaintext highlighter-rouge">method = 'stream'</code> to speed up the process by not forcing
+<code class="language-plaintext highlighter-rouge">tabulizer</code> to determine which algorithm to use on each page.</p>
+
+<p>Note that you may end up getting several warnings, such as the ones I
+received:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## WARNING: An illegal reflective access operation has occurred
+## WARNING: Illegal reflective access by RJavaTools to method java.util.ArrayList$Itr.hasNext()
+## WARNING: Please consider reporting this to the maintainers of RJavaTools
+## WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+## WARNING: All illegal access operations will be denied in a future release
+</code></pre></div></div>
+
+<p>Everything still worked out fine for me, but you may run into problems
+in the future based on the warning about future releases.</p>
+
+<h2 id="cleaning-the-data">Cleaning the data</h2>
+
+<p>We end up with a list that is 148 elements long, one per page. Each
+element is a matrix, reflecting the structured nature of the data.
+Normally, we could just combine this list of matrices into a single
+object with <code class="language-plaintext highlighter-rouge">do.call(rbind, pko_fatalities)</code>:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">do.call</span><span class="p">(</span><span class="n">rbind</span><span class="p">,</span><span class="w"> </span><span class="n">pko_fatalities</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Error in (function (..., deparse.level = 1) : number of columns of matrices must match (see arg 2)
+</code></pre></div></div>
+
+<p>But if we do this, we get an error! Let’s take a look and see what’s
+going wrong. We can use <code class="language-plaintext highlighter-rouge">lapply()</code> in combination with <code class="language-plaintext highlighter-rouge">dim()</code> to do so:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">head</span><span class="p">(</span><span class="n">lapply</span><span class="p">(</span><span class="n">pko_fatalities</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## [[1]]
+## [1] 54  9
+## 
+## [[2]]
+## [1] 54  7
+## 
+## [[3]]
+## [1] 54  7
+## 
+## [[4]]
+## [1] 54  7
+## 
+## [[5]]
+## [1] 54  7
+## 
+## [[6]]
+## [1] 54  7
+</code></pre></div></div>
+
+<p>The first matrix has an extra two columns, causing our attempt to
+<code class="language-plaintext highlighter-rouge">rbind()</code> them all together to fail.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">head</span><span class="p">(</span><span class="n">pko_fatalities</span><span class="p">[[</span><span class="m">1</span><span class="p">]])</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>##      [,1]                   [,2]                            [,3] [,4]              
+## [1,] "Casualty_ID"          "Incident_Date Mission_Acronym" ""   "Type_of_Casualty"
+## [2,] "BINUH‐2019‐12‐00001"  "30/11/2019 BINUH"              ""   "Fatality"        
+## [3,] "BONUCA‐2004‐06‐04251" "01/06/2004 BONUCA"             ""   "Fatality"        
+## [4,] "IPTF‐1997‐01‐02515"   "31/01/1997 IPTF"               ""   "Fatality"        
+## [5,] "IPTF‐1997‐09‐02720"   "17/09/1997 IPTF"               ""   "Fatality"        
+## [6,] "IPTF‐1997‐09‐02721"   "17/09/1997 IPTF"               ""   "Fatality"        
+##      [,5]                       [,6]                [,7] [,8]                     
+## [1,] "Casualty_Nationality"     "M49_Code ISOCode3" ""   "Casualty_Personnel_Type"
+## [2,] "Haiti"                    "332 HTI"           ""   "Other"                  
+## [3,] "Benin"                    "204 BEN"           ""   "Military"               
+## [4,] "Germany"                  "276 DEU"           ""   "Police"                 
+## [5,] "United States of America" "840 USA"           ""   "Police"                 
+## [6,] "United States of America" "840 USA"           ""   "Police"                 
+##      [,9]              
+## [1,] "Type_Of_Incident"
+## [2,] "Malicious Act"   
+## [3,] "Illness"         
+## [4,] "Accident"        
+## [5,] "Accident"        
+## [6,] "Accident"
+</code></pre></div></div>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">head</span><span class="p">(</span><span class="n">pko_fatalities</span><span class="p">[[</span><span class="m">2</span><span class="p">]])</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>##      [,1]                    [,2]                 [,3]       [,4]       [,5]     
+## [1,] "MINUSCA‐2015‐10‐09459" "06/10/2015 MINUSCA" "Fatality" "Burundi"  "108 BDI"
+## [2,] "MINUSCA‐2015‐10‐09468" "13/10/2015 MINUSCA" "Fatality" "Burundi"  "108 BDI"
+## [3,] "MINUSCA‐2015‐11‐09509" "10/11/2015 MINUSCA" "Fatality" "Cameroon" "120 CMR"
+## [4,] "MINUSCA‐2015‐11‐09510" "22/11/2015 MINUSCA" "Fatality" "Rwanda"   "646 RWA"
+## [5,] "MINUSCA‐2015‐11‐09511" "30/11/2015 MINUSCA" "Fatality" "Cameroon" "120 CMR"
+## [6,] "MINUSCA‐2015‐12‐09542" "06/12/2015 MINUSCA" "Fatality" "Congo"    "178 COG"
+##      [,6]                     [,7]              
+## [1,] "Military"               "Malicious Act"   
+## [2,] "Military"               "Accident"        
+## [3,] "Military"               "Malicious Act"   
+## [4,] "Military"               "To Be Determined"
+## [5,] "International Civilian" "Illness"         
+## [6,] "Military"               "Illness"
+</code></pre></div></div>
+
+<p>We can see that the first page has two blank columns, accounting for the
+9 columns compared to the 7 columns for all other pages. Closer
+inspection of the header on the first page and the columns on both the
+first and second pages reveals that there actually <em>should</em> be 9 columns
+in the data.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">Incident_Date</code> and <code class="language-plaintext highlighter-rouge">Mission_Acronym</code> columns are combined into one,
+as are the <code class="language-plaintext highlighter-rouge">M49_Code</code> and <code class="language-plaintext highlighter-rouge">ISOCode3</code> columns. We’ll fix the data in
+those two columns in a bit, but first we have to get rid of the empty
+columns in the first page before we can merge the data from all the
+pages. We could just tell R to drop those columns manually with
+<code class="language-plaintext highlighter-rouge">pko_fatalities[[1]][, -c(3, 7)]</code>, but this isn’t a very scalable
+solution if we have lots of columns with this issue.</p>
+
+<p>To do this programmatically, we need a way to identify empty columns. If
+this was a list of data frames, we could use <code class="language-plaintext highlighter-rouge">colnames()</code> to identify
+the empty columns. However, <code class="language-plaintext highlighter-rouge">extract_tables()</code> has given us a matrix
+with the column names in the first row. Instead, we’ll just get the
+first row of the matrix. Since we’re accessing a matrix that is the
+first element in a list, we want to use <code class="language-plaintext highlighter-rouge">pko_fatalities[[1]][1,]</code> to
+index <code class="language-plaintext highlighter-rouge">pko_fatalities</code>. Next, we’ll use the <code class="language-plaintext highlighter-rouge">grepl()</code> function to
+identify the empty columns. We want to search for the regular expression
+<code class="language-plaintext highlighter-rouge">^$</code>, which means the start of a line immediately followed by the end of
+a line, i.e., an empty string. Finally, we negate it with a <code class="language-plaintext highlighter-rouge">!</code> to
+return only non-empty column names:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## drop two false empty columns on first page</span><span class="w">
+</span><span class="n">pko_fatalities</span><span class="p">[[</span><span class="m">1</span><span class="p">]]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pko_fatalities</span><span class="p">[[</span><span class="m">1</span><span class="p">]][,</span><span class="w"> </span><span class="o">!</span><span class="n">grepl</span><span class="p">(</span><span class="s1">'^$'</span><span class="p">,</span><span class="w"> </span><span class="n">pko_fatalities</span><span class="p">[[</span><span class="m">1</span><span class="p">]][</span><span class="m">1</span><span class="p">,])]</span><span class="w">
+</span></code></pre></div></div>
+
+<p>With that out of the way, we can now combine all the pages into one
+giant matrix. After that, I convert the matrix into a data frame, set
+the first row as the column names, and then drop the first row.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## rbind pages</span><span class="w">
+</span><span class="n">pko_fatalities</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">do.call</span><span class="p">(</span><span class="n">rbind</span><span class="p">,</span><span class="w"> </span><span class="n">pko_fatalities</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## set first row as column names and drop</span><span class="w">
+</span><span class="n">pko_fatalities</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">pko_fatalities</span><span class="p">)</span><span class="w">
+</span><span class="n">colnames</span><span class="p">(</span><span class="n">pko_fatalities</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="n">pko_fatalities</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="p">])</span><span class="w">
+</span><span class="n">pko_fatalities</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pko_fatalities</span><span class="p">[</span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now that we’re working with a data frame, we can finally tackle those
+two sets of mashed up columns. To do this, we’ll use the <code class="language-plaintext highlighter-rouge">separate()</code>
+function in the <code class="language-plaintext highlighter-rouge">dplyr</code> package, which I load via the <code class="language-plaintext highlighter-rouge">tidyverse</code>
+package. Separate is magically straightforward. It takes a column name
+(which I have to enclose in backticks thanks to the space), a character
+vector of names for the resulting columns, and a regular expression to
+split on. I use <code class="language-plaintext highlighter-rouge">\\s</code>, which matches any whitespace characters. I also
+filter out any duplicate header rows that may have crept in (there’s one
+on page 74, at the very least).</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## separate columns tabulizer incorrectly merged</span><span class="w">
+</span><span class="n">pko_fatalities</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pko_fatalities</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">Casualty_ID</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">'Casualty_ID'</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># drop any repeated header(s)</span><span class="w">
+  </span><span class="n">separate</span><span class="p">(</span><span class="n">`Incident_Date Mission_Acronym`</span><span class="p">,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'Incident_Date'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Mission_Acronym'</span><span class="p">),</span><span class="w">
+           </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'\\s'</span><span class="p">,</span><span class="w"> </span><span class="n">convert</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">,</span><span class="w"> </span><span class="n">extra</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'merge'</span><span class="p">)</span><span class="w">  </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">separate</span><span class="p">(</span><span class="n">`M49_Code ISOCode3`</span><span class="p">,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'M49_Code'</span><span class="p">,</span><span class="w"> </span><span class="s1">'ISOCode3'</span><span class="p">),</span><span class="w">
+           </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'\\s'</span><span class="p">,</span><span class="w"> </span><span class="n">convert</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">Incident_Date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dmy</span><span class="p">(</span><span class="n">Incident_Date</span><span class="p">))</span><span class="w"> </span><span class="c1"># convert date to date object</span><span class="w">
+</span></code></pre></div></div>
+
+<p>You’ll notice I also supply two other arguments here: <code class="language-plaintext highlighter-rouge">convert</code> and
+<code class="language-plaintext highlighter-rouge">extra</code>. The former will automatically convert the data type of
+resulting columns, which is useful because it converts Incident_Date
+into a <code class="language-plaintext highlighter-rouge">Date</code> object, and M49_Code into an <code class="language-plaintext highlighter-rouge">int</code> object. The latter
+tells <code class="language-plaintext highlighter-rouge">separate()</code> what to do if it detects more matches of the
+splitting expression than you’ve supplied column names. There are 18
+observations where the mission acronym is list as “UN Secretariat”. That
+means that <code class="language-plaintext highlighter-rouge">separate()</code> will detect a second whitespace character in
+these 18 rows. If you don’t explicitly set <code class="language-plaintext highlighter-rouge">extra</code>, you’ll get a warning
+telling you what happened with those extra characters. By setting <code class="language-plaintext highlighter-rouge">extra
+= 'merge'</code>, you’re telling <code class="language-plaintext highlighter-rouge">separate()</code> to effectively ignore any space
+after the first one and keep everything to the right of the first space
+as part of the output. Thus, our <code class="language-plaintext highlighter-rouge">"UN Secretariat"</code> observations are
+preserved instead of being chopped off to just <code class="language-plaintext highlighter-rouge">"UN"</code>.</p>
+
+<h1 id="creating-the-plot">Creating the plot</h1>
+
+<p>Now that we’ve got the data imported and cleaned up, we can recreate the
+plot from the Monkey Cage piece. However, first we need to bring in some
+outside information and calculate some simple statistics.</p>
+
+<h2 id="preparing-the-data">Preparing the data</h2>
+
+<p>Before we can plot the data, we need to bring in some mission-level
+information, namely what country each mission operates in. We can get
+this easily from the Peacekeeping open data portal <a href="https://peacekeeping.un.org/en/peacekeeping-master-open-datasets">master
+dataset</a>.
+Once I load the data into R I select just the mission acronym and
+country of operation. I then edit the strings for CAR and DRC to add
+newlines between words with <code class="language-plaintext highlighter-rouge">\n</code> to make them fit better into the plot.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## get active PKO data and clean up country names</span><span class="w">
+</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'https://data.humdata.org/dataset/819dce10-ac8a-4960-8756-856a9f72d820/resource/7f738eb4-6f77-4b5c-905a-ed6d45cc5515/download/coredata_activepkomissions.csv'</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">select</span><span class="p">(</span><span class="n">Mission_Acronym</span><span class="p">,</span><span class="w"> </span><span class="n">Country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ACLED_Country</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">Country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="n">Country</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Central African Republic'</span><span class="w"> </span><span class="o">~</span><span class="w">
+                               </span><span class="s1">'Central\nAfrican\nRepublic'</span><span class="p">,</span><span class="w">
+                             </span><span class="n">Country</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Democratic Republic of Congo'</span><span class="w"> </span><span class="o">~</span><span class="w">
+                               </span><span class="s1">'Democratic\nRepublic\nof the Congo'</span><span class="p">,</span><span class="w">
+                             </span><span class="kc">TRUE</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">Country</span><span class="p">))</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">pko_data</span><span class="w">
+</span></code></pre></div></div>
+
+<p>We’re looking to see how dangerous peacekeeping missions are for
+peacekeepers, so we want to only look at fatalities that are the result
+of deliberate acts. The data contain 6 different types of incident, so
+let’s check them out:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">table</span><span class="p">(</span><span class="n">pko_fatalities</span><span class="o">$</span><span class="n">Type_Of_Incident</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## 
+##         Accident          Illness    Malicious Act   Self‐Inflicted To Be Determined 
+##             2712             2582             2096              268              244 
+##          Unknown 
+##               50
+</code></pre></div></div>
+
+<p>Malicious acts are the third highest type of incident, so it’s important
+for us to subset the data to ensure we’re counting the types of attacks
+we’re interested in. Since we’re looking at fatalities in the big 5
+missions, we also need to subset the data to just these missions. We’re
+going to use the <code class="language-plaintext highlighter-rouge">summarize()</code> function in conjunction with <code class="language-plaintext highlighter-rouge">group_by()</code>
+to calculate several summary statistics for each mission. We’ll also use
+the <code class="language-plaintext highlighter-rouge">time_length()</code> and <code class="language-plaintext highlighter-rouge">interval()</code> functions from the <code class="language-plaintext highlighter-rouge">lubridate</code>
+package, so load that as well.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">lubridate</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## list of PKOs to include</span><span class="w">
+</span><span class="n">pkos</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'MINUSMA'</span><span class="p">,</span><span class="w"> </span><span class="s1">'UNAMID'</span><span class="p">,</span><span class="w"> </span><span class="s1">'MINUSCA'</span><span class="p">,</span><span class="w"> </span><span class="s1">'MONUSCO'</span><span class="p">,</span><span class="w"> </span><span class="s1">'UNMISS'</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## aggregate mission level data</span><span class="w">
+</span><span class="n">pko_fatalities</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">Type_Of_Incident</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Malicious Act'</span><span class="p">,</span><span class="w">
+         </span><span class="n">Mission_Acronym</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">pkos</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">Mission_Acronym</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">casualties</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">(),</span><span class="w">
+            </span><span class="n">casualties_mil</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Casualty_Personnel_Type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Military'</span><span class="p">),</span><span class="w">
+            </span><span class="n">casualties_pol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Casualty_Personnel_Type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Police'</span><span class="p">),</span><span class="w">
+            </span><span class="n">casualties_obs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Casualty_Personnel_Type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Military Observer'</span><span class="p">),</span><span class="w">
+            </span><span class="n">casualties_civ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Casualty_Personnel_Type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'International Civilian'</span><span class="p">),</span><span class="w">
+            </span><span class="n">casualties_oth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Casualty_Personnel_Type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Other'</span><span class="p">),</span><span class="w">
+            </span><span class="n">casualties_loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Casualty_Personnel_Type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Local'</span><span class="p">),</span><span class="w">
+            </span><span class="n">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">time_length</span><span class="p">(</span><span class="n">interval</span><span class="p">(</span><span class="nf">min</span><span class="p">(</span><span class="n">Incident_Date</span><span class="p">),</span><span class="w">
+                                            </span><span class="nf">max</span><span class="p">(</span><span class="n">Incident_Date</span><span class="p">)),</span><span class="w">
+                                   </span><span class="n">unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'year'</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">MINUSMA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="n">Mission_Acronym</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'MINUSMA'</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s1">'MINUSMA'</span><span class="p">,</span><span class="w">
+                             </span><span class="kc">TRUE</span><span class="w">                         </span><span class="o">~</span><span class="w"> </span><span class="s1">''</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">left_join</span><span class="p">(</span><span class="n">pko_data</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Mission_Acronym'</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">Country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">Country</span><span class="p">,</span><span class="w">
+                          </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Country</span><span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="n">casualties</span><span class="p">,</span><span class="w">
+                                                 </span><span class="n">decreasing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">)]))</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">data_agg</span><span class="w">
+</span></code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">casualties = n()</code> counts the total number of fatalities in each
+mission because each row is one fatality</li>
+  <li><code class="language-plaintext highlighter-rouge">casualties_mil = sum(Casualty_Personnel_Type == 'Military')</code> counts
+how many of those casualties were UN troops</li>
+  <li>the other <code class="language-plaintext highlighter-rouge">casualties_...</code> lines do the same for different
+categories of UN personnel</li>
+  <li>the code to the right of <code class="language-plaintext highlighter-rouge">duration</code> calculates how long each mission
+has lasted by:
+    <ul>
+      <li>finding the first and last date of a fatality in each mission</li>
+      <li>creating an <code class="language-plaintext highlighter-rouge">interval</code> object from those dates</li>
+      <li>calculating the length of that period in years</li>
+    </ul>
+  </li>
+  <li>create an indicator variable noting whether or not an observation
+belongs to MINUSMA</li>
+</ul>
+
+<p>Finally, we merge on the country information contained in <code class="language-plaintext highlighter-rouge">pko_data</code> and
+convert <code class="language-plaintext highlighter-rouge">Country</code> to a factor with levels that are decreasing in
+fatalities. This last step is necessary to have a nice ordered plot.</p>
+
+<h2 id="plot-it">Plot it</h2>
+
+<p>With that taken care of, we can create the plot using <code class="language-plaintext highlighter-rouge">ggplot</code>. I’m
+using the <code class="language-plaintext highlighter-rouge">label</code> argument to place mission acronyms inside the bars
+with <code class="language-plaintext highlighter-rouge">geom_text()</code>, and a second call to <code class="language-plaintext highlighter-rouge">geom_text()</code> with the
+<code class="language-plaintext highlighter-rouge">casualties</code> variable to place fatality numbers above the bars. The
+<code class="language-plaintext highlighter-rouge">nudge_y</code> argument in each call to <code class="language-plaintext highlighter-rouge">geom_text()</code> ensures that they’re
+vertically spaced out, making them readable instead of overlapping.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">data_agg</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Country</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">casualties</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Mission_Acronym</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'identity'</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'#5b92e5'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'white'</span><span class="p">,</span><span class="w"> </span><span class="n">nudge_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-10</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Country</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">casualties</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">casualties</span><span class="p">),</span><span class="w">
+            </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_agg</span><span class="p">,</span><span class="w"> </span><span class="n">inherit.aes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">F</span><span class="p">,</span><span class="w">
+            </span><span class="n">nudge_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">''</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'UN Fatalities'</span><span class="p">,</span><span class="w">
+       </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'UN fatalities in big 5 peacekeeping operations'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_bw</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/pdf-data/bar_plot-1.png" width="75%" style="display: block; margin: auto;" /></p>
+
+<h2 id="plot-it-again">Plot it (again)</h2>
+
+<p>We can also create some other plots to visualize how dangerous each
+mission is to peacekeeping personnel. While total fatalities are an
+important piece of information, the rate of fatalities can tell use more
+about the intensity of the danger in a given conflict.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">data_agg</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">duration</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">casualties</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MINUSMA</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.5</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'#5b92e5'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text</span><span class="p">(</span><span class="n">nudge_x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">expand_limits</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Mission duration (years)'</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Fatalities (total)'</span><span class="p">,</span><span class="w">
+       </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'UN fatalities in big 5 peacekeeping operations'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_bw</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/pdf-data/scatter_plot-1.png" width="75%" style="display: block; margin: auto;" /></p>
+
+<p>We can see from this plot that not only does MINUSMA have the most
+peacekeeper fatalities out of any mission, it reached that point in a
+comparatively short amount of time. To really drive this point home, we
+can draw on the fantastic <code class="language-plaintext highlighter-rouge">gganimate</code> package. We’re going to animate
+cumulative fatality totals over time, so we need a yearly version of our
+mission-level data frame from above. The code below is pretty similar
+except we’re grouping by both <code class="language-plaintext highlighter-rouge">Mission_Acronym</code> and a variable called
+<code class="language-plaintext highlighter-rouge">Year</code> what we’re generating with the <code class="language-plaintext highlighter-rouge">year()</code> function in <code class="language-plaintext highlighter-rouge">lubridate</code>
+(it extracts the year from a <code class="language-plaintext highlighter-rouge">Date</code> object).</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pko_fatalities</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">Type_Of_Incident</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Malicious Act'</span><span class="p">,</span><span class="w">
+         </span><span class="n">Mission_Acronym</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">pkos</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">Mission_Acronym</span><span class="p">,</span><span class="w"> </span><span class="n">Year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">year</span><span class="p">(</span><span class="n">Incident_Date</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">casualties</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">(),</span><span class="w">
+            </span><span class="n">casualties_mil</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Casualty_Personnel_Type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Military'</span><span class="p">),</span><span class="w">
+            </span><span class="n">casualties_pol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Casualty_Personnel_Type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Police'</span><span class="p">),</span><span class="w">
+            </span><span class="n">casualties_obs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Casualty_Personnel_Type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Military Observer'</span><span class="p">),</span><span class="w">
+            </span><span class="n">casualties_civ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Casualty_Personnel_Type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'International Civilian'</span><span class="p">),</span><span class="w">
+            </span><span class="n">casualties_oth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Casualty_Personnel_Type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Other'</span><span class="p">),</span><span class="w">
+            </span><span class="n">casualties_loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Casualty_Personnel_Type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Local'</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">MINUSMA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="n">Mission_Acronym</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'MINUSMA'</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s1">'MINUSMA'</span><span class="p">,</span><span class="w">
+                             </span><span class="kc">TRUE</span><span class="w">                         </span><span class="o">~</span><span class="w"> </span><span class="s1">''</span><span class="p">),</span><span class="w">
+         </span><span class="n">Mission_Year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Year</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="n">Year</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">left_join</span><span class="p">(</span><span class="n">pko_data</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Mission_Acronym'</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">Country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">Country</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">levels</span><span class="p">(</span><span class="n">data_agg</span><span class="o">$</span><span class="n">Country</span><span class="p">)))</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">data_yr</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Once we’ve done that, we need to make a couple tweaks to our data to
+ensure that our plot animates correctly. I use the new <code class="language-plaintext highlighter-rouge">across()</code>
+function (which is likely going to eventually replace <code class="language-plaintext highlighter-rouge">mutate_at</code>,
+<code class="language-plaintext highlighter-rouge">mutate_if</code>, and similar functions) to select all columns that start
+with “casualties”. Then, I supply the <code class="language-plaintext highlighter-rouge">cumsum()</code> function to the <code class="language-plaintext highlighter-rouge">.fns</code>
+argument, and use the <code class="language-plaintext highlighter-rouge">.names</code> argument to append “_cml” to the end of
+each resulting variable’s name. This argument uses <a href="https://github.com/tidyverse/glue">glue
+syntax</a>, which allows you to embed R
+code in strings by enclosing it in curly braces. The <code class="language-plaintext highlighter-rouge">complete()</code>
+function uses the <code class="language-plaintext highlighter-rouge">full_seq()</code> function to fill in any missing years in
+each mission, i.e., a year in the middle of a mission without any
+fatalities due to malicious acts. Finally, the <code class="language-plaintext highlighter-rouge">fill()</code> function fills
+in any rows we just added that are missing fatality data due to an
+absence of fatalities that year.</p>
+
+<p>Now we’re ready to animate our plot! We construct the <code class="language-plaintext highlighter-rouge">ggplot</code> object
+like before, but this time we add the <code class="language-plaintext highlighter-rouge">transition_manual()</code> function to
+the end of the plot specification. This function tells <code class="language-plaintext highlighter-rouge">gganimate</code> what
+the ‘steps’ in our animation are. Since we’ve got individual years,
+we’re using the <code class="language-plaintext highlighter-rouge">manual</code> version of <code class="language-plaintext highlighter-rouge">transition_</code> instead of the many
+fancier versions included in the package.</p>
+
+<p>If you check out the documentation for <code class="language-plaintext highlighter-rouge">transition_manual()</code>, you’ll
+notice that there are a handful of special label variables you can use
+when constructing your plot. These will update as the plot cycles
+through its frames, allowing you to convey information about the flow of
+time. I’ve used the <code class="language-plaintext highlighter-rouge">current_frame</code> variable, again with glue syntax, to
+make the title of the plot display the current mission year as the
+frames advance.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">gganimate</span><span class="p">)</span><span class="w">
+
+</span><span class="n">data_yr</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">Mission_Year</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">across</span><span class="p">(</span><span class="n">starts_with</span><span class="p">(</span><span class="s1">'casualties'</span><span class="p">),</span><span class="w"> </span><span class="n">.fns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cumsum</span><span class="p">,</span><span class="w"> </span><span class="n">.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'{col}_cml'</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">complete</span><span class="p">(</span><span class="n">Mission_Year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">full_seq</span><span class="p">(</span><span class="n">Mission_Year</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">fill</span><span class="p">(</span><span class="n">Year</span><span class="o">:</span><span class="n">casualties_loc_cml</span><span class="p">,</span><span class="w"> </span><span class="n">.direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'down'</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">Mission_Year</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="m">6</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># youngest mission is UNMISS</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Country</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">casualties_cml</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">casualties_cml</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'identity'</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'#5b92e5'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text</span><span class="p">(</span><span class="n">nudge_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">''</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'UN Fatalities'</span><span class="p">,</span><span class="w">
+       </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'UN fatalities in big 5 peacekeeping operations: mission year {current_frame}'</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_bw</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">transition_manual</span><span class="p">(</span><span class="n">Mission_Year</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/pdf-data/bar.gif" width="75%" style="display: block; margin: auto;" /></p>
+
+<p>While the scatter plot above illustrates that UN personnel working for
+MINUSMA have suffered the most violence in the shortest time out of any
+big 5 mission, this animation make it abundantly clear, especially since
+MONUSCO and UNMISS both experience years without a single UN fatality
+from a deliberate attack. Visualizations like these are a great way to
+showcase your work, especially if you’re dealing with dynamic data.
+While you still can’t easily include them in a journal article, they’re
+fantastic tools for conference presentations or</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="http://localhost:4000/tags/#data" class="page__taxonomy-item" rel="tag">data</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#peacekeeping" class="page__taxonomy-item" rel="tag">peacekeeping</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#visualization" class="page__taxonomy-item" rel="tag">visualization</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2020/08/pdf-data/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2020/08/pdf-data/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2020/08/pdf-data/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="http://localhost:4000/posts/2020/08/website-content/" class="pagination--pager" title="Adding Content to an Academic Website
+">Previous</a>
+    
+    
+      <a href="http://localhost:4000/posts/2020/09/jekyll-html" class="pagination--pager" title="Jekyll and HTML Widgets
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+        
+        
+        
+        
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2022/03/so-it-goes" rel="permalink">So it goes
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2022-03-31T00:00:00-05:00">March 31, 2022</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>When I was applying to graduate school and asking for letters of
+recommendation from my undergrad professors, one of them told me to give
+academia three years, and that if I hadn’t found a permanent position by
+then, to find another career. It’s been three years, and next week I
+start a new job as a data scientist. I read a fair bit of <a href="https://blogs.lse.ac.uk/impactofsocialsciences/2021/08/18/reading-academic-quit-lit-how-and-why-precarious-scholars-leave-academia">quit
+lit</a>
+in my first couple years of grad school and always told myself that if I
+went that same route, I would never pen any of my own…</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2021/05/geom-sf-facet" rel="permalink">Faceted maps in R
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2021-05-19T00:00:00-05:00">May 19, 2021</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>I recently needed to create a choropleth of a few different countries
+for a project on targeting of UN peacekeepers by non-state armed actors
+I’m working on. A
+<a href="https://en.wikipedia.org/wiki/Choropleth_map">choropleth</a> is a type of
+thematic map where data are aggregated up from smaller areas (or
+discrete points) to larger ones and then visualized using different
+colors to represent different numeric values.</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2020/09/spatial-sql" rel="permalink">Working with Large Spatial Data in R
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2020-09-25T00:00:00-05:00">September 25, 2020</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>In my research I frequently work with large datasets. Sometimes that means datasets that cover <a href="/research/conflict-preemption">the entire globe</a>, and other times it means working with lots of micro-level <a href="/research/event-data">event data</a>. Usually, my computer is powerful enough to load and manipulate all of the data in R without issue. When my computer’s fallen short of the task at hand, my solution has often been to throw it at a high performance computing cluster. However, I finally ran into a situation where the data proved too large even for that approach.</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+              
+        
+        
+        
+        
+          
+      </div>
+    </div>
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<a href="/sitemap/">Sitemap</a>
+<!-- end custom footer snippets -->
+
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/crystalamariano"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="http://localhost:4000/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Crystal A. Mariano. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <script src="http://localhost:4000/assets/js/main.min.js"></script>
+
+
+
+
+
+  </body>
+</html>
+

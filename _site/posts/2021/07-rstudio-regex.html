@@ -1,0 +1,807 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Regular expressions for replication - Crystal A. Mariano</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Crystal A. Mariano">
+<meta property="og:title" content="Regular expressions for replication">
+
+
+  <link rel="canonical" href="http://localhost:4000/posts/2021/07-rstudio-regex">
+  <meta property="og:url" content="http://localhost:4000/posts/2021/07-rstudio-regex">
+
+
+
+  <meta property="og:description" content="As part of the publication process for my recent article on how states preempt separatist conflict, I needed to submit replication materials to the journal. I took my graduate quantitative methods sequence with the late Tom Carsey, so I’ve long been a proponent replicability efforts in social science. I also had an hourly job in grad school replicating quantitative results for multiple political science journals, so I’m very familiar with best practices for replication. Unfortunately, in the four years since I wrote the first line of code for this project, somewhere in between defending my dissertation and starting a new job (ok, fine, almost immediately after writing that first line of code), I got a little lazy.">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2021-07-01T00:00:00-05:00">
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "url": "http://localhost:4000",
+      "logo": "http://localhost:4000/images/profile.png"
+    }
+  </script>
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Crystal A. Mariano",
+      "url" : "http://localhost:4000",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Crystal A. Mariano Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72.png?v=20201130">
+<link rel="apple-touch-icon" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114.png?v=20201130">
+<link rel="apple-touch-icon" sizes="120x120" href="http://localhost:4000/images/apple-touch-icon-120x120.png?v=20201130">
+<link rel="apple-touch-icon" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144.png?v=20201130">
+<link rel="apple-touch-icon" sizes="152x152" href="http://localhost:4000/images/apple-touch-icon-152x152.png?v=20201130">
+<link rel="apple-touch-icon" sizes="180x180" href="http://localhost:4000/images/apple-touch-icon-180x180.png?v=20201130">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-32x32.png?v=20201130" sizes="32x32">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/android-chrome-192x192.png?v=20201130" sizes="192x192">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-16x16.png?v=20201130" sizes="16x16">
+<link rel="manifest" href="http://localhost:4000/images/manifest.json?v=20201130">
+<link rel="mask-icon" href="http://localhost:4000/images/safari-pinned-tab.svg?v=20201130" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=20201130">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="http://localhost:4000/images/mstile-150x150.png?v=20201130">
+<meta name="msapplication-config" content="http://localhost:4000/images/browserconfig.xml?v=20201130">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="http://localhost:4000/">Crystal A. Mariano</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/research/">Research</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/teaching/">Teaching</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/cv/">CV</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="http://localhost:4000/images/profile.png" class="author__avatar" alt="Crystal A. Mariano">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Crystal A. Mariano</h3>
+    <p class="author__bio"><ul style="padding: 0;list-style-type: none;"><li style="margin: 0;"><b>NSF GRFP Fellow</b></li><li style="margin: 0;">Mechanical Engineering</li> <li style="margin: 0;">Bioengineering, B.S.</li></ul></p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+      
+      
+      
+        <li><a href="mailto:cmari010@ucr.edu"><i class="fas fa-fw fa-envelope" aria-hidden="true" style="padding-right: 1.5em;"></i>Email</a></li>
+      
+      
+       
+      
+      
+      
+      
+        <li><a href="https://www.linkedin.com/in/crystal-a-mariano"><i class="fab fa-fw fa-linkedin" aria-hidden="true" style="padding-right: 1.5em;"></i>LinkedIn</a></li>
+      
+      
+      
+      
+      
+      
+        <li><a href="https://github.com/crystalamariano"><i class="fab fa-fw fa-github" aria-hidden="true" style="padding-right: 1.5em;"></i>GitHub</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="http://orcid.org/0000-0001-5765-4193"><i class="ai ai-orcid ai-fw" aria-hidden="true" style="padding-right: 1.5em;"></i>ORCID</a></li>
+      
+      
+        <li><a href="https://scholar.google.com/citations?user=6p4xG5MAAAAJ&hl=en&oi=ao"><i class="fas fa-fw fa-graduation-cap" aria-hidden="true" style="padding-right: 1.5em;"></i>Google Scholar</a></li>
+      
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Regular expressions for replication">
+    <meta itemprop="description" content="As part of the publication process for my recent article on how states preempt separatist conflict, I needed to submit replication materials to the journal. I took my graduate quantitative methods sequence with the late Tom Carsey, so I’ve long been a proponent replicability efforts in social science. I also had an hourly job in grad school replicating quantitative results for multiple political science journals, so I’m very familiar with best practices for replication. Unfortunately, in the four years since I wrote the first line of code for this project, somewhere in between defending my dissertation and starting a new job (ok, fine, almost immediately after writing that first line of code), I got a little lazy.">
+    <meta itemprop="datePublished" content="July 01, 2021">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Regular expressions for replication
+</h1>
+          
+        
+        
+        
+          <p class="page__date">
+            <i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="1900-01-01T00:00:00-06:00">July 01, 2021</time>
+            <span style="float:right;"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  9 minute read
+	
+</span>
+          </p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-align-justify"></i> On This Page</h4></header>
+              <ul class="toc__menu"><li><a href="#file-paths">File paths</a></li><li><a href="#here">Here</a></li><li><a href="#regular-expressions">Regular expressions</a></li><li><a href="#a-little-bit-faster-now">A little bit faster now</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>As part of the publication process for my recent <a href="https://doi.org/10.1177/07388942211015242">article</a> on how states preempt separatist conflict, I needed to submit replication materials to the journal. I took my graduate quantitative methods sequence with the late <a href="https://sites.google.com/view/tom-carsey/home">Tom Carsey</a>, so I’ve long been a proponent replicability efforts in social science. I also had an hourly job in grad school replicating quantitative results for multiple political science journals, so I’m very familiar with best practices for replication. Unfortunately, in the four years since I wrote the first line of code for this project, somewhere in between defending my dissertation and starting a new job (ok, fine, almost immediately after writing that first line of code), I got a little lazy.</p>
+
+<!--more-->
+
+<p>Sometimes it’s faster (easier) to just write code that works for you, on your system, without any consideration for some poor researcher who may try to replicate your results in the future.<sup id="fnref:replication" role="doc-noteref"><a href="#fn:replication" class="footnote" rel="footnote">1</a></sup> This tendency was especially bad for this project because at various points in time I was writing code to run on my personal laptop and <a href="https://its.unc.edu/research-computing/killdevil-retirement/">two</a> <a href="https://its.unc.edu/research-computing/longleaf-cluster/">different</a> high performance computing clusters. This is a recipe for code that doesn’t travel well and will almost certainly fail to replicate.</p>
+
+<p>There were a lot of changes I made to my code to ensure my results replicate, but the most tedious (and time consuming, by far) was cleaning up my file paths. Due to the computationally intensive GIS work and Bayesian statistics involved in the project, I ran lots of code on a cluster, and then pulled the results back to my laptop to summarize and create figures. This unsurprisingly resulted in a huge mess when looking at the project as a whole, rather than any individual script. Luckily, R and Rstudio made things (relatively) painless to fix.</p>
+
+<h1 id="file-paths">File paths</h1>
+
+<p>Anytime you load a dataset into R, you need to specify the path to that file. The same’s true when you save R output to a file. This article started as a chapter of my dissertation, so all of the code originally lived in the Dissertation folder on my laptop. However, as I started adapting it to an article length manuscript, I created a new Conflict Preemption folder in my Projects folder. By the time the article was accepted, I had two main folders I needed to combine:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">/Users/Rob/Dropbox/UNC/Dissertation/Onset</code></li>
+  <li><code class="language-plaintext highlighter-rouge">/Users/Rob/Dropbox/WashU/Projects/Conflict Preemption</code></li>
+</ul>
+
+<p>Both of these folders live in my Dropbox, but that’s about where the similarities end. I wrote most of the code for running models while still at UNC, so when I added new scripts to run models to respond to reviewer comments, I still stuck them in the UNC folder. That also means that all of the output of these models ended up in the UNC folder when it got transferred from the cluster. However, when I needed to do something simpler like create a time series plot of the number of separatist groups in existence, I wrote that code in the WashU folder. I also had a script in the WashU folder to load all of the results and generate plots from them. Because this script and the data it needed to load where in completely different directories, this is what I had to do to load the data to create one of the main figures:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">load</span><span class="p">(</span><span class="s1">'/Users/Rob/Dropbox/UNC/Dissertation/Onset/Figure Data/marg_eff_pop_df_cy.RData'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Not particularly likely to work on anyone else’s computer. To fix this, I needed to move all of the data to the Conflict Preemption folder, which was easy, and then rewrite all of the code the referenced file locations, which was less easy.</p>
+
+<h1 id="here">Here</h1>
+
+<p>As a first step, I needed to chop off <code class="language-plaintext highlighter-rouge">/Users/Rob/Dropbox/UNC/Dissertation/Onset/</code> from the start of every file path. All the files for the article, including both the R scripts and the various data files, now live in <code class="language-plaintext highlighter-rouge">/Users/Rob/Dropbox/WashU/Projects/Conflict Preemption</code>, but all of the file paths in the scripts still start with <code class="language-plaintext highlighter-rouge">/Users/Rob/Dropbox/UNC/Dissertation/Onset</code>, because that’s where all the files were before. You can do this just using the standard find and replace functionality built into RStudio. However, there’s no guarantee that someone in the future will correctly set R’s working directory before running the code. I used the <a href="https://here.r-lib.org/">here</a> R package to ensure that R can always find everything it needs for my code. All you have to do is wrap file paths in the <code class="language-plaintext highlighter-rouge">here()</code> function in the package, and they’ll be automatically completed with the full file path, letting R find your files.<sup id="fnref:here" role="doc-noteref"><a href="#fn:here" class="footnote" rel="footnote">2</a></sup></p>
+
+<p>You need to use the <a href="https://en.wikipedia.org/wiki/Path_(computing)#Absolute_and_relative_paths">relative path</a> to each file, so for a file with an absolute path of <code class="language-plaintext highlighter-rouge">/Users/Rob/Dropbox/WashU/Projects/Conflict Preemption/Figure Data/marg_eff_pop_df_cy.RData</code>, the relative path (relative to the project folder of <code class="language-plaintext highlighter-rouge">/Users/Rob/Dropbox/WashU/Projects/Conflict Preemption</code>) would be <code class="language-plaintext highlighter-rouge">Figure Data/marg_eff_pop_df_cy.RData</code>. The final bit of R code looks like this:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">load</span><span class="p">(</span><span class="n">here</span><span class="p">(</span><span class="s1">'Figure Data/marg_eff_pop_df_cy.RData'</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The addition of that <code class="language-plaintext highlighter-rouge">here()</code> in between <code class="language-plaintext highlighter-rouge">load()</code> and the file path means that things are no longer as simple as finding and replacing the start of the file path.</p>
+
+<h1 id="regular-expressions">Regular expressions</h1>
+
+<p>Luckily, I was able to take advantage of RStudio’s built in support for <a href="https://en.wikipedia.org/wiki/Regular_expression">regular expressions</a> to save myself from having to manually change each line of code that either loaded or saved a file. Regular expressions are a powerful way to search through and manipulate text. You can activate them in RStudio’s find and replace dialog by checking the Regex box:</p>
+
+<p><img src="/images/posts/rstudio-regex/regex.png" alt="" class="align-center" /></p>
+
+<p>Once you’ve done that, certain characters in your search will no longer be interpreted literally. The most important difference is probably <code class="language-plaintext highlighter-rouge">.</code>, which is a stand-in for any character.<sup id="fnref:newline" role="doc-noteref"><a href="#fn:newline" class="footnote" rel="footnote">3</a></sup> This is similar to how <code class="language-plaintext highlighter-rouge">*</code> is a wildcard in the Unix shell, e.g., you can use <code class="language-plaintext highlighter-rouge">ls *.R</code> to list all R script files in a folder. The main regular expression feature I used is the <a href="https://www.regular-expressions.info/refcapture.html">capturing group</a>, which allows you to identify and extract a subset of a line of text. You designate a capturing group by surrounding the desired text with parentheses. To fix all of the code loading RData files from the Figure Data folder, my regular expression looked like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'/Users/Rob/Dropbox/UNC/Dissertation/Onset/(Figure Data/.*\.RData)'
+</code></pre></div></div>
+
+<p>It starts with <code class="language-plaintext highlighter-rouge">/Users/Rob/Dropbox/UNC/Dissertation/Onset/</code>, which is the part I want to get rid of. Next, <code class="language-plaintext highlighter-rouge">(Figure Data/.*\.RData)'</code> tells the regular expression to look for any character (<code class="language-plaintext highlighter-rouge">.</code>) repeated an unlimited number of times (<code class="language-plaintext highlighter-rouge">*</code>) followed by <code class="language-plaintext highlighter-rouge">.RData</code>. Because <code class="language-plaintext highlighter-rouge">.</code> is a special character in regular expressions, we have to escape it with a backslash (<code class="language-plaintext highlighter-rouge">\</code>). This will match any file name ending in <code class="language-plaintext highlighter-rouge">.RData</code> in the Figure Data folder. If we left out the leading <code class="language-plaintext highlighter-rouge">/Users/Rob/Dropbox/UNC/Dissertation/Onset/</code>, we end up with the capturing group we want, but since <code class="language-plaintext highlighter-rouge">/Users/Rob/Dropbox/UNC/Dissertation/Onset/</code> wouldn’t be part of the search string, it wouldn’t end up getting replaced. This is the same reason we need to include the opening and closing quotation marks; if we didn’t, we’d end up with a <code class="language-plaintext highlighter-rouge">here()</code> command inside quotation marks, which R would just treat as a string and not a command.</p>
+
+<p>At this point I had the core of the line that I wanted to keep, but now I needed to extract it and place it inside of a call to <code class="language-plaintext highlighter-rouge">here()</code>. You accomplish this goal using a <a href="https://www.regular-expressions.info/replacebackref.html">backreference</a> to the capturing group. To reference the first capturing group, you use either <code class="language-plaintext highlighter-rouge">\1</code> or <code class="language-plaintext highlighter-rouge">$1</code> depending on which version of regular expressions you are using. This is often very difficult to figure out, and is one of the most annoying things about regular expressions. You’ll often just have to experiment and find out which one to use through trial and error. Luckily RStudio accepts either version!</p>
+
+<p>To replace the absolute path with a relative one wrapped in a <code class="language-plaintext highlighter-rouge">here()</code> call, this is what I typed into the Replace field in the find and replace dialog:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>here('$1')
+</code></pre></div></div>
+
+<p>and it resulted in this:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">here</span><span class="p">(</span><span class="s1">'Figure Data/marg_eff_pop_df_cy.RData'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Thanks to the power of capture groups, you can just hit the replace all button and instantly transform every file path into a much more portable and replication-friendly one.</p>
+
+<h1 id="a-little-bit-faster-now">A little bit faster now</h1>
+
+<p>If you’re feeling really confident that you moved every file correctly, you can replace <em>all</em> file paths with the following regular expression:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'/Users/Rob/Dropbox/UNC/Dissertation/Onset/(.*\..*)'
+</code></pre></div></div>
+
+<p>This will get any files with file extensions (the <code class="language-plaintext highlighter-rouge">\.</code> followed by <code class="language-plaintext highlighter-rouge">.*</code> to ensure there’s at least one character after a literal period), as well as any preceding subdirectories (the initial <code class="language-plaintext highlighter-rouge">.*</code>) and stick them all into the resulting <code class="language-plaintext highlighter-rouge">here()</code> call. As an example, this will successfully turn this:
+fileConn &lt;- file(here::here(‘Tables/pd_pop_cy.tex’))</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">groups</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readRDS</span><span class="p">(</span><span class="s1">'/Users/Rob/Dropbox/Dissertation/Onset/Input Data/groups_nightlights.RDS'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>into this:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">groups</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readRDS</span><span class="p">(</span><span class="n">here</span><span class="o">::</span><span class="n">here</span><span class="p">(</span><span class="s1">'Input Data/groups_nightlights.RDS'</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:replication" role="doc-endnote">
+      <p>I’m using ‘replication’ here to mean that the code used to generate quantitative results from a dataset should produce those same results when run by another researcher, <em>not</em> in the sense that means that independent researchers following the published protocol can collect the data themselves and arrive at the same conclusion. I use the term ‘reproducible’ to describe this property. Annoyingly, different fields use <a href="https://www.ncbi.nlm.nih.gov/books/NBK547546/">opposing definitions</a> of these two terms. <a href="#fnref:replication" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:here" role="doc-endnote">
+      <p>Specifically, <code class="language-plaintext highlighter-rouge">here()</code> will key into the <code class="language-plaintext highlighter-rouge">.Rproj</code> file included in my replication materials and use that to properly locate everything else. <a href="#fnref:here" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:newline" role="doc-endnote">
+      <p>Except for newlines, carriage returns, and other end of line special characters. <a href="#fnref:newline" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="http://localhost:4000/tags/#regex" class="page__taxonomy-item" rel="tag">regex</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2021/07-rstudio-regex" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2021/07-rstudio-regex" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2021/07-rstudio-regex" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="http://localhost:4000/posts/2021/05/geom-sf-facet" class="pagination--pager" title="Faceted maps in R
+">Previous</a>
+    
+    
+      <a href="http://localhost:4000/posts/2022/03/so-it-goes" class="pagination--pager" title="So it goes
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+        
+        
+        
+        
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+        
+        
+        
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2022/03/so-it-goes" rel="permalink">So it goes
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2022-03-31T00:00:00-05:00">March 31, 2022</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>When I was applying to graduate school and asking for letters of
+recommendation from my undergrad professors, one of them told me to give
+academia three years, and that if I hadn’t found a permanent position by
+then, to find another career. It’s been three years, and next week I
+start a new job as a data scientist. I read a fair bit of <a href="https://blogs.lse.ac.uk/impactofsocialsciences/2021/08/18/reading-academic-quit-lit-how-and-why-precarious-scholars-leave-academia">quit
+lit</a>
+in my first couple years of grad school and always told myself that if I
+went that same route, I would never pen any of my own…</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2021/05/geom-sf-facet" rel="permalink">Faceted maps in R
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2021-05-19T00:00:00-05:00">May 19, 2021</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>I recently needed to create a choropleth of a few different countries
+for a project on targeting of UN peacekeepers by non-state armed actors
+I’m working on. A
+<a href="https://en.wikipedia.org/wiki/Choropleth_map">choropleth</a> is a type of
+thematic map where data are aggregated up from smaller areas (or
+discrete points) to larger ones and then visualized using different
+colors to represent different numeric values.</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2021/01/gps-gis-osm" rel="permalink">Finding Backcountry Campsites with CalTopo, OpenStreetMap, and R
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2021-01-04T00:00:00-06:00">January 04, 2021</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>Like many people, I’ve been spending more time outdoors during this pandemic.
+While this means daily walks in my neighborhood, it also means getting out into
+the wilderness and sleeping in a tent when I can. Although outdoor recreation
+is one of the safer ways to entertain yourself these days, it’s not without its
+own <a href="https://www.recreateresponsibly.org/home">concerns</a>. The difficulty of
+safely getting to trailheads means that while I’m backpacking more than usual,
+it’s still not as often as I’d like.</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+        
+          
+      </div>
+    </div>
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<a href="/sitemap/">Sitemap</a>
+<!-- end custom footer snippets -->
+
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/crystalamariano"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="http://localhost:4000/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Crystal A. Mariano. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <script src="http://localhost:4000/assets/js/main.min.js"></script>
+
+
+
+
+
+  </body>
+</html>
+

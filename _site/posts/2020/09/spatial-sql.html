@@ -1,0 +1,1015 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Working with Large Spatial Data in R - Crystal A. Mariano</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Crystal A. Mariano">
+<meta property="og:title" content="Working with Large Spatial Data in R">
+
+
+  <link rel="canonical" href="http://localhost:4000/posts/2020/09/spatial-sql">
+  <meta property="og:url" content="http://localhost:4000/posts/2020/09/spatial-sql">
+
+
+
+  <meta property="og:description" content="In my research I frequently work with large datasets. Sometimes that means datasets that cover the entire globe, and other times it means working with lots of micro-level event data. Usually, my computer is powerful enough to load and manipulate all of the data in R without issue. When my computer’s fallen short of the task at hand, my solution has often been to throw it at a high performance computing cluster. However, I finally ran into a situation where the data proved too large even for that approach.">
+
+
+
+
+
+  
+
+  
+
+
+
+  <meta property="og:image" content="http://localhost:4000/images/posts/spatial-sql/gadm_wkt_filter_buffer-og.png">
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2020-09-25T00:00:00-05:00">
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "url": "http://localhost:4000",
+      "logo": "http://localhost:4000/images/profile.png"
+    }
+  </script>
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Crystal A. Mariano",
+      "url" : "http://localhost:4000",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Crystal A. Mariano Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72.png?v=20201130">
+<link rel="apple-touch-icon" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114.png?v=20201130">
+<link rel="apple-touch-icon" sizes="120x120" href="http://localhost:4000/images/apple-touch-icon-120x120.png?v=20201130">
+<link rel="apple-touch-icon" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144.png?v=20201130">
+<link rel="apple-touch-icon" sizes="152x152" href="http://localhost:4000/images/apple-touch-icon-152x152.png?v=20201130">
+<link rel="apple-touch-icon" sizes="180x180" href="http://localhost:4000/images/apple-touch-icon-180x180.png?v=20201130">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-32x32.png?v=20201130" sizes="32x32">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/android-chrome-192x192.png?v=20201130" sizes="192x192">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-16x16.png?v=20201130" sizes="16x16">
+<link rel="manifest" href="http://localhost:4000/images/manifest.json?v=20201130">
+<link rel="mask-icon" href="http://localhost:4000/images/safari-pinned-tab.svg?v=20201130" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=20201130">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="http://localhost:4000/images/mstile-150x150.png?v=20201130">
+<meta name="msapplication-config" content="http://localhost:4000/images/browserconfig.xml?v=20201130">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="http://localhost:4000/">Crystal A. Mariano</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/research/">Research</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/teaching/">Teaching</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/cv/">CV</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="http://localhost:4000/images/profile.png" class="author__avatar" alt="Crystal A. Mariano">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Crystal A. Mariano</h3>
+    <p class="author__bio"><ul style="padding: 0;list-style-type: none;"><li style="margin: 0;"><b>NSF GRFP Fellow</b></li><li style="margin: 0;">Mechanical Engineering</li> <li style="margin: 0;">Bioengineering, B.S.</li></ul></p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+      
+      
+      
+        <li><a href="mailto:cmari010@ucr.edu"><i class="fas fa-fw fa-envelope" aria-hidden="true" style="padding-right: 1.5em;"></i>Email</a></li>
+      
+      
+       
+      
+      
+      
+      
+        <li><a href="https://www.linkedin.com/in/crystal-a-mariano"><i class="fab fa-fw fa-linkedin" aria-hidden="true" style="padding-right: 1.5em;"></i>LinkedIn</a></li>
+      
+      
+      
+      
+      
+      
+        <li><a href="https://github.com/crystalamariano"><i class="fab fa-fw fa-github" aria-hidden="true" style="padding-right: 1.5em;"></i>GitHub</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="http://orcid.org/0000-0001-5765-4193"><i class="ai ai-orcid ai-fw" aria-hidden="true" style="padding-right: 1.5em;"></i>ORCID</a></li>
+      
+      
+        <li><a href="https://scholar.google.com/citations?user=6p4xG5MAAAAJ&hl=en&oi=ao"><i class="fas fa-fw fa-graduation-cap" aria-hidden="true" style="padding-right: 1.5em;"></i>Google Scholar</a></li>
+      
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Working with Large Spatial Data in R">
+    <meta itemprop="description" content="In my research I frequently work with large datasets. Sometimes that means datasets that cover the entire globe, and other times it means working with lots of micro-level event data. Usually, my computer is powerful enough to load and manipulate all of the data in R without issue. When my computer’s fallen short of the task at hand, my solution has often been to throw it at a high performance computing cluster. However, I finally ran into a situation where the data proved too large even for that approach.">
+    <meta itemprop="datePublished" content="September 25, 2020">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Working with Large Spatial Data in R
+</h1>
+          
+        
+        
+        
+          <p class="page__date">
+            <i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="1900-01-01T00:00:00-06:00">September 25, 2020</time>
+            <span style="float:right;"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  22 minute read
+	
+</span>
+          </p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-align-justify"></i> On This Page</h4></header>
+              <ul class="toc__menu"><li><a href="#on-disk">On disk</a><ul><li><a href="#sql">SQL</a></li><li><a href="#sneaking-a-peek">Sneaking a peek</a></li><li><a href="#making-a-list">Making a list</a></li><li><a href="#wont-you-be-my-neighbor">Won’t you be my neighbor?</a></li><li><a href="#wrapping-up">Wrapping up</a></li></ul></li><li><a href="#this-time-for-real">This time for real</a></li><li><a href="#making-data-manageable">Making data manageable</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>In my research I frequently work with large datasets. Sometimes that means datasets that cover <a href="/research/conflict-preemption">the entire globe</a>, and other times it means working with lots of micro-level <a href="/research/event-data">event data</a>. Usually, my computer is powerful enough to load and manipulate all of the data in R without issue. When my computer’s fallen short of the task at hand, my solution has often been to throw it at a high performance computing cluster. However, I finally ran into a situation where the data proved too large even for that approach.</p>
+
+<!--more-->
+
+<p>As a result, I finally had to teach myself how to break large spatial datasets into more manageable chunks. In the process a learned a little SQL and a lot about the underlying software libraries that power the <a href="https://www.r-spatial.org/">r-spatial</a> ecosystem of R packages. In this post, I walk through the workflow I developed for this task and explain the logic behind each step.</p>
+
+<h1 id="on-disk">On disk</h1>
+
+<p>The general idea is to work with data ‘on disk’ instead of ‘in memory’. Normally, when you load a dataset into R, your computer reads it from whatever storage media it uses (hard drive or solid state drive) into memory (RAM). Memory is considerably faster to read from and write to than storage, which is what lets you complete simple operations in R in the blink of an eye. Most consumer computers have much more storage than RAM (my 2015 MacBook Pro has 256 GB of storage and 8 GB of memory) so it’s very possible to end up with a dataset larger than your computer’s memory. In fact, it doesn’t have to be anywhere near the size of your computer’s memory to bump into this limit because every other application you have running uses up memory as well.</p>
+
+<p>To deal with this issue, you can extract just the parts of a dataset you need to work with at any given time; this subset will be loaded into memory, and the rest remain on disk and invisible to R<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. There are a couple of R packages that exist for dealing with this issue, such as <a href="https://cran.r-project.org/web/packages/bigmemory/index.html">bigmemory</a> for basic R data types like numerics or <a href="https://diskframe.com/index.html">disk.frame</a> for dplyr-compatible operations, but neither supports spatial data.</p>
+
+<p>I’m going to use the <a href="http://nils.weidmann.ws/projects/cshapes.html">cshapes</a> to illustrate and explain this workflow<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>. You can download and extract it from within R:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## download cshapes dataset</span><span class="w">
+</span><span class="n">download.file</span><span class="p">(</span><span class="s1">'http://downloads.weidmann.ws/cshapes/Shapefiles/cshapes_0.6.zip'</span><span class="p">,</span><span class="w">
+              </span><span class="s1">'cshapes.zip'</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## extract cshapes dataset</span><span class="w">
+</span><span class="n">unzip</span><span class="p">(</span><span class="s1">'cshapes.zip'</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## check that dataset extracted correctly</span><span class="w">
+</span><span class="n">list.files</span><span class="p">(</span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'.'</span><span class="p">,</span><span class="w"> </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'cshapes'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## [1] "cshapes_shapefile_documentation.txt" "cshapes.dbf"                        
+## [3] "cshapes.prj"                         "cshapes.shp"                        
+## [5] "cshapes.shx"                         "cshapes.zip"
+</code></pre></div></div>
+
+<p>Then use the sf package to load the data and check them out:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## load packages</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## read in cshapes</span><span class="w">
+</span><span class="n">cshapes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">st_read</span><span class="p">(</span><span class="s1">'cshapes.shp'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The cshapes dataset is specifically designed to be easy to load and manipulate on a conventional laptop computer. To do this, it sacrifices a significant degree of detail in the polygons that represent each individual state. For many analyses, this is fine and won’t affect the results. However, sometimes you need to measure the length of borders between states, and the <a href="https://en.wikipedia.org/wiki/Coastline_paradox">coastline paradox</a> dictates that you use the most high resolution spatial data possible. In that case, the data might be too large for your computer to hold in memory. If that’s the case, then it’s time to start thinking about leaving the data on disk and only loading what you really need at any given point.</p>
+
+<h2 id="sql">SQL</h2>
+
+<p>Luckily the sf package supports <a href="https://en.wikipedia.org/wiki/SQL">SQL</a> queries to filter the data on disk and only read in a subset of the total data. SQL is a language for interacting with relational databases, and is incredibly fast compared to loading data into R and then filtering it. SQL has many variants, referred to as dialects, and the sf package uses one called OGR SQL dialect to interact with spatial datasets. The basic structure of a SQL call is <code class="language-plaintext highlighter-rouge">SELECT col FROM "table" WHERE cond</code>.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">SELECT</code> tells the database what columns (fields in SQL parlance) we want</li>
+  <li><code class="language-plaintext highlighter-rouge">FROM</code> tells the database what table (databases can have many tables) to select those columns from</li>
+  <li><code class="language-plaintext highlighter-rouge">WHERE</code> tells that database we only want rows where some condition is true</li>
+</ul>
+
+<p>If you use the tidyverse a lot, this may seem familiar to you because it’s pretty similar to dplyr syntax, except dplyr already knows which data frame you want to work with. If we want to only load one polygon at a time into R, then we need to know the field (or combination of fields) that uniquely identifies a polygon. To demonstrate, let’s load just the polygon for Morocco that begins in 1976 when it annexed the Northern part of Western Sahara. Let’s cheat by looking at the data I’ve loaded into R:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## filter to Morocco beginning in 1976</span><span class="w">
+</span><span class="n">cshapes</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="n">CNTRY_NAME</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'Morocco'</span><span class="p">,</span><span class="w"> </span><span class="n">GWSYEAR</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1976</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Simple feature collection with 1 feature and 24 fields
+## geometry type:  MULTIPOLYGON
+## dimension:      XY
+## bbox:           xmin: -15.22687 ymin: 23.11465 xmax: -1.011809 ymax: 35.91916
+## geographic CRS: WGS 84
+##   CNTRY_NAME     AREA CAPNAME CAPLONG CAPLAT FEATUREID COWCODE COWSYEAR COWSMONTH COWSDAY COWEYEAR
+## 1    Morocco 576351.8   Rabat   -6.83  34.02       220     600     1976         4       1     1979
+##   COWEMONTH COWEDAY GWCODE GWSYEAR GWSMONTH GWSDAY GWEYEAR GWEMONTH GWEDAY ISONAME ISO1NUM ISO1AL2
+## 1         8       4    600    1976        4      1    1979        8      4 Morocco     504      MA
+##   ISO1AL3                       geometry
+## 1     MAR MULTIPOLYGON (((-4.420418 3...
+</code></pre></div></div>
+
+<p>The cshapes dataset records when states change territorial boundaries or capital locations, so the combination of a state name or identifier and a start or end date uniquely identifies all rows in the data. Since, this polygon begins on April 1, 1976 and the Gleditsch and Ward code for Morocco is 600, plugging it all into the <code class="language-plaintext highlighter-rouge">query</code> argument to <code class="language-plaintext highlighter-rouge">st_read()</code> gets us:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## read in morocco polygon</span><span class="w">
+</span><span class="n">morocco</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">st_read</span><span class="p">(</span><span class="s1">'cshapes.shp'</span><span class="p">,</span><span class="w">
+                   </span><span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'SELECT * FROM "cshapes" WHERE GWCODE = 600 AND GWSYEAR = 1976 AND GWSMONTH = 4 AND GWSDAY = 1'</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## verify country name</span><span class="w">
+</span><span class="n">morocco</span><span class="o">$</span><span class="n">CNTRY_NAME</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## [1] "Morocco"
+</code></pre></div></div>
+
+<p>Awesome! We were able to read in just one polygon from the cshapes dataset. Note that <code class="language-plaintext highlighter-rouge">*</code> means all columns. As I mentioned above, this is cheating, since we had to read the whole dataset into R with a standard <code class="language-plaintext highlighter-rouge">st_read()</code> call to learn the names and values of the variables we then filtered on.</p>
+
+<h2 id="sneaking-a-peek">Sneaking a peek</h2>
+
+<p>When this isn’t an option, we can sneak a peak at the data by loading just the first observation into R. This requires significantly less memory than loading an entire dataset, and can give us the information we need to filter the full dataset and read in one observation at a time. Most SQL implementations don’t have row numbers, so it’s hard to just grab the first row of the data for this purpose. However, the <a href="https://gdal.org/user/ogr_sql_dialect.html">OGR SQL dialect documentation</a> notes that it implements a special field called <code class="language-plaintext highlighter-rouge">FID</code> that is a feature ID, i.e., a row number. We can take advantage of <code class="language-plaintext highlighter-rouge">FID</code> to select the first polygon from the data using the <code class="language-plaintext highlighter-rouge">query</code> argument to <code class="language-plaintext highlighter-rouge">st_read()</code> again:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## read in first row of the data</span><span class="w">
+</span><span class="n">cshapes_row</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">st_read</span><span class="p">(</span><span class="s1">'cshapes.shp'</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'SELECT * FROM "cshapes" WHERE FID = 1'</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## inspect</span><span class="w">
+</span><span class="n">cshapes_row</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Simple feature collection with 1 feature and 24 fields
+## geometry type:  POLYGON
+## dimension:      XY
+## bbox:           xmin: -58.0714 ymin: 1.836245 xmax: -53.98612 ymax: 6.001809
+## geographic CRS: WGS 84
+##   CNTRY_NAME     AREA    CAPNAME CAPLONG   CAPLAT FEATUREID COWCODE COWSYEAR COWSMONTH COWSDAY
+## 1   Suriname 145952.3 Paramaribo   -55.2 5.833333         1     115     1975        11      25
+##   COWEYEAR COWEMONTH COWEDAY GWCODE GWSYEAR GWSMONTH GWSDAY GWEYEAR GWEMONTH GWEDAY  ISONAME
+## 1     2016         6      30    115    1975       11     25    2016        6     30 Suriname
+##   ISO1NUM ISO1AL2 ISO1AL3                 _ogr_geometry_
+## 1     740      SR     SUR POLYGON ((-55.12796 5.82217...
+</code></pre></div></div>
+
+<p>Even if we knew that the data had an ID column and start and end dates, we wouldn’t know the precise formatting (capitalization, underscores or dashes) of column names, or whether start and end dates are stored as one column or sets of three like they are here.</p>
+
+<h2 id="making-a-list">Making a list</h2>
+
+<p>We still need more information if we want to iterate through the polygons in the data and load them one at a time. We know what columns uniquely identify the rows, but what don’t know all the values they take on. Without that, we we’re stuck. What (usually) makes spatial data big is not the tabular data themselves, but the spatial features they’re attached to. This is particularly the case with polygons, which can be incredibly large in size for complex features. So, the goal here is to get the data we care about (ID column and start date) and ditch everything else, loading only the bare minimum into memory.</p>
+
+<p>To do this, we’ll use the <code class="language-plaintext highlighter-rouge">ogr2ogr()</code> function in the gdalUtils package<sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">3</a></sup>. <code class="language-plaintext highlighter-rouge">ogr2ogr()</code> converts between different spatial data formats. It also offers two features that we’re going to use to cut down the data to the bare minimum. The <code class="language-plaintext highlighter-rouge">select</code> argument is a SQL selection, so we’re going to create a comma separated list of our key columns. The <code class="language-plaintext highlighter-rouge">nlt</code> argument specifies what type of geometry to create in the output. Conveniently it accepts <code class="language-plaintext highlighter-rouge">NONE</code> as a value, which will yield a plain table of data with none of the memory-hogging geometries:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## load package</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">gdalUtils</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## convert to nonspatial geometry</span><span class="w">
+</span><span class="n">ogr2ogr</span><span class="p">(</span><span class="n">src_datasource_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'cshapes.shp'</span><span class="p">,</span><span class="w"> </span><span class="n">dst_datasource_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'cshapes_no_geom'</span><span class="p">,</span><span class="w">
+        </span><span class="n">select</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'GWCODE,GWSYEAR,GWSMONTH,GWSDAY'</span><span class="p">,</span><span class="w"> </span><span class="n">nlt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'NONE'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This will create a shapefile in the new directory cshapes_no_geom called <code class="language-plaintext highlighter-rouge">cshapes</code>. The usual <code class="language-plaintext highlighter-rouge">.shp</code> and <code class="language-plaintext highlighter-rouge">.shx</code> components of a shapefile are missing, but the <code class="language-plaintext highlighter-rouge">.dbf</code> part is there, and that’s the one we care about. Load it up with <code class="language-plaintext highlighter-rouge">st_read()</code> and we’ll have what we need:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## load non-geometry table</span><span class="w">
+</span><span class="n">cshapes_id</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">st_read</span><span class="p">(</span><span class="s1">'cshapes_no_geom/cshapes.dbf'</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## inspect</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">cshapes_id</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>##   GWCODE GWSYEAR GWSMONTH GWSDAY
+## 1    110    1966        5     26
+## 2    115    1975       11     25
+## 3     52    1962        8     31
+## 4    101    1946        1      1
+## 5    990    1962        1      1
+## 6    972    1970        6      4
+</code></pre></div></div>
+
+<p>Now you can load polygons one at a time and perform whatever geometric operations you need to. To illustrate, I’ll load the first four polygons in the dataset, calculate their area, and then plot them.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## set up four panel plot</span><span class="w">
+</span><span class="n">par</span><span class="p">(</span><span class="n">mfrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="n">mar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">6.1</span><span class="p">,</span><span class="w"> </span><span class="m">4.1</span><span class="p">,</span><span class="w"> </span><span class="m">4.1</span><span class="p">,</span><span class="w"> </span><span class="m">4.1</span><span class="p">))</span><span class="w">
+
+</span><span class="c1">## read in each polygon and plot </span><span class="w">
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  
+  </span><span class="c1">## build SQL query</span><span class="w">
+  </span><span class="n">query_str</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">str_c</span><span class="p">(</span><span class="s1">'SELECT * FROM "cshapes" WHERE GWCODE = '</span><span class="p">,</span><span class="w"> </span><span class="n">cshapes_id</span><span class="o">$</span><span class="n">GWCODE</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w">
+                     </span><span class="s1">' AND GWSYEAR = '</span><span class="p">,</span><span class="w"> </span><span class="n">cshapes_id</span><span class="o">$</span><span class="n">GWSYEAR</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w">
+                     </span><span class="s1">' AND GWSMONTH = '</span><span class="p">,</span><span class="w"> </span><span class="n">cshapes_id</span><span class="o">$</span><span class="n">GWSMONTH</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w">
+                     </span><span class="s1">' AND GWSDAY = '</span><span class="p">,</span><span class="w"> </span><span class="n">cshapes_id</span><span class="o">$</span><span class="n">GWSDAY</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w">
+  
+  </span><span class="c1">## read in data</span><span class="w">
+  </span><span class="n">pol</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">st_read</span><span class="p">(</span><span class="s1">'cshapes.shp'</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">query_str</span><span class="p">)</span><span class="w">
+  
+  </span><span class="c1">## plot data</span><span class="w">
+  </span><span class="n">pol</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">st_geometry</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+    </span><span class="n">plot</span><span class="p">(</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pol</span><span class="o">$</span><span class="n">CNTRY_NAME</span><span class="p">,</span><span class="w">
+         </span><span class="n">sub</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_c</span><span class="p">(</span><span class="nf">round</span><span class="p">(</span><span class="n">units</span><span class="o">::</span><span class="n">set_units</span><span class="p">(</span><span class="n">st_area</span><span class="p">(</span><span class="n">pol</span><span class="p">),</span><span class="w"> </span><span class="s1">'km^2'</span><span class="p">),</span><span class="w"> </span><span class="n">digits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="w">
+                      </span><span class="s1">' km^2'</span><span class="p">))</span><span class="w">
+  
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/spatial-sql/cshapes_plot_loop-1.png" style="display: block; margin: auto;" /></p>
+
+<h2 id="wont-you-be-my-neighbor">Won’t you be my neighbor?</h2>
+
+<p>Sometimes (oftentimes in spatial analysis) we need not just a polygon, but also its neighbors. That means loading just one polygon is insufficient. If your data are already in R, this is easy with the <code class="language-plaintext highlighter-rouge">st_filter()</code> function, but it’s much trickier if you’re trying to filter data before loading them into R<sup id="fnref:4" role="doc-noteref"><a href="#fn:4" class="footnote" rel="footnote">4</a></sup>. Luckily, <code class="language-plaintext highlighter-rouge">st_read()</code> as you covered! The <code class="language-plaintext highlighter-rouge">wkt_filter</code> accepts a <a href="https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry">well-known text</a> string that can be used to filter the data before loading them into R<sup id="fnref:5" role="doc-noteref"><a href="#fn:5" class="footnote" rel="footnote">5</a></sup>. Well-known text is a standard string representation of geometry, and is actually how the sf package prints geometry in R:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">st_point</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>We want to use the <code class="language-plaintext highlighter-rouge">wkt_filter</code> argument to only load polygons that intersect with our Morocco polygon into R. To do that, we need to convert our polygon to a well-known text string with the <code class="language-plaintext highlighter-rouge">st_as_text()</code> function, then pass it to <code class="language-plaintext highlighter-rouge">st_read()</code>. However, <code class="language-plaintext highlighter-rouge">st_as_text()</code> only accepts <code class="language-plaintext highlighter-rouge">sfc</code> and <code class="language-plaintext highlighter-rouge">sfg</code> objects, not <code class="language-plaintext highlighter-rouge">sf</code> objects:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## create well known text object to filter cshapes on disk</span><span class="w">
+</span><span class="n">morocco_wkt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">st_as_text</span><span class="p">(</span><span class="n">morocco</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Error in UseMethod("st_as_text"): no applicable method for 'st_as_text' applied to an object of class "c('sf', 'data.frame')"
+</code></pre></div></div>
+
+<p>To get around this, we need to drop the data on morocco and extract just the geometry of the polygon with <code class="language-plaintext highlighter-rouge">st_geometry()</code>:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## create well known text object to filter cshapes on disk</span><span class="w">
+</span><span class="n">morocco_wkt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">morocco</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">st_geometry</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># convert to sfc</span><span class="w">
+  </span><span class="n">st_as_text</span><span class="p">()</span><span class="w"> </span><span class="c1"># convert to well known text</span><span class="w">
+
+</span><span class="c1">## plot morocco and neighbors</span><span class="w">
+</span><span class="n">st_read</span><span class="p">(</span><span class="s1">'cshapes.shp'</span><span class="p">,</span><span class="w"> </span><span class="n">wkt_filter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">morocco_wkt</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">st_geometry</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">plot</span><span class="p">(</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">morocco</span><span class="o">$</span><span class="n">CNTRY_NAME</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## add morocco polygon on top</span><span class="w">
+</span><span class="n">morocco</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">st_geometry</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">plot</span><span class="p">(</span><span class="n">add</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rgb</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">.5</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/spatial-sql/cshapes_wkt_filter-1.png" style="display: block; margin: auto;" /></p>
+
+<p>Notice that there are multiple polygon boundaries within the green area of our green Morocco polygon. That’s because there are 4 Morocco polygons in the data starting in 1956, 1958, 1976, and 1979. Be sure to filter the dataset, either as part of the SQL query or in a <code class="language-plaintext highlighter-rouge">dplyr::filter()</code> so that you only get polygons that existed contemporaneously with your polygon of interest.</p>
+
+<h2 id="wrapping-up">Wrapping up</h2>
+
+<p>So far, we’ve covered:</p>
+
+<ul>
+  <li>How to extract the first polygon for a spatial dataset and learn the names of identifier columns</li>
+  <li>How to strip the geometry from a spatial dataset and extract just a table of these columns</li>
+  <li>How to use these columns to iterate through the polygons in the dataset and import them one at a time, or along with their neighbors</li>
+</ul>
+
+<p>You can <em>technically</em> skip the first two steps and just move the <code class="language-plaintext highlighter-rouge">.shp</code> and <code class="language-plaintext highlighter-rouge">.shx</code> files out of the directory before loading the <code class="language-plaintext highlighter-rouge">.dbf</code> file with <code class="language-plaintext highlighter-rouge">st_read()</code>, but that kind of feels like cheating to me<sup id="fnref:6" role="doc-noteref"><a href="#fn:6" class="footnote" rel="footnote">6</a></sup> and it only works with shapefiles. If you have another type of spatial dataset, read on.</p>
+
+<h1 id="this-time-for-real">This time for real</h1>
+
+<p>In my research, I often need to work with spatial data that’s measured at or aggregated up to different <a href="https://en.wikipedia.org/wiki/Administrative_division">administrative divisions (ADMs)</a>. <a href="https://gadm.org/">GADM</a> helpfully provides a global dataset of ADMs. Although you can download ADMs for specific countries, I work with data in enough different countries that I finally decided to just download <a href="https://gadm.org/download_world.html">the entire dataset</a>. While the cshapes example above just illustrated how to implement a pipeline for working with spatial data on disk, you may actually need to use one with these data depending on your machine’s hardware.</p>
+
+<p>This master dataset comes as a <a href="https://www.geopackage.org/">GeoPackage</a>. Most importantly for us, that means we can’t just delete a few component files to load the non-spatial table from the dataset; we have to convert it from a spatial dataset to a non-spatial one with <code class="language-plaintext highlighter-rouge">ogr2ogr()</code>. The GeoPackage contains ADMs from level 0 (countries) all the way down to level 5. Each level is stored as a separate <em>layer</em> in the <code class="language-plaintext highlighter-rouge">.gpkg</code>, and we can get a list of available layers with the <code class="language-plaintext highlighter-rouge">st_layers()</code> function:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## get layers</span><span class="w">
+</span><span class="n">st_layers</span><span class="p">(</span><span class="s1">'~/Dropbox/Datasets/GADM/gadm34_levels_gpkg/gadm34_levels.gpkg'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Driver: GPKG 
+## Available layers:
+##   layer_name geometry_type features fields
+## 1     level0 Multi Polygon      256      2
+## 2     level1 Multi Polygon     3610     10
+## 3     level2 Multi Polygon    45962     13
+## 4     level3 Multi Polygon   147427     16
+## 5     level4 Multi Polygon   138053     14
+## 6     level5 Multi Polygon    51427     15
+</code></pre></div></div>
+
+<p>We want to work with the third-order administrative divisions (cities, towns, and other municipalities in the US context), so we need the <code class="language-plaintext highlighter-rouge">level3</code> layer. Where we just used the name of the dataset in our SQL call before, this time we’ll use <code class="language-plaintext highlighter-rouge">level3</code>. Now we just follow the same workflow as with the cshapes dataset above:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## get first observation</span><span class="w">
+</span><span class="n">level3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">st_read</span><span class="p">(</span><span class="s1">'~/Dropbox/Datasets/GADM/gadm34_levels_gpkg/gadm34_levels.gpkg'</span><span class="p">,</span><span class="w">
+                  </span><span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'SELECT * FROM "level3" WHERE FID = 1'</span><span class="p">,</span><span class="w"> </span><span class="n">layer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'level3'</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## inspect</span><span class="w">
+</span><span class="n">level3</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Simple feature collection with 1 feature and 16 fields
+## geometry type:  MULTIPOLYGON
+## dimension:      XY
+## bbox:           xmin: 13.08792 ymin: -8.010127 xmax: 13.59943 ymax: -7.708598
+## geographic CRS: WGS 84
+##   GID_0 NAME_0   GID_1 NAME_1 NL_NAME_1     GID_2 NAME_2 NL_NAME_2       GID_3 NAME_3 VARNAME_3
+## 1   AGO Angola AGO.1_1  Bengo      &lt;NA&gt; AGO.1.1_1 Ambriz      &lt;NA&gt; AGO.1.1.1_1 Ambriz      &lt;NA&gt;
+##   NL_NAME_3  TYPE_3 ENGTYPE_3 CC_3 HASC_3                           geom
+## 1      &lt;NA&gt; Commune   Commune &lt;NA&gt;   &lt;NA&gt; MULTIPOLYGON (((13.12764 -7...
+</code></pre></div></div>
+
+<p>This time we have a single column that uniquely identifies observations, <code class="language-plaintext highlighter-rouge">GID_3</code>, so we only have to extract one column from the dataset. We use the <code class="language-plaintext highlighter-rouge">ogr2ogr()</code> function as before, but we have to specify the <code class="language-plaintext highlighter-rouge">layer = 'level3'</code> argument since the GeoPackage has more than one layer and we want to work with a specific one. Since <code class="language-plaintext highlighter-rouge">GID_3</code> is our identifier column, that’s what we select from the dataset:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## convert to nonspatial geometry</span><span class="w">
+</span><span class="n">ogr2ogr</span><span class="p">(</span><span class="n">src_datasource_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'/Users/Rob/Dropbox/Datasets/GADM/gadm34_levels_gpkg/gadm34_levels.gpkg'</span><span class="p">,</span><span class="w">
+        </span><span class="n">dst_datasource_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'gadm34_levels_no_geom'</span><span class="p">,</span><span class="w">
+        </span><span class="n">layer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'level3'</span><span class="p">,</span><span class="w">
+        </span><span class="n">select</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'GID_3'</span><span class="p">,</span><span class="w">
+        </span><span class="n">nlt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'NONE'</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## load non-geometry table</span><span class="w">
+</span><span class="n">gadm_ids</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">st_read</span><span class="p">(</span><span class="s1">'gadm34_levels_no_geom/level3.dbf'</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## inspect</span><span class="w">
+</span><span class="n">head</span><span class="p">(</span><span class="n">gadm_ids</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>##         GID_3
+## 1 AGO.1.1.1_1
+## 2 AGO.1.1.2_1
+## 3 AGO.1.1.3_1
+## 4 AGO.1.2.1_1
+## 5 AGO.1.2.2_1
+## 6 AGO.1.2.3_1
+</code></pre></div></div>
+
+<p>And we can again read the polygons into R one at a time and perform whatever spatial operations we need. Since our identifying column is a string this time, we need to enclose it quotes in our SQL call. SQL is very picky about quotation mark types, so while we needed to surround our layer name with double quotes, we need to surround our identifier variable with single quotes. I’m already using single quotes to define the character string for the SQL call, so I need to escape the single quotes around the identifier. You can do this with a single backslash (<code class="language-plaintext highlighter-rouge">\</code>). Thus, you can include single quotes in a single-quoted string like this: <code class="language-plaintext highlighter-rouge">'this is a string \'this is another part of a string\''</code>. Other than that wrinkle, things are pretty much the same as with cshapes:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## for reproducibility</span><span class="w">
+</span><span class="n">set.seed</span><span class="p">(</span><span class="m">27599</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## set up four panel plot</span><span class="w">
+</span><span class="n">par</span><span class="p">(</span><span class="n">mfrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="n">mar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">2.1</span><span class="p">,</span><span class="w"> </span><span class="m">4.1</span><span class="p">,</span><span class="w"> </span><span class="m">4.1</span><span class="p">,</span><span class="w"> </span><span class="m">4.1</span><span class="p">))</span><span class="w">
+
+</span><span class="c1">## read in each polygon and plot</span><span class="w">
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">sample</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="n">nrow</span><span class="p">(</span><span class="n">gadm_ids</span><span class="p">),</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">F</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1"># mix it up</span><span class="w">
+  
+  </span><span class="c1">## build SQL query</span><span class="w">
+  </span><span class="n">query_str</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">str_c</span><span class="p">(</span><span class="s1">'SELECT * FROM "level3" WHERE GID_3 = \''</span><span class="p">,</span><span class="w">
+                     </span><span class="n">gadm_ids</span><span class="o">$</span><span class="n">GID_3</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="s1">'\''</span><span class="p">)</span><span class="w">
+  
+  </span><span class="c1">## read in polygon for ADM3 i</span><span class="w">
+  </span><span class="n">adm3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">st_read</span><span class="p">(</span><span class="s1">'~/Dropbox/Datasets/GADM/gadm34_levels_gpkg/gadm34_levels.gpkg'</span><span class="p">,</span><span class="w">
+                  </span><span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">query_str</span><span class="p">,</span><span class="w"> </span><span class="n">layer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'level3'</span><span class="p">)</span><span class="w">
+  
+  </span><span class="c1">## plot polygon and label with full name</span><span class="w">
+  </span><span class="n">print</span><span class="p">(</span><span class="n">plot</span><span class="p">(</span><span class="n">adm3</span><span class="o">$</span><span class="n">geom</span><span class="p">,</span><span class="w">
+             </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adm3</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+               </span><span class="n">select</span><span class="p">(</span><span class="n">starts_with</span><span class="p">(</span><span class="s1">'NAME_'</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># get all name variables</span><span class="w">
+               </span><span class="n">st_drop_geometry</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># drop geometry</span><span class="w">
+               </span><span class="n">rev</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># reverse order of names to 3, 2, 1, 0</span><span class="w">
+               </span><span class="n">str_c</span><span class="p">(</span><span class="n">collapse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">', '</span><span class="p">),</span><span class="w"> </span><span class="c1"># collapse w/ commas</span><span class="w">
+             </span><span class="n">cex.main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">.6</span><span class="p">))</span><span class="w">
+  
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/spatial-sql/gadm_plot_loop-1.png" style="display: block; margin: auto;" />
+Spatially filtering the GADM dataset is just as easy as with cshapes. To illustrate, I’m going to pull out a random polygon and use it to filter the data. However, these are third-order administrative divisions, and so it’s possible that even capturing all adjacent polygons won’t cover a very large area. To deal with this concern, we can <em>buffer</em> the polygon with the <code class="language-plaintext highlighter-rouge">st_buffer()</code> function before we convert it to well-known text:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## import single polygon</span><span class="w">
+</span><span class="n">adm3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">st_read</span><span class="p">(</span><span class="s1">'~/Dropbox/Datasets/GADM/gadm34_levels_gpkg/gadm34_levels.gpkg'</span><span class="p">,</span><span class="w">
+                  </span><span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_c</span><span class="p">(</span><span class="s1">'SELECT * FROM "level3" WHERE FID = 63130'</span><span class="p">))</span><span class="w">
+
+</span><span class="c1">## create well known text object to filter GADM on disk</span><span class="w">
+</span><span class="n">adm3_wkt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">adm3</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">st_geometry</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># convert to sfc</span><span class="w">
+  </span><span class="n">st_buffer</span><span class="p">(</span><span class="m">.025</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># buffer .05 decimal degrees</span><span class="w">
+  </span><span class="n">st_as_text</span><span class="p">()</span><span class="w"> </span><span class="c1"># convert to well known text</span><span class="w">
+
+</span><span class="c1">## plot Dakkoun and neighbors w/in .05 decimal degrees</span><span class="w">
+</span><span class="n">st_read</span><span class="p">(</span><span class="s1">'~/Dropbox/Datasets/GADM/gadm34_levels_gpkg/gadm34_levels.gpkg'</span><span class="p">,</span><span class="w">
+        </span><span class="n">layer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'level3'</span><span class="p">,</span><span class="w"> </span><span class="n">wkt_filter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adm3_wkt</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">st_geometry</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">plot</span><span class="p">(</span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adm3</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+               </span><span class="n">select</span><span class="p">(</span><span class="n">starts_with</span><span class="p">(</span><span class="s1">'NAME_'</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+               </span><span class="n">st_drop_geometry</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+               </span><span class="n">rev</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+               </span><span class="n">str_c</span><span class="p">(</span><span class="n">collapse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">', '</span><span class="p">))</span><span class="w">
+
+</span><span class="c1">## plot Dakkoun and highlight</span><span class="w">
+</span><span class="n">adm3</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">st_geometry</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">plot</span><span class="p">(</span><span class="n">add</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'green'</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## plot buffered polygon used to filter GADM on disk</span><span class="w">
+</span><span class="n">adm3</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">st_geometry</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">st_buffer</span><span class="p">(</span><span class="m">.025</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">st_cast</span><span class="p">(</span><span class="s1">'LINESTRING'</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">plot</span><span class="p">(</span><span class="n">add</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">T</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'blue'</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/posts/spatial-sql/gadm_wkt_filter_buffer-1.png" style="display: block; margin: auto;" /></p>
+
+<p>The green polygon above is Dakkoun, the 63,130th polygon in the the dataset. The blue line is the extent of the .025 decimal degree buffer applied to it to before filtering the dataset. This workflow can speed things up when working with these data, considering there are 884,562 third-order administrative division polygons in the dataset.</p>
+
+<h1 id="making-data-manageable">Making data manageable</h1>
+
+<p>The <code class="language-plaintext highlighter-rouge">query</code> and <code class="language-plaintext highlighter-rouge">wkt_filter</code> arguments to <code class="language-plaintext highlighter-rouge">st_read()</code> can help you work with large spatial datasets that are either too big to load into memory, or too slow to work with once loaded. While this is less of a concern with low resolution datasets created by social scientists, it can be incredibly useful if you ever have to work with super high resolution data created by remote sensing technologies or actual cartographers and geographers.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>This is the appraoch that the raster package uses. R only stores information on the extent and resolution of a raster in memory; the actual values in each cell of a raster are only loaded into memory when accessed by R using a function like <code class="language-plaintext highlighter-rouge">extract()</code>. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>Although I’m using cshapes as an example throughout this post so you can easily follow along and run the code yourself, it’s a small enough dataset that no modern machine should have trouble loading it. I also use this approach for a <a href="https://gadm.org/download_world.html">much larger dataset</a> where you’d actually benefit from this approach at <a href="#this-time-for-real">the end of this post</a>. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:3" role="doc-endnote">
+      <p>This function is just a wrapper around the GDAL utility <a href="https://gdal.org/programs/ogr2ogr.html#cmdoption-ogr2ogr-fid"><code class="language-plaintext highlighter-rouge">ogr2ogr</code></a>. You could also do this with <code class="language-plaintext highlighter-rouge">ogr2ogr</code> directly in the shell, but it’s much uglier: <code class="language-plaintext highlighter-rouge">ogr2ogr -f "ESRI SHAPEFILE" cshapes_no_geom.shp cshapes.shp cshapes -nlt NONE -select GWCODE,GWSYEAR,GWSMONTH,GWSDAY</code>. <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:4" role="doc-endnote">
+      <p><code class="language-plaintext highlighter-rouge">st_filter()</code> accepts various spatial predicates beyond the default of <code class="language-plaintext highlighter-rouge">st_intersects()</code>. This filtering on disk gives much less fine-grained control. If you need more precision, you can load more nearby polygons by buffering the polygon before filtering the input <a href="#this-time-for-real">like here</a> and then using <code class="language-plaintext highlighter-rouge">st_filter()</code> with your spatial predicate of choice. <a href="#fnref:4" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:5" role="doc-endnote">
+      <p>I spent over an hour trying to figure out how to tell the <code class="language-plaintext highlighter-rouge">query</code> parameter to use PostGIS or SpatiaLite dialects instead of the OGR SQL dialect so I could execute a spatial filter before finding the <code class="language-plaintext highlighter-rouge">wkt_filter</code> argument to <code class="language-plaintext highlighter-rouge">st_read()</code>. Always read the documentation carefully. <a href="#fnref:5" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:6" role="doc-endnote">
+      <p>Having to move or delete files also risks losing them; the <code class="language-plaintext highlighter-rouge">ogr2ogr()</code> approach is safer in this regard. <a href="#fnref:6" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="http://localhost:4000/tags/#data" class="page__taxonomy-item" rel="tag">data</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#gis" class="page__taxonomy-item" rel="tag">GIS</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#sql" class="page__taxonomy-item" rel="tag">SQL</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2020/09/spatial-sql" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2020/09/spatial-sql" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2020/09/spatial-sql" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="http://localhost:4000/posts/2020/09/jekyll-html" class="pagination--pager" title="Jekyll and HTML Widgets
+">Previous</a>
+    
+    
+      <a href="http://localhost:4000/posts/2020/10/jeykll-footnotes" class="pagination--pager" title="R Markdown, Jekyll, and Footnotes
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+        
+        
+        
+        
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2021/05/geom-sf-facet" rel="permalink">Faceted maps in R
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2021-05-19T00:00:00-05:00">May 19, 2021</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>I recently needed to create a choropleth of a few different countries
+for a project on targeting of UN peacekeepers by non-state armed actors
+I’m working on. A
+<a href="https://en.wikipedia.org/wiki/Choropleth_map">choropleth</a> is a type of
+thematic map where data are aggregated up from smaller areas (or
+discrete points) to larger ones and then visualized using different
+colors to represent different numeric values.</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2021/01/gps-gis-osm" rel="permalink">Finding Backcountry Campsites with CalTopo, OpenStreetMap, and R
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2021-01-04T00:00:00-06:00">January 04, 2021</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>Like many people, I’ve been spending more time outdoors during this pandemic.
+While this means daily walks in my neighborhood, it also means getting out into
+the wilderness and sleeping in a tent when I can. Although outdoor recreation
+is one of the safer ways to entertain yourself these days, it’s not without its
+own <a href="https://www.recreateresponsibly.org/home">concerns</a>. The difficulty of
+safely getting to trailheads means that while I’m backpacking more than usual,
+it’s still not as often as I’d like.</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2020/09/jekyll-html" rel="permalink">Jekyll and HTML Widgets
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2020-09-19T00:00:00-05:00">September 19, 2020</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>I’m currently compiling a list of university-affiliated programs
+designed to help prepare students for graduate study in political
+science and assist them in the process of applying to graduate school (a
+labyrinthine and opaque process in many regards). Since travel costs can
+be a deciding factor for some students when deciding whether to apply to
+these programs, I thought it would be nice to also put them on a map.</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+              
+        
+        
+        
+        
+          
+      </div>
+    </div>
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<a href="/sitemap/">Sitemap</a>
+<!-- end custom footer snippets -->
+
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/crystalamariano"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="http://localhost:4000/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Crystal A. Mariano. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <script src="http://localhost:4000/assets/js/main.min.js"></script>
+
+
+
+
+
+  </body>
+</html>
+

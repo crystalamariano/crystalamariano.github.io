@@ -1,0 +1,810 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Jekyll and HTML Widgets - Crystal A. Mariano</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Crystal A. Mariano">
+<meta property="og:title" content="Jekyll and HTML Widgets">
+
+
+  <link rel="canonical" href="http://localhost:4000/posts/2020/09/jekyll-html">
+  <meta property="og:url" content="http://localhost:4000/posts/2020/09/jekyll-html">
+
+
+
+  <meta property="og:description" content="I’m currently compiling a list of university-affiliated programsdesigned to help prepare students for graduate study in politicalscience and assist them in the process of applying to graduate school (alabyrinthine and opaque process in many regards). Since travel costs canbe a deciding factor for some students when deciding whether to apply tothese programs, I thought it would be nice to also put them on a map.">
+
+
+
+
+
+  
+
+  
+
+
+
+  <meta property="og:image" content="http://localhost:4000/images/posts/jekyll-html/map.png">
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2020-09-19T00:00:00-05:00">
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "url": "http://localhost:4000",
+      "logo": "http://localhost:4000/images/profile.png"
+    }
+  </script>
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Crystal A. Mariano",
+      "url" : "http://localhost:4000",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Crystal A. Mariano Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72.png?v=20201130">
+<link rel="apple-touch-icon" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114.png?v=20201130">
+<link rel="apple-touch-icon" sizes="120x120" href="http://localhost:4000/images/apple-touch-icon-120x120.png?v=20201130">
+<link rel="apple-touch-icon" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144.png?v=20201130">
+<link rel="apple-touch-icon" sizes="152x152" href="http://localhost:4000/images/apple-touch-icon-152x152.png?v=20201130">
+<link rel="apple-touch-icon" sizes="180x180" href="http://localhost:4000/images/apple-touch-icon-180x180.png?v=20201130">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-32x32.png?v=20201130" sizes="32x32">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/android-chrome-192x192.png?v=20201130" sizes="192x192">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-16x16.png?v=20201130" sizes="16x16">
+<link rel="manifest" href="http://localhost:4000/images/manifest.json?v=20201130">
+<link rel="mask-icon" href="http://localhost:4000/images/safari-pinned-tab.svg?v=20201130" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=20201130">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="http://localhost:4000/images/mstile-150x150.png?v=20201130">
+<meta name="msapplication-config" content="http://localhost:4000/images/browserconfig.xml?v=20201130">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="http://localhost:4000/">Crystal A. Mariano</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/research/">Research</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/teaching/">Teaching</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/cv/">CV</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="http://localhost:4000/images/profile.png" class="author__avatar" alt="Crystal A. Mariano">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Crystal A. Mariano</h3>
+    <p class="author__bio"><ul style="padding: 0;list-style-type: none;"><li style="margin: 0;"><b>NSF GRFP Fellow</b></li><li style="margin: 0;">Mechanical Engineering</li> <li style="margin: 0;">Bioengineering, B.S.</li></ul></p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+      
+      
+      
+        <li><a href="mailto:cmari010@ucr.edu"><i class="fas fa-fw fa-envelope" aria-hidden="true" style="padding-right: 1.5em;"></i>Email</a></li>
+      
+      
+       
+      
+      
+      
+      
+        <li><a href="https://www.linkedin.com/in/crystal-a-mariano"><i class="fab fa-fw fa-linkedin" aria-hidden="true" style="padding-right: 1.5em;"></i>LinkedIn</a></li>
+      
+      
+      
+      
+      
+      
+        <li><a href="https://github.com/crystalamariano"><i class="fab fa-fw fa-github" aria-hidden="true" style="padding-right: 1.5em;"></i>GitHub</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="http://orcid.org/0000-0001-5765-4193"><i class="ai ai-orcid ai-fw" aria-hidden="true" style="padding-right: 1.5em;"></i>ORCID</a></li>
+      
+      
+        <li><a href="https://scholar.google.com/citations?user=6p4xG5MAAAAJ&hl=en&oi=ao"><i class="fas fa-fw fa-graduation-cap" aria-hidden="true" style="padding-right: 1.5em;"></i>Google Scholar</a></li>
+      
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Jekyll and HTML Widgets">
+    <meta itemprop="description" content="I’m currently compiling a list of university-affiliated programsdesigned to help prepare students for graduate study in politicalscience and assist them in the process of applying to graduate school (alabyrinthine and opaque process in many regards). Since travel costs canbe a deciding factor for some students when deciding whether to apply tothese programs, I thought it would be nice to also put them on a map.">
+    <meta itemprop="datePublished" content="September 19, 2020">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Jekyll and HTML Widgets
+</h1>
+          
+        
+        
+        
+          <p class="page__date">
+            <i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="1900-01-01T00:00:00-06:00">September 19, 2020</time>
+            <span style="float:right;"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  9 minute read
+	
+</span>
+          </p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-align-justify"></i> On This Page</h4></header>
+              <ul class="toc__menu"><li><a href="#leaflet">Leaflet</a><ul><li><a href="#map-it">Map it</a></li></ul></li><li><a href="#r-markdown-html-widgets-and-jekyll">R Markdown, HTML widgets, and Jekyll</a><ul><li><a href="#frame-it">Frame it</a></li></ul></li><li><a href="#the-finished-product">The finished product</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>I’m currently compiling a list of university-affiliated programs
+designed to help prepare students for graduate study in political
+science and assist them in the process of applying to graduate school (a
+labyrinthine and opaque process in many regards). Since travel costs can
+be a deciding factor for some students when deciding whether to apply to
+these programs, I thought it would be nice to also put them on a map.</p>
+
+<!--more-->
+
+<p>While just plotting them on a map is easy, since it will be on a web
+page, I figured why not also embed links to each program in the map as
+well. In theory this is easy thanks to R packages like
+<a href="https://rstudio.github.io/leaflet/">leaflet</a>, which leverages the
+(unsurprisingly named) <a href="https://leafletjs.com/">leaflet</a> JavaScript
+library for interactive webmaps. However, because I use
+<a href="https://jekyllrb.com/">Jekyll</a> instead of <a href="https://gohugo.io/">Hugo</a>
+for my site, I can’t just use the
+<a href="https://bookdown.org/yihui/blogdown/">blogdown</a> R package and have
+everything magically work.</p>
+
+<p>Steven Miller’s tutorial on <a href="http://svmiller.com/blog/2019/08/two-helpful-rmarkdown-jekyll-tips/">integrating R Markdown and
+Jekyll</a>
+is the starting point my own use of R Markdown and Jekyll, so check that
+out first for a quick primer on how to use R Markdown to render <code class="language-plaintext highlighter-rouge">.Rmd</code>
+files into the <code class="language-plaintext highlighter-rouge">.md</code> files that Jekyll uses to render your website. This
+approach works fantastically well for static images, and requires just a
+little tweaking to make interactive widgets like leaflet maps work.</p>
+
+<h1 id="leaflet">Leaflet</h1>
+
+<p>We’ll use three packages to create our map. The tidyverse is pretty
+well-documented at this point, but I use it to write efficient and
+readable code. <code class="language-plaintext highlighter-rouge">tidygeocoder</code> is a geocoder that can use a variety of
+geocoding services and works well with data frames and tibbles. Finally,
+<code class="language-plaintext highlighter-rouge">leaflet</code> is what we’ll use to create our actual map widget.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">tidygeocoder</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">leaflet</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>First, we need to load our data. This is a CSV file of program
+information that I’ve compiled myself.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## read in data</span><span class="w">
+</span><span class="n">predoc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'predoc.csv'</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## inspect the data</span><span class="w">
+</span><span class="n">predoc</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## # A tibble: 9 x 4
+##   Institution          Name                     Location      URL                                   
+##   &lt;chr&gt;                &lt;chr&gt;                    &lt;chr&gt;         &lt;chr&gt;                                 
+## 1 University of South… POIR Predoctoral Summer… Los Angeles,… https://dornsife.usc.edu/poir/predoct…
+## 2 Duke University      Ralph Bunche Summer Ins… Durham, NC, … https://www.apsanet.org/rbsi          
+## 3 UC San Diego         START                    La Jolla, CA… https://grad.ucsd.edu/diversity/progr…
+## 4 MIT                  MSRP                     Cambridge, M… https://oge.mit.edu/graddiversity/msr…
+## 5 UC Irvine            SURF                     Irvine, CA, … https://grad.uci.edu/about-us/diversi…
+## 6 University of Washi… NSF REU: Spatial Models… Tacoma, WA, … https://www.tacoma.uw.edu/smed/nsf-re…
+## 7 University of North… NSF REU: Civil Conflict… Denton, TX, … https://untconflictmgmtreu.wordpress.…
+## 8 Princeton University Emerging Scholars in Po… Princeton, N… https://politics.princeton.edu/gradua…
+## 9 Harvard University   PS-Prep                  Cambridge, M… https://projects.iq.harvard.edu/ps-pr…
+</code></pre></div></div>
+
+<p>First, we need to get latitude and longitude coordinates from our place
+names to plot them on a map. We’ll use the <code class="language-plaintext highlighter-rouge">geocode()</code> function, where
+the first argument is a data frame containing a column with the location
+information we want to use. The second argument is <code class="language-plaintext highlighter-rouge">address</code>, which
+tells the geocoder to use the information stored in the Address column
+of our data frame, and then <code class="language-plaintext highlighter-rouge">method = 'osm'</code> dispatches it to the Open
+Street Map geocoder,
+<a href="https://wiki.openstreetmap.org/wiki/Nominatim">Nominatim</a>.</p>
+
+<p>Next, we’ll use <code class="language-plaintext highlighter-rouge">mutate()</code> to create a new variable to hold the popup
+text a user will see when they click on a point. I want to provide the
+university name, the program’s name, and then a link to the program’s
+information page. I use the <code class="language-plaintext highlighter-rouge">str_c()</code> function to combine the
+Institution and Name columns, and then I use <em>another</em> call to <code class="language-plaintext highlighter-rouge">str_c()</code>
+to format the URL. This second call looks like <code class="language-plaintext highlighter-rouge">str_c('&lt;a href="', URL,
+'" target="_PARENT"&gt;Program Info&lt;/a&gt;')</code>, where URL is the name of the
+URL field. It combines the standard start of an HTML anchor tag (<code class="language-plaintext highlighter-rouge">&lt;a
+href="</code>) with the URL itself, adds the link text of “Program Info”, and
+then closes the tag. The one unusual element is <code class="language-plaintext highlighter-rouge">target="_PARENT"</code> in
+the anchor tag. This is necessary to make any links a user clicks open
+normally, instead of within the frame used to embed it into the page
+(more on that <a href="#frame-it">later</a>).</p>
+
+<p>Once we’ve prepped our popup text, we just pass the data frame to
+<code class="language-plaintext highlighter-rouge">leaflet()</code>, add a background map (I’ve used a styled map, but you can
+also get the default map with <code class="language-plaintext highlighter-rouge">addTiles()</code>), and then the markers
+themselves. The one tricky part of <code class="language-plaintext highlighter-rouge">addMarkers()</code> is that it expects its
+arguments as one-sided formulas, not just variable names like tidyverse
+functions. <code class="language-plaintext highlighter-rouge">geocode()</code> has created lat and long columns, so pass those
+through as well as our label column, and we’re good to go.</p>
+
+<h2 id="map-it">Map it</h2>
+
+<p>Putting all the above code together in a pipeline looks like this:</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## prep and plot</span><span class="w">
+</span><span class="n">predoc</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">geocode</span><span class="p">(</span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Location</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'osm'</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1">## gecode locations</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">lab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_c</span><span class="p">(</span><span class="n">Institution</span><span class="p">,</span><span class="w"> </span><span class="n">Name</span><span class="p">,</span><span class="w">
+                     </span><span class="n">str_c</span><span class="p">(</span><span class="s1">'&lt;a href="'</span><span class="p">,</span><span class="w"> </span><span class="n">URL</span><span class="p">,</span><span class="w"> </span><span class="s1">'" target="_PARENT"&gt;Program Info&lt;/a&gt;'</span><span class="p">),</span><span class="w">
+                     </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'&lt;br&gt;'</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># paste fields into popup text</span><span class="w">
+  </span><span class="n">leaflet</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># create leaflet map widget</span><span class="w">
+  </span><span class="n">addProviderTiles</span><span class="p">(</span><span class="n">providers</span><span class="o">$</span><span class="n">CartoDB.Positron</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># add muted palette basemap</span><span class="w">
+  </span><span class="n">addMarkers</span><span class="p">(</span><span class="n">lng</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">long</span><span class="p">,</span><span class="w"> </span><span class="n">lat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">popup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">lab</span><span class="p">)</span><span class="w"> </span><span class="c1"># add markers with popup text</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Unfortunately this code produces an error that stops R Markdown dead in
+its tracks; like, the-<code class="language-plaintext highlighter-rouge">error = T</code>-knitr-chunk-option-won’t-even-save-you
+dead in its tracks. What gives? R Markdown is supposed to be able to
+render interactive widgets no problem. The issue is that R Markdown can
+render those widgets for HTML output, but since we’re creating a <a href="https://github.github.com/gfm/">GitHub
+Flavored Markdown</a> document that Jekyll
+then turns into HTML, R Markdown chokes. It can’t embed an HTML widget
+into a plain text markdown document. Luckily there is a way around this,
+but it involves an extra step and dealing with some file paths.</p>
+
+<h1 id="r-markdown-html-widgets-and-jekyll">R Markdown, HTML widgets, and Jekyll</h1>
+
+<p>To make things work, we have to manually save the HTML from our widget,
+and then embed it into our resulting markdown document. Then, when
+Jekyll renders the markdown to HTML, it will be visible in the final
+HTML files that comprise your website. This involves telling R where to
+save the HTML, then referencing it using raw HTML code in our markdown
+document. We’re going to do this with the
+<a href="https://github.com/ramnathv/htmlwidgets">htmlwidgets</a> R package.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">## load htmlwidgets to save map widget</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">htmlwidgets</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">## prep and plot</span><span class="w">
+</span><span class="n">predoc</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">geocode</span><span class="p">(</span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Location</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'osm'</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1">## gecode locations</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">lab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_c</span><span class="p">(</span><span class="n">Institution</span><span class="p">,</span><span class="w"> </span><span class="n">Name</span><span class="p">,</span><span class="w">
+                     </span><span class="n">str_c</span><span class="p">(</span><span class="s1">'&lt;a href="'</span><span class="p">,</span><span class="w"> </span><span class="n">URL</span><span class="p">,</span><span class="w"> </span><span class="s1">'" target="_PARENT"&gt;Program Info&lt;/a&gt;'</span><span class="p">),</span><span class="w">
+                     </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'&lt;br&gt;'</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># paste fields into popup text</span><span class="w">
+  </span><span class="n">leaflet</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># create leaflet map widget</span><span class="w">
+  </span><span class="n">addProviderTiles</span><span class="p">(</span><span class="n">providers</span><span class="o">$</span><span class="n">CartoDB.Positron</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># add muted palette basemap</span><span class="w">
+  </span><span class="n">addMarkers</span><span class="p">(</span><span class="n">lng</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">long</span><span class="p">,</span><span class="w"> </span><span class="n">lat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">popup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">lab</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># add markers with popup text</span><span class="w">
+  </span><span class="n">saveWidget</span><span class="p">(</span><span class="n">here</span><span class="o">::</span><span class="n">here</span><span class="p">(</span><span class="s1">'/files/html/posts'</span><span class="p">,</span><span class="w"> </span><span class="s1">'predoc_map.html'</span><span class="p">))</span><span class="w"> </span><span class="c1"># save map widget</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The code is identical to that above, with the addition of the file line
+that saves the map widget as an HTML file called <code class="language-plaintext highlighter-rouge">predoc_map.html</code> in
+<code class="language-plaintext highlighter-rouge">/files/html/posts</code> using the <code class="language-plaintext highlighter-rouge">saveWidget()</code> function. You’ll notice I
+use the <code class="language-plaintext highlighter-rouge">here()</code> function from the
+<a href="https://github.com/jennybc/here_here">here</a> R package to supply the
+<code class="language-plaintext highlighter-rouge">file</code> argument to <code class="language-plaintext highlighter-rouge">saveWidget()</code>. <code class="language-plaintext highlighter-rouge">here</code> is great because it very
+intelligently finds the top level of whatever project you’re working on
+and then constructs file paths from there. It has a number of ways to
+determine where a project ‘starts’, but for us it works because our
+website is a git repo and contains a <code class="language-plaintext highlighter-rouge">.git</code> directory.</p>
+
+<h2 id="frame-it">Frame it</h2>
+
+<p>All that’s left to do is embed the map widget in the page using an
+<a href="https://www.w3schools.com/tags/tag_iframe.asp">iframe</a>. iframes allow
+you to embed an HTML page inside of another HTML page. Since
+<code class="language-plaintext highlighter-rouge">saveWidget()</code> saved our map widget as an HTML file that’s nothing but
+our map, we can then embed it into our page using an iframe. Jekyll
+allows raw HTML in markdown files which it ignores and passes through
+untouched into the final HTML files it produces. Here’s the code I used
+for the map in this post.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;iframe</span> <span class="na">src=</span><span class="s">"/files/html/posts/predoc_map.html"</span> <span class="na">height=</span><span class="s">"600px"</span> <span class="na">width=</span><span class="s">"100%"</span> <span class="na">style=</span><span class="s">"border:none;"</span><span class="nt">&gt;&lt;/iframe&gt;</span>
+</code></pre></div></div>
+
+<p>The main argument is <code class="language-plaintext highlighter-rouge">src="..."</code>, which tells the iframe what content it
+will contain. Notice that this is the same file path I just specified
+above in <code class="language-plaintext highlighter-rouge">saveWidget()</code>. As long as that directory exists in your
+website repo, everything will work smoothly. There are three important
+arguments in addition to the content of the iframe itself:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">height</code> is how tall you want the iframe to be; here I’ve specified
+it in pixels, but you can also use inches, centimeters, or
+percentages as you’ll see below</li>
+  <li><code class="language-plaintext highlighter-rouge">width</code> is how wide you want the iframe to be; I’ve used a
+percentage here because the
+<a href="https://academicpages.github.io/">AcademicPages</a> template is
+responsive and will resize itself on smaller screens</li>
+  <li><code class="language-plaintext highlighter-rouge">style</code> is where I tell the iframe not to include a border so it
+blends seamlessly with the rest of the page</li>
+</ul>
+
+<h1 id="the-finished-product">The finished product</h1>
+
+<p>Here’s what the final map looks like. If you didn’t know the extra
+effort it took, it would blend seamlessly into the page. Theoretically
+this <em>should</em> work for any HTML widget, like those produced by the
+<code class="language-plaintext highlighter-rouge">plotly</code> R package. If you haven’t checked <code class="language-plaintext highlighter-rouge">plotly</code> out, you really
+should. It can turn <code class="language-plaintext highlighter-rouge">ggplot2</code> plots into interactive widgets with a
+single line of code!</p>
+
+<iframe src="/files/html/posts/predoc_map.html" height="600px" width="100%" style="border:none;">
+
+</iframe>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="http://localhost:4000/tags/#data" class="page__taxonomy-item" rel="tag">data</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#jekyll" class="page__taxonomy-item" rel="tag">jekyll</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#rmarkdown" class="page__taxonomy-item" rel="tag">rmarkdown</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#visualization" class="page__taxonomy-item" rel="tag">visualization</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2020/09/jekyll-html" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2020/09/jekyll-html" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2020/09/jekyll-html" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="http://localhost:4000/posts/2020/08/pdf-data/" class="pagination--pager" title="Extracting UN Peacekeeping Data from PDF Files
+">Previous</a>
+    
+    
+      <a href="http://localhost:4000/posts/2020/09/spatial-sql" class="pagination--pager" title="Working with Large Spatial Data in R
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+        
+        
+        
+        
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2022/03/so-it-goes" rel="permalink">So it goes
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2022-03-31T00:00:00-05:00">March 31, 2022</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>When I was applying to graduate school and asking for letters of
+recommendation from my undergrad professors, one of them told me to give
+academia three years, and that if I hadn’t found a permanent position by
+then, to find another career. It’s been three years, and next week I
+start a new job as a data scientist. I read a fair bit of <a href="https://blogs.lse.ac.uk/impactofsocialsciences/2021/08/18/reading-academic-quit-lit-how-and-why-precarious-scholars-leave-academia">quit
+lit</a>
+in my first couple years of grad school and always told myself that if I
+went that same route, I would never pen any of my own…</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2021/05/geom-sf-facet" rel="permalink">Faceted maps in R
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2021-05-19T00:00:00-05:00">May 19, 2021</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>I recently needed to create a choropleth of a few different countries
+for a project on targeting of UN peacekeepers by non-state armed actors
+I’m working on. A
+<a href="https://en.wikipedia.org/wiki/Choropleth_map">choropleth</a> is a type of
+thematic map where data are aggregated up from smaller areas (or
+discrete points) to larger ones and then visualized using different
+colors to represent different numeric values.</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2020/10/jeykll-footnotes" rel="permalink">R Markdown, Jekyll, and Footnotes
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2020-10-26T00:00:00-05:00">October 26, 2020</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>I use <a href="https://jekyllrb.com/">jekyll</a> to create my website. Jekyll converts Markdown files into the HTML that your browser renders into the pages you see. As <a href="http://svmiller.com/blog/2019/08/two-helpful-rmarkdown-jekyll-tips/">others</a> and <a href="/posts/2020/09/jekyll-html">I</a> have written before, it’s pretty easy to use <a href="https://rmarkdown.rstudio.com/">R Markdown</a> to generate pages with R code and output all together. One thing has consistently eluded me, however: footnotes.</p>
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+              
+        
+        
+        
+        
+          
+      </div>
+    </div>
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<a href="/sitemap/">Sitemap</a>
+<!-- end custom footer snippets -->
+
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/crystalamariano"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="http://localhost:4000/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Crystal A. Mariano. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <script src="http://localhost:4000/assets/js/main.min.js"></script>
+
+
+
+
+
+  </body>
+</html>
+

@@ -1,0 +1,1003 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Better Beamer Presentations the Easy Way - Crystal A. Mariano</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Crystal A. Mariano">
+<meta property="og:title" content="Better Beamer Presentations the Easy Way">
+
+
+  <link rel="canonical" href="http://localhost:4000/posts/2019/10/better-beamer">
+  <meta property="og:url" content="http://localhost:4000/posts/2019/10/better-beamer">
+
+
+
+  <meta property="og:description" content="Everyone knows that Beamer makes frankly terrible presentations without a good deal of help. A well crafted Beamer presentation can be a thing of beauty, especially since you can use knitr or R Markdown to automatically generate tables and figures, but it takes a lot of work.">
+
+
+
+
+
+  
+
+  
+
+
+
+  <meta property="og:image" content="http://localhost:4000/images/posts/beamer/Slide_Better_Equation.png">
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2019-10-01T00:00:00-05:00">
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "url": "http://localhost:4000",
+      "logo": "http://localhost:4000/images/profile.png"
+    }
+  </script>
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Crystal A. Mariano",
+      "url" : "http://localhost:4000",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Crystal A. Mariano Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72.png?v=20201130">
+<link rel="apple-touch-icon" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114.png?v=20201130">
+<link rel="apple-touch-icon" sizes="120x120" href="http://localhost:4000/images/apple-touch-icon-120x120.png?v=20201130">
+<link rel="apple-touch-icon" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144.png?v=20201130">
+<link rel="apple-touch-icon" sizes="152x152" href="http://localhost:4000/images/apple-touch-icon-152x152.png?v=20201130">
+<link rel="apple-touch-icon" sizes="180x180" href="http://localhost:4000/images/apple-touch-icon-180x180.png?v=20201130">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-32x32.png?v=20201130" sizes="32x32">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/android-chrome-192x192.png?v=20201130" sizes="192x192">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-16x16.png?v=20201130" sizes="16x16">
+<link rel="manifest" href="http://localhost:4000/images/manifest.json?v=20201130">
+<link rel="mask-icon" href="http://localhost:4000/images/safari-pinned-tab.svg?v=20201130" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=20201130">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="http://localhost:4000/images/mstile-150x150.png?v=20201130">
+<meta name="msapplication-config" content="http://localhost:4000/images/browserconfig.xml?v=20201130">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="http://localhost:4000/">Crystal A. Mariano</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/research/">Research</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/teaching/">Teaching</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/cv/">CV</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="http://localhost:4000/images/profile.png" class="author__avatar" alt="Crystal A. Mariano">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Crystal A. Mariano</h3>
+    <p class="author__bio"><ul style="padding: 0;list-style-type: none;"><li style="margin: 0;"><b>NSF GRFP Fellow</b></li><li style="margin: 0;">Mechanical Engineering</li> <li style="margin: 0;">Bioengineering, B.S.</li></ul></p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+      
+      
+      
+        <li><a href="mailto:cmari010@ucr.edu"><i class="fas fa-fw fa-envelope" aria-hidden="true" style="padding-right: 1.5em;"></i>Email</a></li>
+      
+      
+       
+      
+      
+      
+      
+        <li><a href="https://www.linkedin.com/in/crystal-a-mariano"><i class="fab fa-fw fa-linkedin" aria-hidden="true" style="padding-right: 1.5em;"></i>LinkedIn</a></li>
+      
+      
+      
+      
+      
+      
+        <li><a href="https://github.com/crystalamariano"><i class="fab fa-fw fa-github" aria-hidden="true" style="padding-right: 1.5em;"></i>GitHub</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="http://orcid.org/0000-0001-5765-4193"><i class="ai ai-orcid ai-fw" aria-hidden="true" style="padding-right: 1.5em;"></i>ORCID</a></li>
+      
+      
+        <li><a href="https://scholar.google.com/citations?user=6p4xG5MAAAAJ&hl=en&oi=ao"><i class="fas fa-fw fa-graduation-cap" aria-hidden="true" style="padding-right: 1.5em;"></i>Google Scholar</a></li>
+      
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Better Beamer Presentations the Easy Way">
+    <meta itemprop="description" content="Everyone knows that Beamer makes frankly terrible presentations without a good deal of help. A well crafted Beamer presentation can be a thing of beauty, especially since you can use knitr or R Markdown to automatically generate tables and figures, but it takes a lot of work.">
+    <meta itemprop="datePublished" content="October 01, 2019">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Better Beamer Presentations the Easy Way
+</h1>
+          
+        
+        
+        
+          <p class="page__date">
+            <i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="1900-01-01T00:00:00-06:00">October 01, 2019</time>
+            <span style="float:right;"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  9 minute read
+	
+</span>
+          </p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-align-justify"></i> On This Page</h4></header>
+              <ul class="toc__menu"><li><a href="#three-little-tricks">Three little tricks</a><ul><li><a href="#give-me-some-space">Give me some space</a></li><li><a href="#super-size-it">Super size it</a></li><li><a href="#dont-forget-numbers">Don’t forget numbers</a></li></ul></li><li><a href="#all-together-now">All together now</a></li><li><a href="#r-markdown">R Markdown</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>Everyone knows that Beamer makes frankly terrible presentations without a good deal of help. A well crafted Beamer presentation can be a thing of beauty, especially since you can use knitr or R Markdown to automatically generate tables and figures, but it takes <em>a lot</em> of work.
+<!--more-->
+We all have our own little tricks to do things like get more space between items in a list (ending every <code class="language-plaintext highlighter-rouge">\item</code> line with <code class="language-plaintext highlighter-rouge">\\~\\</code>) and the simple but repetitive tasks we have to do every single slide (opening a <code class="language-plaintext highlighter-rouge">\Large</code> environment to make text more readable).</p>
+
+<h1 id="three-little-tricks">Three little tricks</h1>
+
+<p>I finally got tired of all this and decided to waste a lot of time now to save even more time later. To do that, I headed to Stack Exchange and started digging into the Beamer documentation.</p>
+
+<h2 id="give-me-some-space">Give me some space</h2>
+
+<p>We’ll start with the base Beamer class. There are a number of Beamer <a href="https://hartwork.org/beamer-theme-matrix/">themes</a> that are much better than the default theme, but I’m going to focus on things we can do to improve even the default theme. Here’s our humble starting point.</p>
+
+<div class="language-latex highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">\documentclass</span><span class="p">{</span>beamer<span class="p">}</span>
+
+<span class="nt">\begin{document}</span>
+	
+<span class="nt">\begin{frame}</span>[fragile]<span class="p">{</span>My default slide<span class="p">}</span>
+	<span class="nt">\begin{itemize}</span>
+		<span class="k">\item</span> Foo
+		<span class="k">\item</span> Bar
+		<span class="nt">\begin{itemize}</span>
+			<span class="k">\item</span> Below is an equation
+			<span class="p">\[</span><span class="nb"> y </span><span class="o">=</span><span class="nb"> mx </span><span class="o">+</span><span class="nb"> b </span><span class="p">\]</span>
+			<span class="k">\item</span> It is very hard to read
+		<span class="nt">\end{itemize}</span>
+		<span class="k">\item</span> Baz
+	<span class="nt">\end{itemize}</span>
+<span class="nt">\end{frame}</span>
+
+<span class="nt">\end{document}</span>
+</code></pre></div></div>
+
+<p><img src="/images/posts/beamer/Slide_Default.png" alt="" /></p>
+
+<p>The first thing anyone who’s ever taken a graphic design class will tell you is that we need to space out those lines. With them all crammed in the middle, they’re harder to read and there’s ton of empty space up top and down below. We can insert a <code class="language-plaintext highlighter-rouge">\vfill</code> at the top and bottom of the slide, and between each line, but this gets old quickly. After plenty of googling and a few less than perfect solutions, I came across this Stack Exchange <a href="https://tex.stackexchange.com/questions/369504#369597">answer</a>. By adding the following code to your preamble, any items in a <code class="language-plaintext highlighter-rouge">\itemize</code> environment will be evenly spaced vertically.</p>
+
+<div class="language-latex highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">\makeatletter</span>
+<span class="k">\renewcommand</span><span class="p">{</span><span class="k">\itemize</span><span class="p">}</span>[1][]<span class="p">{</span><span class="c">%</span>
+	<span class="k">\beamer</span>@ifempty<span class="p">{</span>#1<span class="p">}{}{</span><span class="k">\def\beamer</span>@defaultospec<span class="p">{</span>#1<span class="p">}}</span><span class="c">%</span>
+	<span class="k">\ifnum</span> <span class="k">\@</span>itemdepth &gt;2<span class="k">\relax\@</span>toodeep<span class="k">\else</span>
+	<span class="k">\advance\@</span>itemdepth<span class="k">\@</span>ne
+	<span class="k">\beamer</span>@computepref<span class="k">\@</span>itemdepth<span class="c">% sets \beameritemnestingprefix</span>
+	<span class="k">\usebeamerfont</span><span class="p">{</span>itemize/enumerate <span class="k">\beameritemnestingprefix</span> body<span class="p">}</span><span class="c">%</span>
+	<span class="k">\usebeamercolor</span><span class="na">[fg]</span><span class="p">{</span>itemize/enumerate <span class="k">\beameritemnestingprefix</span> body<span class="p">}</span><span class="c">%</span>
+	<span class="k">\usebeamertemplate</span><span class="p">{</span>itemize/enumerate <span class="k">\beameritemnestingprefix</span> body begin<span class="p">}</span><span class="c">%</span>
+	<span class="k">\list</span>
+	<span class="p">{</span><span class="k">\usebeamertemplate</span><span class="p">{</span>itemize <span class="k">\beameritemnestingprefix</span> item<span class="p">}}</span>
+	<span class="p">{</span><span class="k">\def\makelabel</span>##1<span class="p">{</span><span class="c">%</span>
+			<span class="p">{</span><span class="c">%</span>
+				<span class="k">\hss\llap</span><span class="p">{{</span><span class="c">%</span>
+						<span class="k">\usebeamerfont*</span><span class="p">{</span>itemize <span class="k">\beameritemnestingprefix</span> item<span class="p">}</span><span class="c">%</span>
+						<span class="k">\usebeamercolor</span><span class="na">[fg]</span><span class="p">{</span>itemize <span class="k">\beameritemnestingprefix</span> item<span class="p">}</span>##1<span class="p">}}</span><span class="c">%</span>
+			<span class="p">}</span><span class="c">%</span>
+		<span class="p">}</span><span class="c">%</span>
+	<span class="p">}</span>
+	<span class="k">\fi</span><span class="c">%</span>
+	<span class="k">\setlength\itemsep</span><span class="p">{</span><span class="k">\fill</span><span class="p">}</span>
+	<span class="k">\ifnum</span> <span class="k">\@</span>itemdepth &gt;1
+	<span class="k">\vfill</span>
+	<span class="k">\fi</span><span class="c">%  </span>
+	<span class="k">\beamer</span>@cramped<span class="c">%</span>
+	<span class="k">\raggedright</span><span class="c">%</span>
+	<span class="k">\beamer</span>@firstlineitemizeunskip<span class="c">%</span>
+<span class="p">}</span>
+<span class="k">\def\enditemize</span><span class="p">{</span><span class="k">\ifhmode\unskip\fi\endlist</span><span class="c">%</span>
+	<span class="k">\usebeamertemplate</span><span class="p">{</span>itemize/enumerate <span class="k">\beameritemnestingprefix</span> body end<span class="p">}</span>
+	<span class="k">\ifnum</span> <span class="k">\@</span>itemdepth &gt;1
+	<span class="k">\vfil</span>
+	<span class="k">\fi</span><span class="c">%  </span>
+<span class="p">}</span>
+<span class="k">\makeatother</span>
+</code></pre></div></div>
+
+<p><img src="/images/posts/beamer/Slide_Better.png" alt="" /></p>
+
+<p>Looking better already!</p>
+
+<h2 id="super-size-it">Super size it</h2>
+
+<p>Next we need to enlarge our text to make it easier to read. Again, we can do this manually on every slide, but that’s a giant pain. I found this <a href="https://latex.org/forum/viewtopic.php?t=8515">old thread</a> on latex.org which explains how to redefine the font size of <code class="language-plaintext highlighter-rouge">\itemize</code> and <code class="language-plaintext highlighter-rouge">\enumerate</code> items.</p>
+
+<div class="language-latex highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">\setbeamerfont</span><span class="p">{</span>itemize/enumerate body<span class="p">}{</span>size=<span class="k">\Large</span><span class="p">}</span>
+<span class="k">\setbeamerfont</span><span class="p">{</span>itemize/enumerate subbody<span class="p">}{</span>size=<span class="k">\large</span><span class="p">}</span>
+<span class="k">\setbeamerfont</span><span class="p">{</span>itemize/enumerate subsubbody<span class="p">}{</span>size=<span class="k">\normalsize</span><span class="p">}</span>
+</code></pre></div></div>
+
+<p>While this has fixed the font size of our lists, now our still too small equation will look even more out of place. I learned from this Stack Exchange <a href="https://tex.stackexchange.com/a/40531">answer</a> that the <code class="language-plaintext highlighter-rouge">\[</code> and <code class="language-plaintext highlighter-rouge">\]</code> math mode separators actually call the <code class="language-plaintext highlighter-rouge">equation*</code> environment. With this knowledge, I used the <a href="https://ctan.org/pkg/etoolbox?lang=en"><code class="language-plaintext highlighter-rouge">etoolbox</code></a> package’s <code class="language-plaintext highlighter-rouge">\BeforeBeginEnvironment</code> and <code class="language-plaintext highlighter-rouge">\AfterEndEnvironment</code> commands to change the font size to LARGE for any <code class="language-plaintext highlighter-rouge">equation*</code> environments.</p>
+
+<div class="language-latex highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">\usepackage</span><span class="p">{</span>etoolbox<span class="p">}</span>
+<span class="k">\BeforeBeginEnvironment</span><span class="p">{</span>equation*<span class="p">}{</span><span class="k">\begingroup\LARGE</span><span class="p">}</span>
+<span class="k">\AfterEndEnvironment</span><span class="p">{</span>equation*<span class="p">}{</span><span class="k">\endgroup</span><span class="p">}</span>
+</code></pre></div></div>
+<p><img src="/images/posts/beamer/Slide_Better_Equation.png" alt="" /></p>
+
+<p>Now we’ve got a much more readable slide that will be automatically replicated for every other slide in our presentation. If you have multi-line equations in your slides, you can similarly redefine the <code class="language-plaintext highlighter-rouge">align*</code> environment to enlarge these equations as well.</p>
+
+<h2 id="dont-forget-numbers">Don’t forget numbers</h2>
+
+<p>As we can see above, our redefinition of the <code class="language-plaintext highlighter-rouge">\itemize</code> environment also evenly spaces sub-bullets. However, it doesn’t do anything for numbered lists defined with <code class="language-plaintext highlighter-rouge">/enumerate</code> as the slide below shows.</p>
+
+<p><img src="/images/posts/beamer/Slide_Enumerate_Default.png" alt="" /></p>
+
+<p>To evenly space items in numbered lists, we just need to take the same changes to the <code class="language-plaintext highlighter-rouge">\itemize</code> environment we introduced above, and apply them to the <code class="language-plaintext highlighter-rouge">\enumerate</code> environment as well. Unfortunately, I’m not nearly fluent enough in TeX to understand what this code does. Luckily, I know how to run a <a href="https://en.wikipedia.org/wiki/Diff">diff</a>. Diffing two files will point out all differences between the two. By comparing the modified code from Stack Exchange with the original in <a href="http://mirrors.ctan.org/macros/latex/contrib/beamer/base/beamerbaselocalstructure.sty"><code class="language-plaintext highlighter-rouge">beamerbaselocalstructure.sty</code></a>, we can figure out which lines have been added and copy them over to Beamer’s definition of the <code class="language-plaintext highlighter-rouge">\enumerate</code> environment.</p>
+
+<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">\makeatletter</span>
+\renewcommand{\itemize}[1][]{%
+	\beamer@ifempty{#1}{}{\def\beamer@defaultospec{#1}}%
+	\ifnum \@itemdepth &gt;2\relax\@toodeep\else
+	\advance\@itemdepth\@ne
+	\beamer@computepref\@itemdepth% sets \beameritemnestingprefix
+	\usebeamerfont{itemize/enumerate \beameritemnestingprefix body}%
+	\usebeamercolor[fg]{itemize/enumerate \beameritemnestingprefix body}%
+	\usebeamertemplate{itemize/enumerate \beameritemnestingprefix body begin}%
+	\list
+	{\usebeamertemplate{itemize \beameritemnestingprefix item}}
+	{\def\makelabel##1{%
+			{%
+				\hss\llap{{%
+						\usebeamerfont*{itemize \beameritemnestingprefix item}%
+						\usebeamercolor[fg]{itemize \beameritemnestingprefix item}##1}}%
+			}%
+		}%
+	}
+	\fi%
+<span class="gi">+	\setlength\itemsep{\fill}
++	\ifnum \@itemdepth &gt;1
++	\vfill
++	\fi%  
+</span>	\beamer@cramped%
+	\raggedright%
+	\beamer@firstlineitemizeunskip%
+<span class="err">}</span>
+\def\enditemize{\ifhmode\unskip\fi\endlist%
+<span class="gd">-	\usebeamertemplate{itemize/enumerate \beameritemnestingprefix body end}}
+</span><span class="gi">+       \usebeamertemplate{itemize/enumerate \beameritemnestingprefix body end}
++	\ifnum \@itemdepth &gt;1
++	\vfil
++	\fi%  
++}
+</span><span class="err">\makeatother</span>
+</code></pre></div></div>
+
+<p>Essentially, the new code redefines the <code class="language-plaintext highlighter-rouge">\itemsep</code> length parameter as <code class="language-plaintext highlighter-rouge">\vfill</code> and adds a <code class="language-plaintext highlighter-rouge">\vfil</code> at the end of an <code class="language-plaintext highlighter-rouge">\itemize</code> environment. <code class="language-plaintext highlighter-rouge">\vfil</code> and <code class="language-plaintext highlighter-rouge">\vfil</code> are both commands to create vertical space, and this Stack Exchange <a href="https://tex.stackexchange.com/a/21028">answer</a> explains the difference between them, but I still have no idea what the difference is after reading it. What matters is that the <code class="language-plaintext highlighter-rouge">\enumerate</code> environment definition looks identical to the <code class="language-plaintext highlighter-rouge">\itemize</code> one in the lines surrounding the new code (with the substitution of <code class="language-plaintext highlighter-rouge">\endenumerate</code> for <code class="language-plaintext highlighter-rouge">\enditemize</code>), which makes it easy to add it to this definition as well.</p>
+
+<div class="language-latex highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">\makeatletter</span>
+<span class="k">\def\enumerate</span><span class="p">{</span><span class="c">%</span>
+	<span class="k">\ifnum\@</span>enumdepth&gt;2<span class="k">\relax\@</span>toodeep
+	<span class="k">\else</span><span class="c">%</span>
+	<span class="k">\advance\@</span>enumdepth<span class="k">\@</span>ne<span class="c">%</span>
+	<span class="k">\edef\@</span>enumctr<span class="p">{</span>enum<span class="k">\romannumeral\the\@</span>enumdepth<span class="p">}</span><span class="c">%</span>
+	<span class="k">\advance\@</span>itemdepth<span class="k">\@</span>ne<span class="c">%</span>
+	<span class="k">\fi</span><span class="c">%</span>
+	<span class="k">\beamer</span>@computepref<span class="k">\@</span>enumdepth<span class="c">% sets \beameritemnestingprefix</span>
+	<span class="k">\edef\beamer</span>@enumtempl<span class="p">{</span>enumerate <span class="k">\beameritemnestingprefix</span> item<span class="p">}</span><span class="c">%</span>
+	<span class="k">\@</span>ifnextchar[<span class="p">{</span><span class="k">\beamer</span>@@enum@<span class="p">}{</span><span class="k">\beamer</span>@enum@<span class="p">}}</span>
+<span class="k">\def\beamer</span>@@enum@[<span class="p">{</span><span class="k">\@</span>ifnextchar&lt;<span class="p">{</span><span class="k">\beamer</span>@enumdefault[<span class="p">}{</span><span class="k">\beamer</span>@@@enum@[<span class="p">}}</span>
+<span class="k">\def\beamer</span>@enumdefault[#1]<span class="p">{</span><span class="k">\def\beamer</span>@defaultospec<span class="p">{</span>#1<span class="p">}</span><span class="c">%</span>
+	<span class="k">\@</span>ifnextchar[<span class="p">{</span><span class="k">\beamer</span>@@@enum@<span class="p">}{</span><span class="k">\beamer</span>@enum@<span class="p">}}</span>
+<span class="k">\def\beamer</span>@@@enum@[#1]<span class="p">{</span><span class="c">% partly copied from enumerate.sty</span>
+	<span class="k">\@</span>enLab<span class="p">{}</span><span class="k">\let\@</span>enThe<span class="k">\@</span>enQmark
+	<span class="k">\@</span>enloop#1<span class="k">\@</span>enum@
+	<span class="k">\ifx\@</span>enThe<span class="k">\@</span>enQmark<span class="k">\@</span>warning<span class="p">{</span>The counter will not be printed.<span class="c">%</span>
+		<span class="p">^^</span>J<span class="k">\space\@</span>spaces<span class="k">\@</span>spaces<span class="k">\@</span>spaces The label is: <span class="k">\the\@</span>enLab<span class="p">}</span><span class="k">\fi</span>
+	<span class="k">\def\insertenumlabel</span><span class="p">{</span><span class="k">\the\@</span>enLab<span class="p">}</span>
+	<span class="k">\def\beamer</span>@enumtempl<span class="p">{</span>enumerate mini template<span class="p">}</span><span class="c">%</span>
+	<span class="k">\expandafter\let\csname</span> the<span class="k">\@</span>enumctr<span class="k">\endcsname\@</span>enThe
+	<span class="k">\csname</span> c@<span class="k">\@</span>enumctr<span class="k">\endcsname</span>7
+	<span class="k">\expandafter\settowidth</span>
+	<span class="k">\csname</span> leftmargin<span class="k">\romannumeral\@</span>enumdepth<span class="k">\endcsname</span>
+	<span class="p">{</span><span class="k">\the\@</span>enLab<span class="k">\hspace</span><span class="p">{</span><span class="k">\labelsep</span><span class="p">}}</span><span class="c">%</span>
+	<span class="k">\beamer</span>@enum@<span class="p">}</span>
+<span class="k">\def\beamer</span>@enum@<span class="p">{</span><span class="c">%</span>
+	<span class="k">\beamer</span>@computepref<span class="k">\@</span>itemdepth<span class="c">% sets \beameritemnestingprefix</span>
+	<span class="k">\usebeamerfont</span><span class="p">{</span>itemize/enumerate <span class="k">\beameritemnestingprefix</span> body<span class="p">}</span><span class="c">%</span>
+	<span class="k">\usebeamercolor</span><span class="na">[fg]</span><span class="p">{</span>itemize/enumerate <span class="k">\beameritemnestingprefix</span> body<span class="p">}</span><span class="c">%</span>
+	<span class="k">\usebeamertemplate</span><span class="p">{</span>itemize/enumerate <span class="k">\beameritemnestingprefix</span> body begin<span class="p">}</span><span class="c">%</span>
+	<span class="k">\expandafter</span>
+	<span class="k">\list</span>
+	<span class="p">{</span><span class="k">\usebeamertemplate</span><span class="p">{</span><span class="k">\beamer</span>@enumtempl<span class="p">}}</span>
+	<span class="p">{</span><span class="k">\usecounter\@</span>enumctr<span class="c">%</span>
+		<span class="k">\def\makelabel</span>##1<span class="p">{{</span><span class="k">\hss\llap</span><span class="p">{{</span><span class="c">%</span>
+						<span class="k">\usebeamerfont*</span><span class="p">{</span>enumerate <span class="k">\beameritemnestingprefix</span> item<span class="p">}</span><span class="c">%</span>
+						<span class="k">\usebeamercolor</span><span class="na">[fg]</span><span class="p">{</span>enumerate <span class="k">\beameritemnestingprefix</span> item<span class="p">}</span>##1<span class="p">}}}}}</span><span class="c">%</span>
+	<span class="k">\setlength\itemsep</span><span class="p">{</span><span class="k">\fill</span><span class="p">}</span>
+	<span class="k">\ifnum</span> <span class="k">\@</span>itemdepth &gt;1
+	<span class="k">\vfill</span>
+	<span class="k">\fi</span><span class="c">%  </span>
+	<span class="k">\beamer</span>@cramped<span class="c">%</span>
+	<span class="k">\raggedright</span><span class="c">%</span>
+	<span class="k">\beamer</span>@firstlineitemizeunskip<span class="c">%</span>
+<span class="p">}</span>
+<span class="k">\def\endenumerate</span><span class="p">{</span><span class="k">\ifhmode\unskip\fi\endlist</span><span class="c">%</span>
+	<span class="k">\usebeamertemplate</span><span class="p">{</span>itemize/enumerate <span class="k">\beameritemnestingprefix</span> body end<span class="p">}</span>
+	<span class="k">\ifnum</span> <span class="k">\@</span>itemdepth &gt;1
+	<span class="k">\vfil</span>
+	<span class="k">\fi</span><span class="c">%  </span>
+<span class="p">}</span>
+<span class="k">\makeatother</span>
+</code></pre></div></div>
+
+<p>Once we’ve done that, now numbered lists are also evenly spaced!</p>
+
+<p><img src="/images/posts/beamer/Slide_Enumerate_Better.png" alt="" /></p>
+
+<h1 id="all-together-now">All together now</h1>
+
+<p>Sticking all of the below in your preamble will greatly improve the visual appeal of your slides with zero effort required on each individual slide.</p>
+
+<div class="language-latex highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">% % redefine itemsep to autofill space on beamer slides</span>
+<span class="c">% % from https://tex.stackexchange.com/questions/369504#369597</span>
+<span class="k">\makeatletter</span>
+<span class="k">\renewcommand</span><span class="p">{</span><span class="k">\itemize</span><span class="p">}</span>[1][]<span class="p">{</span><span class="c">%</span>
+	<span class="k">\beamer</span>@ifempty<span class="p">{</span>#1<span class="p">}{}{</span><span class="k">\def\beamer</span>@defaultospec<span class="p">{</span>#1<span class="p">}}</span><span class="c">%</span>
+	<span class="k">\ifnum</span> <span class="k">\@</span>itemdepth &gt;2<span class="k">\relax\@</span>toodeep<span class="k">\else</span>
+	<span class="k">\advance\@</span>itemdepth<span class="k">\@</span>ne
+	<span class="k">\beamer</span>@computepref<span class="k">\@</span>itemdepth<span class="c">% sets \beameritemnestingprefix</span>
+	<span class="k">\usebeamerfont</span><span class="p">{</span>itemize/enumerate <span class="k">\beameritemnestingprefix</span> body<span class="p">}</span><span class="c">%</span>
+	<span class="k">\usebeamercolor</span><span class="na">[fg]</span><span class="p">{</span>itemize/enumerate <span class="k">\beameritemnestingprefix</span> body<span class="p">}</span><span class="c">%</span>
+	<span class="k">\usebeamertemplate</span><span class="p">{</span>itemize/enumerate <span class="k">\beameritemnestingprefix</span> body begin<span class="p">}</span><span class="c">%</span>
+	<span class="k">\list</span>
+	<span class="p">{</span><span class="k">\usebeamertemplate</span><span class="p">{</span>itemize <span class="k">\beameritemnestingprefix</span> item<span class="p">}}</span>
+	<span class="p">{</span><span class="k">\def\makelabel</span>##1<span class="p">{</span><span class="c">%</span>
+			<span class="p">{</span><span class="c">%</span>
+				<span class="k">\hss\llap</span><span class="p">{{</span><span class="c">%</span>
+						<span class="k">\usebeamerfont*</span><span class="p">{</span>itemize <span class="k">\beameritemnestingprefix</span> item<span class="p">}</span><span class="c">%</span>
+						<span class="k">\usebeamercolor</span><span class="na">[fg]</span><span class="p">{</span>itemize <span class="k">\beameritemnestingprefix</span> item<span class="p">}</span>##1<span class="p">}}</span><span class="c">%</span>
+			<span class="p">}</span><span class="c">%</span>
+		<span class="p">}</span><span class="c">%</span>
+	<span class="p">}</span>
+	<span class="k">\fi</span><span class="c">%</span>
+	<span class="k">\setlength\itemsep</span><span class="p">{</span><span class="k">\fill</span><span class="p">}</span>
+	<span class="k">\ifnum</span> <span class="k">\@</span>itemdepth &gt;1
+	<span class="k">\vfill</span>
+	<span class="k">\fi</span><span class="c">%  </span>
+	<span class="k">\beamer</span>@cramped<span class="c">%</span>
+	<span class="k">\raggedright</span><span class="c">%</span>
+	<span class="k">\beamer</span>@firstlineitemizeunskip<span class="c">%</span>
+<span class="p">}</span>
+<span class="k">\def\enditemize</span><span class="p">{</span><span class="k">\ifhmode\unskip\fi\endlist</span><span class="c">%</span>
+	<span class="k">\usebeamertemplate</span><span class="p">{</span>itemize/enumerate <span class="k">\beameritemnestingprefix</span> body end<span class="p">}</span>
+	<span class="k">\ifnum</span> <span class="k">\@</span>itemdepth &gt;1
+	<span class="k">\vfil</span>
+	<span class="k">\fi</span><span class="c">%  </span>
+<span class="p">}</span>
+<span class="k">\makeatother</span>
+
+<span class="k">\makeatletter</span>
+<span class="k">\def\enumerate</span><span class="p">{</span><span class="c">%</span>
+	<span class="k">\ifnum\@</span>enumdepth&gt;2<span class="k">\relax\@</span>toodeep
+	<span class="k">\else</span><span class="c">%</span>
+	<span class="k">\advance\@</span>enumdepth<span class="k">\@</span>ne<span class="c">%</span>
+	<span class="k">\edef\@</span>enumctr<span class="p">{</span>enum<span class="k">\romannumeral\the\@</span>enumdepth<span class="p">}</span><span class="c">%</span>
+	<span class="k">\advance\@</span>itemdepth<span class="k">\@</span>ne<span class="c">%</span>
+	<span class="k">\fi</span><span class="c">%</span>
+	<span class="k">\beamer</span>@computepref<span class="k">\@</span>enumdepth<span class="c">% sets \beameritemnestingprefix</span>
+	<span class="k">\edef\beamer</span>@enumtempl<span class="p">{</span>enumerate <span class="k">\beameritemnestingprefix</span> item<span class="p">}</span><span class="c">%</span>
+	<span class="k">\@</span>ifnextchar[<span class="p">{</span><span class="k">\beamer</span>@@enum@<span class="p">}{</span><span class="k">\beamer</span>@enum@<span class="p">}}</span>
+<span class="k">\def\beamer</span>@@enum@[<span class="p">{</span><span class="k">\@</span>ifnextchar&lt;<span class="p">{</span><span class="k">\beamer</span>@enumdefault[<span class="p">}{</span><span class="k">\beamer</span>@@@enum@[<span class="p">}}</span>
+<span class="k">\def\beamer</span>@enumdefault[#1]<span class="p">{</span><span class="k">\def\beamer</span>@defaultospec<span class="p">{</span>#1<span class="p">}</span><span class="c">%</span>
+	<span class="k">\@</span>ifnextchar[<span class="p">{</span><span class="k">\beamer</span>@@@enum@<span class="p">}{</span><span class="k">\beamer</span>@enum@<span class="p">}}</span>
+<span class="k">\def\beamer</span>@@@enum@[#1]<span class="p">{</span><span class="c">% partly copied from enumerate.sty</span>
+	<span class="k">\@</span>enLab<span class="p">{}</span><span class="k">\let\@</span>enThe<span class="k">\@</span>enQmark
+	<span class="k">\@</span>enloop#1<span class="k">\@</span>enum@
+	<span class="k">\ifx\@</span>enThe<span class="k">\@</span>enQmark<span class="k">\@</span>warning<span class="p">{</span>The counter will not be printed.<span class="c">%</span>
+		<span class="p">^^</span>J<span class="k">\space\@</span>spaces<span class="k">\@</span>spaces<span class="k">\@</span>spaces The label is: <span class="k">\the\@</span>enLab<span class="p">}</span><span class="k">\fi</span>
+	<span class="k">\def\insertenumlabel</span><span class="p">{</span><span class="k">\the\@</span>enLab<span class="p">}</span>
+	<span class="k">\def\beamer</span>@enumtempl<span class="p">{</span>enumerate mini template<span class="p">}</span><span class="c">%</span>
+	<span class="k">\expandafter\let\csname</span> the<span class="k">\@</span>enumctr<span class="k">\endcsname\@</span>enThe
+	<span class="k">\csname</span> c@<span class="k">\@</span>enumctr<span class="k">\endcsname</span>7
+	<span class="k">\expandafter\settowidth</span>
+	<span class="k">\csname</span> leftmargin<span class="k">\romannumeral\@</span>enumdepth<span class="k">\endcsname</span>
+	<span class="p">{</span><span class="k">\the\@</span>enLab<span class="k">\hspace</span><span class="p">{</span><span class="k">\labelsep</span><span class="p">}}</span><span class="c">%</span>
+	<span class="k">\beamer</span>@enum@<span class="p">}</span>
+<span class="k">\def\beamer</span>@enum@<span class="p">{</span><span class="c">%</span>
+	<span class="k">\beamer</span>@computepref<span class="k">\@</span>itemdepth<span class="c">% sets \beameritemnestingprefix</span>
+	<span class="k">\usebeamerfont</span><span class="p">{</span>itemize/enumerate <span class="k">\beameritemnestingprefix</span> body<span class="p">}</span><span class="c">%</span>
+	<span class="k">\usebeamercolor</span><span class="na">[fg]</span><span class="p">{</span>itemize/enumerate <span class="k">\beameritemnestingprefix</span> body<span class="p">}</span><span class="c">%</span>
+	<span class="k">\usebeamertemplate</span><span class="p">{</span>itemize/enumerate <span class="k">\beameritemnestingprefix</span> body begin<span class="p">}</span><span class="c">%</span>
+	<span class="k">\expandafter</span>
+	<span class="k">\list</span>
+	<span class="p">{</span><span class="k">\usebeamertemplate</span><span class="p">{</span><span class="k">\beamer</span>@enumtempl<span class="p">}}</span>
+	<span class="p">{</span><span class="k">\usecounter\@</span>enumctr<span class="c">%</span>
+		<span class="k">\def\makelabel</span>##1<span class="p">{{</span><span class="k">\hss\llap</span><span class="p">{{</span><span class="c">%</span>
+						<span class="k">\usebeamerfont*</span><span class="p">{</span>enumerate <span class="k">\beameritemnestingprefix</span> item<span class="p">}</span><span class="c">%</span>
+						<span class="k">\usebeamercolor</span><span class="na">[fg]</span><span class="p">{</span>enumerate <span class="k">\beameritemnestingprefix</span> item<span class="p">}</span>##1<span class="p">}}}}}</span><span class="c">%</span>
+	<span class="k">\setlength\itemsep</span><span class="p">{</span><span class="k">\fill</span><span class="p">}</span>
+	<span class="k">\ifnum</span> <span class="k">\@</span>itemdepth &gt;1
+	<span class="k">\vfill</span>
+	<span class="k">\fi</span><span class="c">%  </span>
+	<span class="k">\beamer</span>@cramped<span class="c">%</span>
+	<span class="k">\raggedright</span><span class="c">%</span>
+	<span class="k">\beamer</span>@firstlineitemizeunskip<span class="c">%</span>
+<span class="p">}</span>
+<span class="k">\def\endenumerate</span><span class="p">{</span><span class="k">\ifhmode\unskip\fi\endlist</span><span class="c">%</span>
+	<span class="k">\usebeamertemplate</span><span class="p">{</span>itemize/enumerate <span class="k">\beameritemnestingprefix</span> body end<span class="p">}</span>
+	<span class="k">\ifnum</span> <span class="k">\@</span>itemdepth &gt;1
+	<span class="k">\vfil</span>
+	<span class="k">\fi</span><span class="c">%  </span>
+<span class="p">}</span>
+<span class="k">\makeatother</span>
+
+<span class="c">% % set larger itemize font sizes</span>
+<span class="c">% % from https://latex.org/forum/viewtopic.php?t=8515</span>
+<span class="k">\setbeamerfont</span><span class="p">{</span>itemize/enumerate body<span class="p">}{</span>size=<span class="k">\Large</span><span class="p">}</span>
+<span class="k">\setbeamerfont</span><span class="p">{</span>itemize/enumerate subbody<span class="p">}{</span>size=<span class="k">\large</span><span class="p">}</span>
+<span class="k">\setbeamerfont</span><span class="p">{</span>itemize/enumerate subsubbody<span class="p">}{</span>size=<span class="k">\normalsize</span><span class="p">}</span>
+
+<span class="c">% % redefine \[\] via redefinition of same as equation* to be LARGE</span>
+<span class="c">% % from https://tex.stackexchange.com/a/40531</span>
+<span class="k">\usepackage</span><span class="p">{</span>etoolbox<span class="p">}</span>
+<span class="k">\BeforeBeginEnvironment</span><span class="p">{</span>equation*<span class="p">}{</span><span class="k">\begingroup\LARGE</span><span class="p">}</span>
+<span class="k">\AfterEndEnvironment</span><span class="p">{</span>equation*<span class="p">}{</span><span class="k">\endgroup</span><span class="p">}</span>
+<span class="k">\BeforeBeginEnvironment</span><span class="p">{</span>align*<span class="p">}{</span><span class="k">\begingroup\LARGE</span><span class="p">}</span>
+<span class="k">\AfterEndEnvironment</span><span class="p">{</span>align*<span class="p">}{</span><span class="k">\endgroup</span><span class="p">}</span>
+</code></pre></div></div>
+
+<p>I’ve combined all of the LaTeX code above into a style file called <a href="https://github.com/jayrobwilliams/TeX-Misc/blob/master/better-beamer.sty"><code class="language-plaintext highlighter-rouge">better-beamer.sty</code></a> available on my GitHub. To avoid having to copy and paste this code into the preamble of every presentation you make, you can just load the style file instead! If you place the style file into the same directory as your <code class="language-plaintext highlighter-rouge">.tex</code> file, you just need to add:</p>
+
+<div class="language-latex highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">\usepackage</span><span class="p">{</span>better-beamer<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If you want to avoid having to copy the style file every time you make a new presentation, you can just use an absolute path to reference it in your <code class="language-plaintext highlighter-rouge">.tex</code> document. On my computer, this looks like this:</p>
+
+<div class="language-latex highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">\usepackage</span><span class="p">{</span>/Users/Rob/Dropbox/TeX/Templates/better-beamer<span class="p">}</span>
+</code></pre></div></div>
+
+<h1 id="r-markdown">R Markdown</h1>
+
+<p>One caveat if you use R Markdown like I do. R Markdown relies on <a href="https://pandoc.org">pandoc</a> to convert from <code class="language-plaintext highlighter-rouge">.Rmd</code> to <code class="language-plaintext highlighter-rouge">.md</code> to <code class="language-plaintext highlighter-rouge">.tex</code> to <code class="language-plaintext highlighter-rouge">.pdf</code> (phew). This only matters if you’re a lazy typist like me and write your</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">-</span> lists
+<span class="p">-</span> like
+<span class="p">-</span> this
+</code></pre></div></div>
+
+<p>and</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">-</span> not
+<span class="p">
+-</span> like
+<span class="p">
+-</span> this.
+</code></pre></div></div>
+
+<p>When you write your lists in the former format, pandoc redefines <code class="language-plaintext highlighter-rouge">\itemsep</code> to <code class="language-plaintext highlighter-rouge">0pt</code> in any list (bulleted or numbered) environment in the the resulting LaTeX code via the following command:</p>
+
+<div class="language-latex highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">\providecommand</span><span class="p">{</span><span class="k">\tightlist</span><span class="p">}{</span><span class="c">%</span>
+  <span class="k">\setlength</span><span class="p">{</span><span class="k">\itemsep</span><span class="p">}{</span>0pt<span class="p">}</span><span class="k">\setlength</span><span class="p">{</span><span class="k">\parskip</span><span class="p">}{</span>0pt<span class="p">}}</span>
+</code></pre></div></div>
+
+<p>This will cancel out our redefined list environments and get us back our original cramped lines. There’s no way to disable this <code class="language-plaintext highlighter-rouge">\tightlist</code> behavior (short of removing it from the source code and compiling pandoc yourself), but it <em>is</em> very easy to neutralize thanks to the info in this Stack Exchange <a href="https://tex.stackexchange.com/a/257464">answer</a>. If you’re using R Markdown, simply add the following to your YAML header under the <code class="language-plaintext highlighter-rouge">header-includes</code> variable.</p>
+
+<div class="language-latex highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">\def\tightlist</span><span class="p">{}</span>
+</code></pre></div></div>
+
+<p>This will come after the <code class="language-plaintext highlighter-rouge">\tightlist</code> definition in the preamble and redefine it to do nothing, leaving our properly spaced lists intact without having to add an empty line after every item. At some point I’ll post my custom LaTeX template (with other aesthetic improvements) for Beamer slides via R Markdown and talk about my process for modifying the default template.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="http://localhost:4000/tags/#beamer" class="page__taxonomy-item" rel="tag">beamer</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#github" class="page__taxonomy-item" rel="tag">github</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#latex" class="page__taxonomy-item" rel="tag">latex</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2019/10/better-beamer" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2019/10/better-beamer" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2019/10/better-beamer" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="http://localhost:4000/posts/2019/09/progress-with-bash/" class="pagination--pager" title="Checking Progress with Bash
+">Previous</a>
+    
+    
+      <a href="http://localhost:4000/posts/2020/01/counting-words/" class="pagination--pager" title="Counting Words in a Snap
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+        
+        
+        
+        
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2020/08/website-content/" rel="permalink">Adding Content to an Academic Website
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2020-08-07T00:00:00-05:00">August 07, 2020</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>One thing I haven’t covered in my previous posts on <a href="/posts/2020/06/academic-website/">creating</a> and <a href="/posts/2020/07/customizing-website/">customizing</a> an academic website is how to actually add content to your site. You know, the stuff that’s the reason why people go to your website in the first place? If you’ve followed those guides, your website should be professional looking and already feeling a little bit different from the stock template. However, adding new pages or tweaking the existing pages can be a little intimidating, and I realized I should probably walk through how to do so. Luckily Jekyll’s use of Markdown makes it really easy to add new content!</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2020/07/customizing-website/" rel="permalink">Customizing an Academic Website
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2020-07-06T00:00:00-05:00">July 06, 2020</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>This is a followup to my previous post on <a href="/posts/2020/06/academic-website/">creating an academic website</a>. If you’ve followed that guide, you should have a website that’s professional-looking and informative, but it’s probably lacking <em>something</em> to really make it feel like your own. There are an infinite number of ways you could customize the <a href="https://academicpages.github.io/">academicpages template</a> (many of them far, far beyond my abilities) but I’m going to walk you through the process I used to start tweaking my website. The goal here isn’t to tell you how you should personalize your website, but to give you the tools to learn how to implement whatever changes you want to make.</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2020/06/academic-website/" rel="permalink">Building an Academic Website
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2020-06-30T00:00:00-05:00">June 30, 2020</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>If you’re an academic, you need a website. Obviously I agree with this since you’re reading this on my website, but if you don’t have one, you should get one. Most universities these days provide a free option, usually powered by <a href="https://wordpress.org/">WordPress</a> (both <a href="https://sites.wustl.edu/">WashU</a> and <a href="http://web.unc.edu/">UNC</a> use WordPress for their respective offerings). While these sites are quick to set up and come with the prestige of a <code class="language-plaintext highlighter-rouge">.edu</code> URL, they have several drawbacks that have been <a href="https://townsendcenter.berkeley.edu/blog/personal-academic-webpages-how-tos-and-tips-better-site">extensively</a> <a href="https://martinlea.com/four-reasons-why-faculty-profile-pages-are-no-substitute-for-personal-academic-website/">written</a> <a href="https://theacademicdesigner.com/2019/personal-academic-website-benefits/">on</a>.</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+              
+        
+        
+        
+        
+          
+      </div>
+    </div>
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<a href="/sitemap/">Sitemap</a>
+<!-- end custom footer snippets -->
+
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/crystalamariano"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="http://localhost:4000/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Crystal A. Mariano. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <script src="http://localhost:4000/assets/js/main.min.js"></script>
+
+
+
+
+
+  </body>
+</html>
+

@@ -1,0 +1,764 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Checking Progress with Bash - Crystal A. Mariano</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Crystal A. Mariano">
+<meta property="og:title" content="Checking Progress with Bash">
+
+
+  <link rel="canonical" href="http://localhost:4000/posts/2019/09/progress-with-bash/">
+  <meta property="og:url" content="http://localhost:4000/posts/2019/09/progress-with-bash/">
+
+
+
+  <meta property="og:description" content="I’m currently cleaning and wrangling a large (&gt; 2 billion observations) dataset. Due to its size, I’m running code in batch mode on a remote cluster. Not running interactively makes it harder for me to check on my code’s progress.">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2019-09-24T00:00:00-05:00">
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "url": "http://localhost:4000",
+      "logo": "http://localhost:4000/images/profile.png"
+    }
+  </script>
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Crystal A. Mariano",
+      "url" : "http://localhost:4000",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Crystal A. Mariano Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72.png?v=20201130">
+<link rel="apple-touch-icon" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114.png?v=20201130">
+<link rel="apple-touch-icon" sizes="120x120" href="http://localhost:4000/images/apple-touch-icon-120x120.png?v=20201130">
+<link rel="apple-touch-icon" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144.png?v=20201130">
+<link rel="apple-touch-icon" sizes="152x152" href="http://localhost:4000/images/apple-touch-icon-152x152.png?v=20201130">
+<link rel="apple-touch-icon" sizes="180x180" href="http://localhost:4000/images/apple-touch-icon-180x180.png?v=20201130">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-32x32.png?v=20201130" sizes="32x32">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/android-chrome-192x192.png?v=20201130" sizes="192x192">
+<link rel="icon" type="image/png" href="http://localhost:4000/images/favicon-16x16.png?v=20201130" sizes="16x16">
+<link rel="manifest" href="http://localhost:4000/images/manifest.json?v=20201130">
+<link rel="mask-icon" href="http://localhost:4000/images/safari-pinned-tab.svg?v=20201130" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=20201130">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="http://localhost:4000/images/mstile-150x150.png?v=20201130">
+<meta name="msapplication-config" content="http://localhost:4000/images/browserconfig.xml?v=20201130">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="http://localhost:4000/">Crystal A. Mariano</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/research/">Research</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/publications/">Publications</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/teaching/">Teaching</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="http://localhost:4000/cv/">CV</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="http://localhost:4000/images/profile.png" class="author__avatar" alt="Crystal A. Mariano">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Crystal A. Mariano</h3>
+    <p class="author__bio"><ul style="padding: 0;list-style-type: none;"><li style="margin: 0;"><b>NSF GRFP Fellow</b></li><li style="margin: 0;">Mechanical Engineering</li> <li style="margin: 0;">Bioengineering, B.S.</li></ul></p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+      
+      
+      
+        <li><a href="mailto:cmari010@ucr.edu"><i class="fas fa-fw fa-envelope" aria-hidden="true" style="padding-right: 1.5em;"></i>Email</a></li>
+      
+      
+       
+      
+      
+      
+      
+        <li><a href="https://www.linkedin.com/in/crystal-a-mariano"><i class="fab fa-fw fa-linkedin" aria-hidden="true" style="padding-right: 1.5em;"></i>LinkedIn</a></li>
+      
+      
+      
+      
+      
+      
+        <li><a href="https://github.com/crystalamariano"><i class="fab fa-fw fa-github" aria-hidden="true" style="padding-right: 1.5em;"></i>GitHub</a></li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        <li><a href="http://orcid.org/0000-0001-5765-4193"><i class="ai ai-orcid ai-fw" aria-hidden="true" style="padding-right: 1.5em;"></i>ORCID</a></li>
+      
+      
+        <li><a href="https://scholar.google.com/citations?user=6p4xG5MAAAAJ&hl=en&oi=ao"><i class="fas fa-fw fa-graduation-cap" aria-hidden="true" style="padding-right: 1.5em;"></i>Google Scholar</a></li>
+      
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Checking Progress with Bash">
+    <meta itemprop="description" content="I’m currently cleaning and wrangling a large (&gt; 2 billion observations) dataset. Due to its size, I’m running code in batch mode on a remote cluster. Not running interactively makes it harder for me to check on my code’s progress.">
+    <meta itemprop="datePublished" content="September 24, 2019">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Checking Progress with Bash
+</h1>
+          
+        
+        
+        
+          <p class="page__date">
+            <i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="1900-01-01T00:00:00-06:00">September 24, 2019</time>
+            <span style="float:right;"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  8 minute read
+	
+</span>
+          </p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-align-justify"></i> On This Page</h4></header>
+              <ul class="toc__menu"><li><a href="#the-easy-way">The Easy Way</a></li><li><a href="#the-hard-way">The Hard Way</a><ul><li><a href="#finding-files">Finding Files</a></li><li><a href="#looping">Looping</a></li><li><a href="#processing-the-files">Processing the Files</a></li><li><a href="#counting-it-all-up">Counting it all Up</a></li><li><a href="#combining-it-all">Combining it all</a></li></ul></li><li><a href="#results">Results</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>I’m currently cleaning and wrangling a large (&gt; 2 billion observations) dataset. Due to its size, I’m running code in batch mode on a remote cluster. Not running interactively makes it harder for me to check on my code’s progress.
+<!--more-->
+Many functions will provide a progress bar option which will show up in a log file even when you’re running in batch mode. Unfortunately for me, my code consists of a lot of basic operations performed over and over, so there’s no built in progress bar I can harness.</p>
+
+<h1 id="the-easy-way">The Easy Way</h1>
+
+<p>One option here is good the old fashioned <code class="language-plaintext highlighter-rouge">print</code> function. For smaller datasets this is an excellent solution. The basic idea is to just print a status message every iteration (or every $n$ iterations) telling the user. I’ve used this approach before when the dataset I was working with was much smaller (~30K observations). However, with billions of observations to work through, this would make the log file excessively long and tedious to page through.</p>
+
+<p>An alternative is to only print status messages at some meaningful interval. For this specific task, I’m constructing directed dyadic international trade portfolios from the <a href="https://comtrade.un.org/">UN Comtrade data</a>, so printing a status message after finishing each country is a good trade off. Now I’ll be honest, there are only 159 countries in my data, so adding a print statement after each country is completed would add functionally no extra time to my code. I just forgot to add one. I didn’t realize this until after my code had been running for several hours, and I didn’t want to restart my code just to find out how far along it was.</p>
+
+<p>This may seem like a minor inconvenience; the code will take as long as it takes, and knowing it status will just make the wait seem longer. Unfortunately for me, I can’t just let my code take its sweet time. My data are split into yearly files, so I’m running on a high performance computing cluster that lets me run 44 processes simultaneously so I can process each year of data in parallel. The trade off is that my code is run through a job scheduler that ensures that the cluster’s resources are distributed fairly among all users. That means I set a time limit on my job when I submitted it, and if my code doesn’t look like it will be done in that time limit, I’d like to know so I can email the cluster admins and request an extension. Luckily I did make one decision in my code that saved me here…</p>
+
+<h1 id="the-hard-way">The Hard Way</h1>
+
+<p>Thanks to a colleague’s suggestion, my code doesn’t wait until it finishes to write the results to disk. Normally when cleaning a dataset, I will write a bunch of code to manipulate the data, do any reshaping necessary, and then save the output to disk in <code class="language-plaintext highlighter-rouge">.csv</code> or <code class="language-plaintext highlighter-rouge">.RDS</code> format. If the code only takes a couple seconds or minutes to run, this is fine because even if it’s interrupted due to a programming error or system crash, it won’t take long to re-run it. Even though my data are split up by year, the earliest and shortest of the datasets still contains over 300,000 observations.</p>
+
+<p>To make my life easier in the event of an unforeseen problem, my code writes each line to a <code class="language-plaintext highlighter-rouge">.csv</code> as its completed. This is a good idea when you’re dealing with large datasets and starting from scratch would waste a lot of time. To get an idea of progress, I could just count the number of lines in each output file and compare it to the number in each input file. This isn’t super useful as rows in the original data represent exporters, importers, and commodities, and my code uses nested for loops that iterate over countries. Instead, I want to know how many countries have been completed in each in-progress output dataset.</p>
+
+<p>To do this, I need to count the number of unique values in the <code class="language-plaintext highlighter-rouge">Exporter</code> field of my output dataset. This is (relatively) straightforward to do in Bash using a loop and a couple of basic functions.</p>
+
+<h2 id="finding-files">Finding Files</h2>
+
+<p>To start, we need to get a list of all the incomplete datasets. My code writes them to a directory called <code class="language-plaintext highlighter-rouge">processed</code> so we can view them all using</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls </span>processed/<span class="k">*</span>.csv
+</code></pre></div></div>
+
+<p>Add <code class="language-plaintext highlighter-rouge">*.csv</code> to the end ensures that we don’t get any non-text files which could cause an error later in our code.</p>
+
+<h2 id="looping">Looping</h2>
+
+<p>Next, we need to loop over our files. Bash loop syntax is a little different from R or Python loop syntax in that you need to include <code class="language-plaintext highlighter-rouge">do</code> before the loop contents and <code class="language-plaintext highlighter-rouge">done</code> afterwards. The loop below just prints out the name of each file and running it is a good starting point.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>FILE <span class="k">in </span>processed/<span class="k">*</span>.csv
+<span class="k">do
+	</span><span class="nb">echo</span> <span class="nv">$FILE</span>
+<span class="k">done</span>
+</code></pre></div></div>
+
+<h2 id="processing-the-files">Processing the Files</h2>
+
+<p>Now that we’ve got a loop to iterate through our files, we need a way to extract the relevant information from each file. If we want to know the number of countries completed in each file, we just need to count the number of unique values in the <code class="language-plaintext highlighter-rouge">Exporter</code> column. To do this, we need to pull out the first column of each dataset, get all the unique values, and then count how many there are.</p>
+
+<p>We do this by using the <code class="language-plaintext highlighter-rouge">cut</code> function to split each line on commas, and then take the first occurrence to get just the <code class="language-plaintext highlighter-rouge">Exporter</code> column. The <code class="language-plaintext highlighter-rouge">-d ,</code> argument specifies commas as separators and the <code class="language-plaintext highlighter-rouge">-f1</code> argument tells the function to pull out the first of the separated chunks. Next, we use the <code class="language-plaintext highlighter-rouge">sort</code> function with the <code class="language-plaintext highlighter-rouge">-u</code> argument to get only unique values, and then finally count the number of lines left.<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> Putting it all together with pipes yields:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">FIN</span><span class="o">=</span><span class="si">$(</span><span class="nb">cut</span> <span class="nt">-d</span> , <span class="nt">-f1</span> <span class="k">${</span><span class="nv">FILE</span><span class="k">}</span> | <span class="nb">sort</span> <span class="nt">-u</span> | <span class="nb">wc</span> <span class="nt">-l</span><span class="si">)</span>
+</code></pre></div></div>
+
+<p>This will give us a count of how many countries show up in the <code class="language-plaintext highlighter-rouge">Exporter</code> column of the data file.</p>
+
+<h2 id="counting-it-all-up">Counting it all Up</h2>
+
+<p>The last step is to compare the number of unique values of <code class="language-plaintext highlighter-rouge">Exporter</code> in each data file with the total number in the data. These data contain 159 countries for the time period I’m working with, so I want to divide the result for each file by 159. To do this, I assign a variable to hold the result for each file, and then divide it by 159 using the <code class="language-plaintext highlighter-rouge">bc</code> utility.</p>
+
+<p><code class="language-plaintext highlighter-rouge">bc</code> is an ancient calculator that uses a similarly ancient syntax. Briefly, you need to echo a math equation and then pipe it to <code class="language-plaintext highlighter-rouge">bc</code>. However, the default precision of <code class="language-plaintext highlighter-rouge">bc</code> is integer, and we’re trying to calculate a proportion, so if we just write <code class="language-plaintext highlighter-rouge">echo "$FIN / 159" | bc</code> our answer will be zero. To avoid this, we need to set the scale as follows <code class="language-plaintext highlighter-rouge">echo "scale=2; $FIN / 159" | bc</code></p>
+
+<h2 id="combining-it-all">Combining it all</h2>
+
+<p>Now I can finally put all the moving pieces together and check the progress of my data cleaning.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>FILE <span class="k">in </span>processed/<span class="k">*</span>.csv
+<span class="k">do
+	</span><span class="nv">FIN</span><span class="o">=</span><span class="si">$(</span><span class="nb">cut</span> <span class="nt">-d</span> , <span class="nt">-f2</span> <span class="k">${</span><span class="nv">FILE</span><span class="k">}</span> | <span class="nb">sort</span> <span class="nt">-u</span> | <span class="nb">wc</span> <span class="nt">-l</span><span class="si">)</span>
+	<span class="nb">echo</span> <span class="s2">"scale=2; </span><span class="nv">$FIN</span><span class="s2"> / 159"</span> | bc
+<span class="k">done</span>
+</code></pre></div></div>
+
+<h1 id="results">Results</h1>
+
+<p>Running this code in my project directory gives me the following output</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.35
+.33
+.31
+.25
+.24
+.26
+.26
+.27
+.28
+.25
+.29
+.25
+.27
+.24
+.24
+.28
+.23
+.22
+.22
+.27
+.22
+.25
+.25
+.27
+.25
+.27
+.21
+.22
+.24
+.16
+.13
+.13
+.13
+.12
+.12
+.11
+.11
+.10
+.11
+.11
+.11
+</code></pre></div></div>
+
+<p>My files currently range from 35% done at the beginning of the data in 1963 to 11% in 2005! And I’ve definitely learned my lesson about including progress messages when working with big data.</p>
+
+<p>As a quick bonus, you can add an extra line to the script to print out the name of the file before the completion percentage. My files are all named <code class="language-plaintext highlighter-rouge">trade_xxxx.csv</code>, so I can again use the <code class="language-plaintext highlighter-rouge">cut</code> function to quickly extract the four digits of the year and print it out.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>FILE <span class="k">in </span>processed/<span class="k">*</span>.csv
+<span class="k">do
+	</span><span class="nv">FIN</span><span class="o">=</span><span class="si">$(</span><span class="nb">cut</span> <span class="nt">-d</span> , <span class="nt">-f2</span> <span class="k">${</span><span class="nv">FILE</span><span class="k">}</span> | <span class="nb">sort</span> <span class="nt">-u</span> | <span class="nb">wc</span> <span class="nt">-l</span><span class="si">)</span>
+	<span class="nb">echo</span> <span class="nv">$FILE</span> | <span class="nb">cut</span> <span class="nt">-d</span> _ <span class="nt">-f2</span> | <span class="nb">cut</span> <span class="nt">-d</span> <span class="nb">.</span> <span class="nt">-f1</span>
+	<span class="nb">echo</span> <span class="s2">"scale=2; </span><span class="nv">$FIN</span><span class="s2"> / 159"</span> | bc
+<span class="k">done</span>
+</code></pre></div></div>
+
+<hr />
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>Thanks to this fantastic Stack Exchange <a href="https://stackoverflow.com/a/2781511">answer</a> for the solution to this part of the problem. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="http://localhost:4000/tags/#bash" class="page__taxonomy-item" rel="tag">bash</a><span class="sep">, </span>
+    
+      
+      
+      <a href="http://localhost:4000/tags/#data" class="page__taxonomy-item" rel="tag">data</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/posts/2019/09/progress-with-bash/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/posts/2019/09/progress-with-bash/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/posts/2019/09/progress-with-bash/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="http://localhost:4000/posts/2019/07/tex-magic/" class="pagination--pager" title="Fancy Icons and LaTeX Quirks
+">Previous</a>
+    
+    
+      <a href="http://localhost:4000/posts/2019/10/better-beamer" class="pagination--pager" title="Better Beamer Presentations the Easy Way
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+        
+        
+        
+        
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2020/09/spatial-sql" rel="permalink">Working with Large Spatial Data in R
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2020-09-25T00:00:00-05:00">September 25, 2020</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>In my research I frequently work with large datasets. Sometimes that means datasets that cover <a href="/research/conflict-preemption">the entire globe</a>, and other times it means working with lots of micro-level <a href="/research/event-data">event data</a>. Usually, my computer is powerful enough to load and manipulate all of the data in R without issue. When my computer’s fallen short of the task at hand, my solution has often been to throw it at a high performance computing cluster. However, I finally ran into a situation where the data proved too large even for that approach.</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2020/09/jekyll-html" rel="permalink">Jekyll and HTML Widgets
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2020-09-19T00:00:00-05:00">September 19, 2020</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>I’m currently compiling a list of university-affiliated programs
+designed to help prepare students for graduate study in political
+science and assist them in the process of applying to graduate school (a
+labyrinthine and opaque process in many regards). Since travel costs can
+be a deciding factor for some students when deciding whether to apply to
+these programs, I thought it would be nice to also put them on a map.</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+          
+          
+        
+      
+          
+          
+      
+          
+          
+          
+            
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="http://localhost:4000/posts/2020/08/pdf-data/" rel="permalink">Extracting UN Peacekeeping Data from PDF Files
+</a>
+      
+    </h2>
+    
+    
+    
+
+    
+      <p class="page__date"><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> <time datetime="2020-08-28T00:00:00-05:00">August 28, 2020</time></p>
+    
+    
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>Some coauthors and I recently published a
+<a href="https://www.washingtonpost.com/politics/2020/08/26/military-has-overthrown-malis-president-that-raises-questions-about-malis-ongoing-security-challenges/">piece</a>
+in the <a href="https://www.washingtonpost.com/news/monkey-cage/">Monkey Cage</a>
+on the <a href="https://www.washingtonpost.com/world/africa/fears-of-a-military-rebellion-or-attempted-coup-rise-in-mali/2020/08/18/9868203e-e155-11ea-82d8-5e55d47e90ca_story.html">recent military coup in
+Mali</a>
+and the overthrow of president Ibrahim Boubacar Keïta. We examine what
+the ouster of Keïta means for the future of MINUSMA, the United Nations
+peacekeeping mission in Mali. One of my contributions that didn’t make
+the final cut was this plot of casualties to date among UN peacekeepers
+in the so-called <a href="https://peaceoperationsreview.org/thematic-essays/the-end-of-a-peacekeeping-era/">big 5 peacekeeping
+missions</a>
+.</p>
+
+</p>
+    
+    
+  </article>
+</div>
+
+            
+            
+              
+        
+        
+        
+        
+          
+      </div>
+    </div>
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<a href="/sitemap/">Sitemap</a>
+<!-- end custom footer snippets -->
+
+        
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="http://github.com/crystalamariano"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    <li><a href="http://localhost:4000/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Crystal A. Mariano. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <script src="http://localhost:4000/assets/js/main.min.js"></script>
+
+
+
+
+
+  </body>
+</html>
+
