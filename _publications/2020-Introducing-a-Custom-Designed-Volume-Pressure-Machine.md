@@ -2,7 +2,7 @@
 title: "Introducing a Custom-Designed Volume-Pressure Machine for Novel Measurements of Whole Lung Organ Viscoelasticity and Direct Comparisons between Positive- and Negative- Pressure Ventilation"
 collection: publications
 permalink: /publication/2020-Introducing-a-Custom-Designed-Volume-Pressure-Machine
-date: 2020-21-10
+date: 2020-10-21
 venue: 'Frontiers in Bioengineering and Biotechnology'
 paperurl: '/files/pdf/MarianoPublicationsPDFs/2020-Introducing-a-Custom-Designed-Volume-Pressure-Machine.pdf'
 link: 'https://doi.org/10.3389/fbioe.2020.578762 '
