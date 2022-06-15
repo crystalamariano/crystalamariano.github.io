@@ -1,5 +1,5 @@
 ---
-title: "Novel Mechanical Strain Characterization of Ventilated ex vivo Porcine and Murine Lung using Digital Image Correlation"
+title: "Introducing a Custom-Designed Volume-Pressure Machine for Novel Measurements of Whole Lung Organ Viscoelasticity and Direct Comparisons between Positive- and Negative- Pressure Ventilation"
 collection: publications
 permalink: /publication/2020-Introducing-a-Custom-Designed-Volume-Pressure-Machine
 date: 2020-21-10
