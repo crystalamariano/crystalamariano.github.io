@@ -8,9 +8,16 @@ redirect_from:
   - /about.html
 ---
 
-Hello! I am a current mechanical engineering PhD student at the University of California, Riverside. 
+Hello! I am a current mechanical engineering PhD student at the University of California, Riverside (UCR). 
 I primarily study the mechanics of the lung both at an organ and tissue level in the [bioMechanics 
-Experimentatl and Computational Health (bMECH) Lab](https://bmech.engr.ucr.edu) 
+Experimental and Computational Health (bMECH) Lab](https://bmech.engr.ucr.edu) 
+
+I earned my bachelor's degree in Bioengineering from UCR. My undergraduate research experiences focused on materials science, 
+mechanical engineering, and bioengineering, exploring transparent cranial implants centered on the synthesis, characterization,
+and biocompatibility of nanoparticles. I also have experience in photolithography to aid in the etching and study of titanium microneedles.
+My research interests have always been centered on *medical devices* and I currently am studying the primary chracteristics 
+of lung tissue that have previously been understudied which would ultimately align with my goal of exploring pathways to 
+creating medical devices to assist with easing consequences of damaged tissue caused by pulmonary illnesses.
 
  data scientist applying machine learning tools and causal
 inference techniques to remote sensing data. I am also an affiliated
