@@ -20,7 +20,7 @@ and biocompatibility of nanoparticles, also known as the
 My research interests have always been centered on *medical devices* which is why I am studying the primary chracteristics 
 of lung tissue. Since the lung has previously been understudied prior to 
 [COVID-19](https://news.ucr.edu/articles/2020/05/14/covid-19-highlights-what-we-have-yet-learn-about-lung-mechanics), my [research](research) aims to 
-further explore and understand the mechanics of lung tissue to aid in the pathway
+further explore and understand the mechanics of the lung to aid in the pathway
 of creating medical devices that assist with or prevent pulmonary illnesses.
 
 Feel free to contact me!
