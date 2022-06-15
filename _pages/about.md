@@ -10,7 +10,7 @@ redirect_from:
 
 Hello! I am a current mechanical engineering PhD student at the University of California, Riverside. 
 I primarily study the mechanics of the lung both at an organ and tissue level in the [bioMechanics 
-Experimentatl and Computational Health (bMECH) Lab] (https://bmech.engr.ucr.edu). 
+Experimentatl and Computational Health (bMECH) Lab](https://bmech.engr.ucr.edu) 
 
  data scientist applying machine learning tools and causal
 inference techniques to remote sensing data. I am also an affiliated
