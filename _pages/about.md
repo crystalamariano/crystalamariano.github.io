@@ -21,6 +21,6 @@ of lung tissue that have previously been understudied which would ultimately ali
 creating medical devices to assist with easing consequences of damaged tissue caused by pulmonary illnesses.
 
 
-I am also an [NSF GRFP fellow] (https://insideucr.ucr.edu/awards/2022/05/24/four-ucr-students-win-national-science-foundation-fellowships)
+I am also an [NSF GRFP fellow](https://insideucr.ucr.edu/awards/2022/05/24/four-ucr-students-win-national-science-foundation-fellowships)
 
 [covid-19 research](https://news.ucr.edu/articles/2020/05/14/covid-19-highlights-what-we-have-yet-learn-about-lung-mechanics)
