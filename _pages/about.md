@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "About me"
+title: "About Me"
 excerpt: "About me"
 author_profile: true
 redirect_from: 
@@ -8,7 +8,11 @@ redirect_from:
   - /about.html
 ---
 
-Welcome! I am a data scientist applying machine learning tools and causal
+Hello! I am a current mechanical engineering PhD student at the University of California, Riverside. 
+I primarily study the mechanics of the lung both at an organ and tissue level in the [bioMechanics 
+Experimentatl and Computational Health (bMECH) Lab] (https://bmech.engr.ucr.edu). 
+
+ data scientist applying machine learning tools and causal
 inference techniques to remote sensing data. I am also an affiliated
 researcher with the [Data-driven Analysis of Peace Project](https://dapp-lab.org)
 and a research collaborator with the 
