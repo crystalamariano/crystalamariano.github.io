@@ -17,7 +17,7 @@ I earned my B.S. in Bioengineering from UCR. My undergraduate research experienc
 mechanical engineering, and bioengineering, exploring transparent cranial implants centered on the synthesis, characterization,
 and biocompatibility of nanoparticles, also known as the 
 [Window to the Brain (WttB)](https://www.universityofcalifornia.edu/news/international-window-brain-research-team-gathers-uc-riverside) project. 
-My research interests have always been centered on *medical devices* which is why I am studying the primary chracteristics 
+My interests have always been centered on *medical devices* which is why I am studying the primary chracteristics 
 of lung tissue. Since the lung has previously been understudied prior to 
 [COVID-19](https://news.ucr.edu/articles/2020/05/14/covid-19-highlights-what-we-have-yet-learn-about-lung-mechanics), my [research](research) aims to 
 further explore and understand the mechanics of the lung to aid in the pathway
