@@ -7,4 +7,4 @@ redirect_from:
   - /resume
 ---
 
-CV avialable upon request. 
+CV available upon request. 
