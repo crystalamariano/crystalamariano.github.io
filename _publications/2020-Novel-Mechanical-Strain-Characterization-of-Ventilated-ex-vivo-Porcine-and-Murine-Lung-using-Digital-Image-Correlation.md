@@ -1,5 +1,5 @@
 ---
-title: "Novel Mechanical Strain Characterization of Ventilated ex vivo Porcine and Murine Lung using Digital Image Correlation"
+title: "Novel Mechanical Strain Characterization of Ventilated *ex vivo* Porcine and Murine Lung using Digital Image Correlation"
 collection: publications
 permalink: /publication/2020-Novel-Mechanical-Strain-Characterization-of-Ventilated-ex-vivo-Porcine-and-Murine-Lung-using-Digital-Image-Correlation
 date: 2020-12-04
