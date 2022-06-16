@@ -18,10 +18,5 @@ This includes ex-vivo lung experiments that will inform the development of alter
 
 <nbsp>
 
-{% include base_path %}
 
-{% assign ordered_pages = site.research | sort:"order_number" %}
-
-{% for post in ordered_pages %}
-  {% include archive-single.html type="grid" %}
-{% endfor %}
+<div class="container"><img src="/images/research/epr.gif" alt> </div>
