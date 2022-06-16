@@ -9,7 +9,7 @@ redirect_from:
 ---
 
 Hello! I am a current mechanical engineering PhD student at the University of California, Riverside (UCR) and an 
-[NSF Graduate Research Fellowships Program](https://insideucr.ucr.edu/awards/2022/05/24/four-ucr-students-win-national-science-foundation-fellowships) fellow. 
+NSF Graduate Research Fellowships Program fellow. 
 I primarily study the mechanics of the lung both at an organ and tissue level in the [bioMechanics 
 Experimental and Computational Health (bMECH) Lab](https://bmech.engr.ucr.edu). 
 
