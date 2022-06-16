@@ -19,4 +19,4 @@ This includes ex-vivo lung experiments that will inform the development of alter
 <nbsp>
 
 
-<div class="row" style = "display: flex;"> <div class="column container"><img src="/images/research/epr.gif" alt></div> <div class="column container"><img src="/images/research/epr.gif" alt></div></div>
+<div class="row" style = "display: flex;"> <div class="column container"><img src="/images/research/epr.gif" alt></div> <div class="column container"><img src="/images/research/Agreement-Strength.gif" alt></div></div>
