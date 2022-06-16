@@ -23,6 +23,6 @@ of lung tissue. Since the lung has previously been understudied prior to
 further explore and understand the mechanics of the lung to aid in the pathway
 of creating medical devices that assist with or prevent pulmonary illnesses.
 
-<div class="container"><img src="/images/about/IMG_9590.jpg" alt></div>
+<div class="container"><img src="/images/about/IMG_9590.JPG" alt></div>
 
 Feel free to contact me!
